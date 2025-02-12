@@ -16,7 +16,6 @@
 #' print(lst_contents)
 #'
 #' @export
-#' @import checkmate
 #'
 #' @keywords file-io
 read_lst_file <- function(lst_file_path) {
@@ -47,4 +46,3 @@ read_lst_file <- function(lst_file_path) {
 
   return(lst)
 }
-
