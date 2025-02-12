@@ -1,3 +1,13 @@
+#' Fetch Thetas from List
+#'
+#' This function extracts theta values from a lst-file object.
+#'
+#' @param lst A lst-file object.
+#' @param rse_digits An optional parameter specifying the number of digits for rounding standard errors. Default is NA.
+#'
+#' @return A data frame containing the extracted theta values and standard errors.
+#' @export
+#'
 fetch_thetas <- function(lst, rse_digits = NA) {
   checkmate::assert_class(lst, "lst")
   checkmate::assert_number(rse_digits, lower = 0, na.ok = TRUE)
