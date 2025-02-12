@@ -45,7 +45,10 @@ fetch_thetas <- function(lst, rse_digits = NA) {
 
   param_table <- dfs_out[[1]]
   if (length(dfs_out) == 2) {
-    RSEs <- round(dfs_out[[2]]$Value * 100 / dfs_out[[1]]$Value, 0)
+    RSEs <- dfs_out[[2]]$Value * 100 / dfs_out[[1]]$Value
+    if (!is.na(rse_digits)) {
+      RSEs <- round(RSEs, rse_digits)
+    }
   } else {
     RSEs <- NA_real_
   }
