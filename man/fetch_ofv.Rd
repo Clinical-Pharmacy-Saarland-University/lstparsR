@@ -13,7 +13,8 @@ fetch_ofv(lst, ofv_digits = NA)
 Use \code{NA} for no rounding.}
 }
 \value{
-A numeric value representing the extracted OFV. If the \verb{#OBJV:} line is not found, returns \code{NA}.
+A numeric value representing the extracted OFV. If the \verb{#OBJV:} line is not found, an error is raised.
+If the OFV could not be extracted, NA is returned.
 }
 \description{
 This function extracts the Objective Function Value (OFV) from a NONMEM \code{.lst} file.
@@ -28,12 +29,9 @@ only the first one is processed.
 }
 \examples{
 # Example 1: Extract OFV with no rounding
-lst_lines <- readLines("path/to/full_cov.lst")
-fetch_ofv(lst_lines)
+lst <- read_lst_file("path/to/full_cov.lst")
+fetch_ofv(lst)
 
 # Example 2: Extract OFV and round to 2 digits
-fetch_ofv(lst_lines, ofv_digits = 2)
-}
-\seealso{
-\link{read_lst_file}
+fetch_ofv(lst, ofv_digits = 2)
 }

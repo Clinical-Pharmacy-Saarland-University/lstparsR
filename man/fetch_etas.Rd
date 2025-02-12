@@ -4,12 +4,14 @@
 \alias{fetch_etas}
 \title{Fetches the etas from an lst object}
 \usage{
-fetch_etas(lst, rse_digits = NA)
+fetch_etas(lst, rse_digits = NA, shk_digits = NA)
 }
 \arguments{
 \item{lst}{A list object containing the output from a NONMEM run}
 
 \item{rse_digits}{The number of digits to round the RSEs to}
+
+\item{shk_digits}{The number of digits to round the SHKs to}
 }
 \value{
 A tibble containing the etas and their RSEs
