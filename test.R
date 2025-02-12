@@ -11,4 +11,4 @@ lst <- read_lst_file("./tests/lsts/full_cov.lst")
 fetch_thetas(lst)
 
 
-fetch_ofv(lst)
+fetch_ofv(lst, ofv_digits = 0)
