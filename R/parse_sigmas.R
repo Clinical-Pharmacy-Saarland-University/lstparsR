@@ -35,7 +35,10 @@ fetch_sigmas <- function(lst, rse_digits = NA) {
   } else {
     eps_rses <- NA_real_
   }
-  epsilons_out <- epsilons |>
-    mutate(RSE = eps_rses) |>
+
+  epsilons_out <- eps_vals |>
+    dplyr::mutate(RSE = eps_rses) |>
     setNames(c("Parameter", "Value", "RSE"))
+
+  return(epsilons_out)
 }

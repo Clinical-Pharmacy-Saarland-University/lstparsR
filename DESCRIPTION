@@ -13,4 +13,5 @@ Imports:
     checkmate,
     dplyr,
     stringi,
+    stringr,
     tibble

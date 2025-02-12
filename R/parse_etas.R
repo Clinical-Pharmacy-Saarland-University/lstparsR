@@ -14,7 +14,7 @@ fetch_etas <- function(lst, rse_digits = NA) {
   checkmate::assert_number(rse_digits, lower = 0, na.ok = TRUE)
 
   omegas <- lst |>
-    .fetch_matrix(par_name = "SIGMA") |>
+    .fetch_matrix(par_name = "OMEGA") |>
     lapply(\(x) {
       x <- x |>
         as.matrix() |>
@@ -23,21 +23,24 @@ fetch_etas <- function(lst, rse_digits = NA) {
       return(x)
     })
 
-  omevals <- omegas[[1]] |>
+  ome_vals <- omegas[[1]] |>
     tibble::rownames_to_column()
 
   if (length(omegas) == 2) {
     if (!is.na(rse_digits)) {
-      omerses <- round(omegas[[2]][[1]] * 100 / omevals[[2]], rse_digits)
+      omerses <- round(omegas[[2]][[1]] * 100 / ome_vals[[2]], rse_digits)
     } else {
-      omerses <- omegas[[2]][[1]] * 100 / omevals[[2]]
+      omerses <- omegas[[2]][[1]] * 100 / ome_vals[[2]]
     }
   } else {
     omerses <- NA_real_
   }
-  omegas_out <- omegas |>
-    mutate(RSE = omerses) |>
+
+  omegas_out <- ome_vals |>
+    dplyr::mutate(RSE = omerses) |>
     setNames(c("Parameter", "Value", "RSE"))
+
+  return(omegas_out)
 }
 
 .fetch_matrix <- function(lst,
@@ -78,7 +81,7 @@ fetch_etas <- function(lst, rse_digits = NA) {
     rws <- list()
     for (b in block[-1]) {
       if (!grepl(pattern = "ETA|EPS", b)) {
-        inner <- str_split(b, pattern = " ") |>
+        inner <- stringr::str_split(b, pattern = " ") |>
           unlist() |>
           trimws() |>
           stringr::str_replace_all(pattern = ".........", replacement = NA_character_) |>
@@ -97,8 +100,8 @@ fetch_etas <- function(lst, rse_digits = NA) {
 
     df_out <- do.call(rbind, rws) |>
       as.data.frame() |>
-      select(-1) |>
-      slice(seq_len(length(col_names))) |>
+      dplyr::select(-1) |>
+      dplyr::slice(seq_len(length(col_names))) |>
       dplyr::mutate_all(as.numeric) |>
       setNames(col_names)
     row.names(df_out) <- col_names
