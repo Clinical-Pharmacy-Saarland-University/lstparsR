@@ -25,11 +25,11 @@ read_lst_file <- function(lst_file_path) {
 
   chars_parsed <- tryCatch(
     {
-      base::readLines(lst_file_path) |>
+      readLines(lst_file_path) |>
         suppressWarnings()
     },
     error = function(e) {
-      stop(base::paste0("Error while reading file: ", lst_file_path, "\\n", e))
+      stop(paste0("Error while reading file: ", lst_file_path, "\\n", e))
     }
   )
 
