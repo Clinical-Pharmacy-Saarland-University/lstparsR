@@ -2,6 +2,7 @@
 #'
 #' @param lst A list object containing the output from a NONMEM run
 #' @param rse_digits The number of digits to round the RSEs to
+#' @param shk_digits The number of digits to round the SHKs to
 #' @return A tibble containing the etas and their RSEs
 #' @export
 #' @importFrom checkmate assert_class assert_number
@@ -9,7 +10,7 @@
 #' @importFrom tibble rownames_to_column
 #' @examples
 #' fetch_etas(lst = lst)
-fetch_etas <- function(lst, rse_digits = NA) {
+fetch_etas <- function(lst, rse_digits = NA, shk_digits = NA) {
   checkmate::assert_class(lst, "lst")
   checkmate::assert_number(rse_digits, lower = 0, na.ok = TRUE)
 
@@ -48,6 +49,10 @@ fetch_etas <- function(lst, rse_digits = NA) {
     shrinkage_values <- as.numeric(unlist(regmatches(shrinkage_line, gregexpr("[0-9]+\\.[0-9]+E[+-][0-9]+", shrinkage_line)))) |>
       suppressWarnings()
   }
+  if (!is.na(shk_digits)) {
+    shrinkage_values <- round(shrinkage_values, shk_digits)
+  }
+  
   omegas_out$SHK <- shrinkage_values
 
   return(omegas_out)
