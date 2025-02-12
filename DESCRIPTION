@@ -4,7 +4,7 @@ Version: 0.0.1.0
 Authors@R: 
     c(
         person("Simeon", "Rüdesheim", email = "simeon.ruedesheim@uni-saarland.de", role = c("aut", "cre")),
-        person("Raban", "Heller", email = "raban.heller@charite.de", role = "aut",
+        person("Raban", "Heller", email = "raban.heller@charite.de", role = "aut"),
         person("Dominik", "Selzer", email = "dominik.selzer@uni-saarland.de", role = "aut")
     )
 Description: What the package does (one paragraph).
