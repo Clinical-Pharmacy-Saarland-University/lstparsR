@@ -39,6 +39,16 @@ fetch_etas <- function(lst, rse_digits = NA) {
   omegas_out <- ome_vals |>
     dplyr::mutate(RSE = omerses) |>
     setNames(c("Parameter", "Value", "RSE"))
+  
+  # add shrinkage
+  shrinkage_line <- grep("ETASHRINKSD", lst, value = TRUE)
+  shrinkage_values <- NA  # Default to NA if not found
+  if (length(shrinkage_line) > 0) {
+    # Extract all numeric values from the line
+    shrinkage_values <- as.numeric(unlist(regmatches(shrinkage_line, gregexpr("[0-9]+\\.[0-9]+E[+-][0-9]+", shrinkage_line)))) |>
+      suppressWarnings()
+  }
+  omegas_out$SHK <- shrinkage_values
 
   return(omegas_out)
 }
