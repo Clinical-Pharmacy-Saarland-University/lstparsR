@@ -7,6 +7,10 @@ devtools::load_all()
 
 lst <- read_lst_file("./tests/lsts/full_cov.lst")
 
+
+lst <- read_lst_file("../tests/lsts/no_cov.lst")
+
+
 summary(lst)
 
 fetch_thetas(lst)
