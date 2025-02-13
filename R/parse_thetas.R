@@ -15,6 +15,12 @@ fetch_thetas <- function(lst, rse_digits = NA) {
   upper_delims <- grep(pattern = "THETA - VECTOR OF FIXED EFFECTS PARAMETERS", lst)
   lower_delims <- grep(pattern = "OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS", lst)
   
+  416
+  
+  436
+  
+  
+  
   if (length(upper_delims) == 0 || length(lower_delims) == 0) {
     stop("Delimiters not found.")
   } else if (length(upper_delims) != length(lower_delims)) {
