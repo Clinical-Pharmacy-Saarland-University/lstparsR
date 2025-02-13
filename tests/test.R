@@ -86,7 +86,8 @@ f_get_block_values <- function(file, string1, string2) {
 
 
 # Get delims
-results <- f_get_block_values(lst, "FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION", "FINAL PARAMETER ESTIMATE")
+results1 <- f_get_block_values(lst, "FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION", "FINAL PARAMETER ESTIMATE")
 
+results2 <- f_get_block_values(lst, "FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION", "STANDARD ERROR OF ESTIMATE")
 
 
