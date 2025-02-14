@@ -4,7 +4,6 @@
 # 3. header2 = second line of block header
 # 4. subheader = subheader to find the start of the block of interest
 .f_get_block_values <- function(file, header1, header2, subheader) {
-  
   # Read the file into a character vector
   lst <- file
 
@@ -13,19 +12,19 @@
   lower_delimiter_id <- NA
   upper_delimiter_val <- NA
   lower_delimiter_val <- NA
-  
+
   # Get the type of return
   if (stringr::str_detect(subheader, "MATRIX")) {
     data_type <- "MATRIX"
-  } else if (stringr::str_detect(subheader, "VECTOR")){
+  } else if (stringr::str_detect(subheader, "VECTOR")) {
     data_type <- "VECTOR"
   } else {
     data_type <- "UNKNOWN"
   }
-  
+
   # Print
   cat("Return type: ", data_type, "\n")
-  
+
   # Return type
   if (data_type == "UNKNOWN") {
     stop("Unknown return type.")
@@ -42,7 +41,6 @@
       stringr::str_trim(lst[i + 1]) == stringr::str_dup("*", 120) &&
       stringr::str_detect(lst[i + 3], header1) &&
       stringr::str_detect(lst[i + 4], header2)) {
-      
       # Find the line index of subheader of interest
       for (j in (i + 6):length(lst)) {
         if (stringr::str_detect(lst[j], subheader)) {
@@ -50,7 +48,7 @@
           break
         }
       }
-      
+
       # Set the upper delimiter as the subheading line index + 3
       upper_delimiter_id <- delimiter_subhead + 3
 
@@ -93,59 +91,52 @@
   ids <- unlist(strsplit(lines_of_ids_cleaned, "\\s+"))
 
   # remove empty strings
-  ids <- ids_vector[ids_vector != ""]
-
+  ids <- ids[ids != ""]
 
   # Extract the values
   lines_of_val <- lst[upper_delimiter_val:lower_delimiter_val]
 
-  
   if (data_type == "VECTOR") {
-    
     # Split the modified lines by remaining spaces and combine into a single vector
     val_vector <- unlist(stringr::str_extract_all(lines_of_val, "-?\\d+\\.?\\d*(E[+-]?\\d+)?"))
 
     # Convert to numeric vector
     val_vector <- as.numeric(val_vector)
-    
+
     # Collect reults
     val_result <- val_vector
     df_result <- data.frame(id = ids, value = val_vector)
-    
   } else if (data_type == "MATRIX") {
-    
     # Initialize an empty vector to store diagonal values
     val_matrix <- c()
-    
+
     # Iterate through the lines of values
-    for (i in seq(1, length(lines_of_val), by = 3)) {  # Every third line contains values
-      value_line <- lines_of_val[i]  # Get the line with values after ETA
-      
+    for (i in seq(1, length(lines_of_val), by = 3)) { # Every third line contains values
+      value_line <- lines_of_val[i] # Get the line with values after ETA
+
       # Extract all values including "........."
       values <- str_split(value_line, "\\s+")[[1]]
-      
+
       # Get the last non-empty element
       last_value <- tail(values[values != ""], 1)
-      
+
       # Check if it's a numeric value or "........."
       if (last_value == ".........") {
-        val_matrix <- c(val_matrix, NA)  # Add NA for "........."
+        val_matrix <- c(val_matrix, NA) # Add NA for "........."
       } else {
         numeric_value <- as.numeric(last_value)
-        val_matrix <- c(val_matrix, numeric_value)  # Add the numeric value
+        val_matrix <- c(val_matrix, numeric_value) # Add the numeric value
       }
-      
     }
-    
+
     # Collect results
     val_result <- val_matrix
     df_result <- data.frame(id = ids, value = val_matrix)
-    
   } else {
     stop("Unknown data type.")
   }
-  
-  
+
+
   # collect results
   results <- list(
     block = list(title = paste0(header1, " - ", header2)),
