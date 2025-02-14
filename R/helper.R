@@ -22,9 +22,6 @@
     data_type <- "UNKNOWN"
   }
 
-  # Print
-  cat("Return type: ", data_type, "\n")
-
   # Return type
   if (data_type == "UNKNOWN") {
     stop("Unknown return type.")
