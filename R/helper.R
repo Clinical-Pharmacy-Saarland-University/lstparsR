@@ -117,7 +117,7 @@
       value_line <- lines_of_val[i] # Get the line with values after ETA
 
       # Extract all values including "........."
-      values <- str_split(value_line, "\\s+")[[1]]
+      values <- stringr::str_split(value_line, "\\s+")[[1]]
 
       # Get the last non-empty element
       last_value <- tail(values[values != ""], 1)
