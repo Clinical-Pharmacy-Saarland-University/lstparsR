@@ -189,7 +189,7 @@ fetch_etas <- function(lst, rse_digits = NA, shk_digits = NA) {
 # 
 #   names(dfs_out) <- paste0(par_name, " ", name_tables[[length(dfs_out)]])
 #   return(dfs_out)
-}
+# }
 
 
 # 
