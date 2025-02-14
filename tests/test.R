@@ -7,10 +7,11 @@ devtools::test()
 
 
 
-lst <- read_lst_file("../tests/lsts/full_cov.lst")
+lst <- read_lst_file("../tests/testthat/full_cov.lst")
 
 
-lst <- read_lst_file("../tests/lsts/theta_no_cov.lst")
+# lst <- read_lst_file("../tests/lsts/theta_no_cov.lst")
+lst <- read_lst_file("../tests/testthat/theta_no_SE.lst")
 
 
 summary(lst)
