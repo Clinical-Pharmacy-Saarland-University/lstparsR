@@ -57,11 +57,11 @@
         }
       }
 
-      # Set the upper delimiter of ids
-      upper_delimiter_val <- lower_delimiter_id + 3
+      # Set the upper delimiter of vals
+      upper_delimiter_val <- lower_delimiter_id + 2
 
       # Find the lower delimiter
-      for (l in (upper_delimiter_val + 1):length(lst)) {
+      for (l in (upper_delimiter_val):length(lst)) {
         if (lst[l] == "" || lst[l] == "1") {
           lower_delimiter_val <- l - 1
           break
@@ -110,7 +110,7 @@
     val_matrix <- c()
 
     # Iterate through the lines of values
-    for (i in seq(1, length(lines_of_val), by = 3)) { # Every third line contains values
+    for (i in seq(2, length(lines_of_val), by = 3)) { # Every third line contains values
       value_line <- lines_of_val[i] # Get the line with values after ETA
 
       # Extract all values including "........."
