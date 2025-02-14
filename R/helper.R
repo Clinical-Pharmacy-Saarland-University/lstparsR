@@ -77,7 +77,9 @@
   }
 
   # Check if delimiters are valid
-  if (is.na(delimiter_subhead) || is.na(upper_delimiter_id) || is.na(lower_delimiter_id) || upper_delimiter_id > lower_delimiter_id || is.na(upper_delimiter_val) || is.na(lower_delimiter_val) || upper_delimiter_val > lower_delimiter_val) {
+  if (is.na(delimiter_subhead) || is.na(upper_delimiter_id) || is.na(lower_delimiter_id) ||
+    upper_delimiter_id > lower_delimiter_id || is.na(upper_delimiter_val) ||
+    is.na(lower_delimiter_val) || upper_delimiter_val > lower_delimiter_val) {
     stop("Invalid delimiters provided.")
   }
 
