@@ -28,8 +28,8 @@ fetch_ofv <- function(lst, ofv_digits = NA) {
 
   # find the line containing "#OBJV:"
   ofv_line <- c(NA)
-  ofv_line <- grep("#OBJV:", lst, value = TRUE)
-
+  ofv_line <- which(stringr::str_detect(lst, "#OBJV:"))
+  
   if (is.na(ofv_line)) {
     stop("OFV line not found")
   }

@@ -26,7 +26,7 @@ fetch_condn <- function(lst, condn_digits = NA) {
   checkmate::assert_number(condn_digits, lower = 0, na.ok = TRUE)
 
 
-  start_line <- grep("EIGENVALUES OF COR MATRIX OF ESTIMATE", lst)
+  start_line <- which(stringr::str_detect(lst, "EIGENVALUES OF COR MATRIX OF ESTIMATE"))
   
   if (length(start_line) == 0) {
     stop("Eigenvalue section not found.")

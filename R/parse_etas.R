@@ -36,7 +36,7 @@ fetch_etas <- function(lst, rse_digits = NA, shk_digits = NA) {
   }
 
   # add shrinkage
-  shrinkage_line <- grep("ETASHRINKSD", lst, value = TRUE)
+  shrinkage_line <- which(stringr::str_detect(lst, "ETASHRINKSD"))
   shrinkage_values <- NA_real_ # Default to NA if not found
   if (length(shrinkage_line) > 0) {
     # Extract all numeric values from the line
