@@ -94,6 +94,7 @@
 
   # Extract the values
   lines_of_val <- lst[upper_delimiter_val:lower_delimiter_val]
+  lines_from_upper <- lst[upper_delimiter_val:length(lst)]
 
   if (data_type == "VECTOR") {
     # Split the modified lines by remaining spaces and combine into a single vector
@@ -108,10 +109,11 @@
   } else if (data_type == "MATRIX") {
     # Initialize an empty vector to store diagonal values
     val_matrix <- c()
+    for (ix in seq_along(ids)) {
+      pattern <- paste0("^ ", ids[ix], "$") # Match the id with leading space
+      ix_lines <- grep(pattern = pattern, lines_from_upper)
 
-    # Iterate through the lines of values
-    for (i in seq(2, length(lines_of_val), by = 3)) { # Every third line contains values
-      value_line <- lines_of_val[i] # Get the line with values after ETA
+      value_line <- lines_from_upper[ix_lines[1] + 1] # First match after delim
 
       # Extract all values including "........."
       values <- stringr::str_split(value_line, "\\s+")[[1]]

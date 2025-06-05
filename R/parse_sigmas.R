@@ -14,14 +14,12 @@ fetch_sigmas <- function(lst, rse_digits = NA) {
   checkmate::assert_class(lst, "lst")
   checkmate::assert_number(rse_digits, lower = 0, na.ok = TRUE)
 
-  
   # get the SIGMA values
   header1 <- "FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION"
   header2 <- "FINAL PARAMETER ESTIMATE"
   subheader <- "SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS"
   df <- .f_get_block_values(lst, header1, header2, subheader)$df
   colnames(df) <- c("Parameter", "Value")
-  
   header1 <- "FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION"
   header2 <- "STANDARD ERROR OF ESTIMATE"
   subheader <- "SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS"
@@ -35,7 +33,6 @@ fetch_sigmas <- function(lst, rse_digits = NA) {
       df$RSE <- round(df$RSE, rse_digits)
     }
   }
-  
+
   return(df)
-  
 }
