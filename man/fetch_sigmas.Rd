@@ -4,7 +4,7 @@
 \alias{fetch_sigmas}
 \title{Fetches the sigmas from an lst object}
 \usage{
-fetch_sigmas(lst, rse_digits = NA, shk_digits = NA)
+fetch_sigmas(lst, rse_digits = NA)
 }
 \arguments{
 \item{lst}{A list object containing the output from a NONMEM run}

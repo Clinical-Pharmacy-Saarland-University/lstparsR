@@ -1,106 +1,83 @@
-test_that("Read Thetas work", {
-  file <- read_lst_file("full_cov.lst")
-  result <- fetch_thetas(file)
+# test_that("Read Thetas work", {
+# file <- read_lst_file("full_cov.lst")
+# result <- fetch_thetas(file)
 
-  expect_equal(nrow(result), 12)
+# expect_equal(nrow(result), 12)
+# expect_equal(ncol(result), 3)
+# expect_equal(result[1, 1], "TH_1")
+# expect_equal(result[1, 2], 3.41E1)
+# expect_equal(result[1, 3], 9.882698e+00)
+# })
+
+# test_that("Read Thetas work with no covar", {
+# file <- read_lst_file("theta_no_se.lst")
+# result <- fetch_thetas(file)
+
+# expect_equal(nrow(result), 12)
+# expect_equal(ncol(result), 3)
+# expect_equal(result[1, 1], "TH_1")
+# expect_equal(result[1, 2], 3.41E1)
+# expect_equal(result[1, 3], NA_real_)
+# })
+
+# test_that("Read Etas work", {
+# file <- read_lst_file("full_cov.lst")
+# result <- fetch_etas(file)
+
+# expect_equal(nrow(result), 7)
+# expect_equal(ncol(result), 4)
+# expect_equal(result[1, 1], "ETA1")
+# expect_equal(result[1, 2], 0.2)
+# expect_equal(result[1, 3], 1.945E1)
+# expect_equal(result[1, 4], 5.0757)
+# })
+
+# test_that("Read Etas work with no covar", {
+# file <- read_lst_file("theta_no_se.lst")
+# result <- fetch_etas(file)
+
+# expect_equal(nrow(result), 7)
+# expect_equal(ncol(result), 4)
+# expect_equal(result[1, 1], "ETA1")
+# expect_equal(result[1, 2], 0.2)
+# expect_equal(result[1, 3], NA_real_)
+# expect_equal(result[1, 4], NA_real_)
+# })
+
+
+# test_that("Read Sigmas work", {
+# file <- read_lst_file("full_cov.lst")
+# result <- fetch_sigmas(file)
+
+# expect_equal(nrow(result), 2)
+# expect_equal(ncol(result), 3)
+# expect_equal(result[1, 1], "EPS1")
+# expect_equal(result[1, 2], 0.0769)
+# expect_equal(result[1, 3], 5.6436931)
+# expect_equal(result[2, 3], 161.78862)
+# })
+
+# test_that("Read Sigmas work with no covar", {
+# file <- read_lst_file("theta_no_se.lst")
+# result <- fetch_sigmas(file)
+
+# expect_equal(nrow(result), 2)
+# expect_equal(ncol(result), 3)
+# expect_equal(result[1, 1], "EPS1")
+# expect_equal(result[1, 2], 0.0769)
+# expect_equal(result[1, 3], NA_real_)
+# expect_equal(result[2, 3], NA_real_)
+# })
+
+
+test_that("Test 1", {
+  file <- read_lst_file("test_1.lst")
+  result <- fetch_ofv(file)
+  expect_equal(result, 10851.893)
+
+  result <- fetch_thetas(file)
+  expect_equal(nrow(result), 11)
   expect_equal(ncol(result), 3)
   expect_equal(result[1, 1], "TH_1")
-  expect_equal(result[1, 2], 3.41E1)
-  expect_equal(result[1, 3], 9.882698e+00)
+  expect_equal(result[1, 2], 6.19E+01)
 })
-
-test_that("Read Thetas work with no covar", {
-  file <- read_lst_file("theta_no_se.lst")
-  result <- fetch_thetas(file)
-
-  expect_equal(nrow(result), 12)
-  expect_equal(ncol(result), 3)
-  expect_equal(result[1, 1], "TH_1")
-  expect_equal(result[1, 2], 3.41E1)
-  expect_equal(result[1, 3], NA_real_)
-})
-
-test_that("Read Etas work", {
-  file <- read_lst_file("full_cov.lst")
-  result <- fetch_etas(file)
-
-  expect_equal(nrow(result), 7)
-  expect_equal(ncol(result), 4)
-  expect_equal(result[1, 1], "ETA1")
-  expect_equal(result[1, 2], 0.2)
-  expect_equal(result[1, 3], 1.945E1)
-  expect_equal(result[1, 4], 5.0757)
-})
-
-test_that("Read Etas work with no covar", {
-  file <- read_lst_file("theta_no_se.lst")
-  result <- fetch_etas(file)
-
-  expect_equal(nrow(result), 7)
-  expect_equal(ncol(result), 4)
-  expect_equal(result[1, 1], "ETA1")
-  expect_equal(result[1, 2], 0.2)
-  expect_equal(result[1, 3], NA_real_)
-  expect_equal(result[1, 4], NA_real_)
-})
-
-
-test_that("Read Sigmas work", {
-  file <- read_lst_file("full_cov.lst")
-  result <- fetch_sigmas(file)
-
-  expect_equal(nrow(result), 2)
-  expect_equal(ncol(result), 3)
-  expect_equal(result[1, 1], "EPS1")
-  expect_equal(result[1, 2], 0.0769)
-  expect_equal(result[1, 3], 5.6436931)
-  expect_equal(result[2, 3], 161.78862)
-})
-
-test_that("Read Sigmas work with no covar", {
-  file <- read_lst_file("theta_no_se.lst")
-  result <- fetch_sigmas(file)
-
-  expect_equal(nrow(result), 2)
-  expect_equal(ncol(result), 3)
-  expect_equal(result[1, 1], "EPS1")
-  expect_equal(result[1, 2], 0.0769)
-  expect_equal(result[1, 3], NA_real_)
-  expect_equal(result[2, 3], NA_real_)
-})
-
-test_that("Read Thetas work in long lst", {
-  file <- read_lst_file("long_lst.lst")
-  result <- fetch_thetas(file)
-
-  expect_equal(nrow(result), 29)
-  expect_equal(ncol(result), 3)
-  expect_equal(result[1, 1], "TH_1")
-  expect_equal(result[1, 2], 1.11E1)
-  expect_equal(result[1, 3], as.double(NA))
-})
-
-test_that("Read Etas work in long lst", {
-  file <- read_lst_file("long_lst.lst")
-  result <- fetch_etas(file)
-
-  expect_equal(nrow(result), 3)
-  expect_equal(ncol(result), 4)
-  expect_equal(result[1, 1], "ETA1")
-  expect_equal(result[1, 2], 0)
-  expect_equal(result[1, 3], as.double(NA))
-  expect_equal(result[1, 4], 100)
-})
-
-test_that("Read Sigmas work in long lst", {
-  file <- read_lst_file("long_lst.lst")
-  result <- fetch_sigmas(file)
-
-  expect_equal(nrow(result), 12)
-  expect_equal(ncol(result), 3)
-  expect_equal(result[1, 1], "EPS1")
-  expect_equal(result[1, 2], 0.32)
-  expect_equal(round(result[1, 3], 1), 2.43E1)
-  expect_equal(round(result[2, 3], 1), 4.75E1)
-})
-

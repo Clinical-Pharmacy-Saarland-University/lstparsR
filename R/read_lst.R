@@ -11,10 +11,11 @@
 #'
 #' @examples
 #' # Assuming you have a .mod file at the specified path:
+#' /dontrun{
 #' lst_file_path <- "path/to/your/file.lst"
 #' lst_contents <- read_lst_file(lst_file_path)
 #' print(lst_contents)
-#'
+#' }
 #' @export
 #'
 #' @keywords file-io

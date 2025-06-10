@@ -8,11 +8,12 @@ Authors@R:
         person("Dominik", "Selzer", email = "dominik.selzer@uni-saarland.de", role = "aut")
     )
 Description: What the package does (one paragraph).
-License: FILE LICENSE
+License: GPL3 + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Imports: 
+Imports:
+    purrr,
     checkmate,
     dplyr,
     stringi,
@@ -21,3 +22,6 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+URL: https://github.com/Clinical-Pharmacy-Saarland-University/medinfoR
+BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/medinfoR/issues
+
