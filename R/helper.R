@@ -99,7 +99,7 @@
   if (data_type == "VECTOR") {
     # Split the modified lines by remaining spaces and combine into a single vector
     val_vector <- unlist(stringr::str_extract_all(lines_of_val, "-?\\d+\\.?\\d*(E[+-]?\\d+)?"))
-    print(val_vector)
+    #print(val_vector)
 
     # Convert to numeric vector
     val_vector <- as.numeric(val_vector)
