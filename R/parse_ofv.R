@@ -35,7 +35,7 @@ fetch_ofv <- function(lst, ofv_digits = NA) {
   }
 
   # Extract the numeric value after "#OBJV:" using a regular expression
-  ofv <- as.numeric(sub(".*#OBJV:.*?([0-9]+\\.[0-9]+).*", "\\1", ofv_line)) |>
+  ofv <- as.numeric(sub(".*#OBJV:.*?(-?[0-9]+\\.[0-9]+).*", "\\1", ofv_line)) |>
     suppressWarnings()
 
   # round the OFV value to the specified number of digits
