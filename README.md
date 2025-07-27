@@ -1,12 +1,8 @@
 # lstparseR
 
-A simple R package to parse `.lst` NONMEM output files.
-
-````markdown
-# lstparseR
-
 `lstparseR` is an R package designed to simplify and standardize the parsing of NONMEM “.lst” (listing) files. It provides functions to extract model run metadata, parameter estimates, variance–covariance components, residual diagnostics, and other rich output directly into tidy R data frames for downstream analysis, reporting, or visualization.
 
+````markdown
 ---
 
 ## Features
