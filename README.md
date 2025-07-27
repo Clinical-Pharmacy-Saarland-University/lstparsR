@@ -3,108 +3,144 @@
 `lstparseR` is an R package designed to simplify and standardize the parsing of NONMEM “.lst” (listing) files. It provides functions to extract model run metadata, parameter estimates, variance–covariance components, residual diagnostics, and other rich output directly into tidy R data frames for downstream analysis, reporting, or visualization.
 
 
-## Features
-
-- **Robust parsing** of NONMEM `.lst` files, handling different NONMEM versions and table styles.
-- **Extraction of key sections** such as `$THETA`, `$OMEGA`, `$SIGMA`, `$TABLE` output, objective function values, and convergence diagnostics.
-- **Tidy data frames** for easy integration with the tidyverse suite (e.g., `dplyr`, `ggplot2`).
-- **Batch processing**: parse many `.lst` files at once and combine results.
-- **Lightweight dependency** footprint.
-
-
-
 ## Installation
 
-You can install the latest development version of `lstparseR` directly from GitHub:
-
 ```r
-# install.packages("remotes")  # if you haven’t already
-remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
+# From CRAN (when available)
+install.packages("lstparseR")
+
+# Latest development version from GitHub
+if (!requireNamespace("remotes", quietly = TRUE))
+  install.packages("remotes")
+
+remotes::install_github(
+  "Clinical-Pharmacy-Saarland-University/lstparseR",
+  build_vignettes = TRUE
+)
 ````
+
 
 ## Quick Start
 
 ```r
 library(lstparseR)
 
-# 1. Point to your NONMEM .lst file
-lst_file <- "path/to/model_run.lst"
+# Point to a NONMEM run directory
+run_dir <- "/path/to/nonmem/run0"
 
-# 2. Parse the file
-parsed <- parse_lst(lst_file)
+# 1) Read the main .lst file
+lst  <- read_lst_file(file.path(run_dir, "run0.lst"))
 
-# 3. Inspect the results
-# parsed is a named list of tibbles:
-names(parsed)
-#> [1] "metadata"     "theta"        "omega"        "sigma"
-#> [5] "objfun"       "covres"       "table_output"
+# 2) Extract parameter tables
+thetas  <- fetch_thetas(lst)
+sigmas  <- fetch_sigmas(lst)
+omegas  <- fetch_omegas(lst)       # alias: fetch_condn()
+ofv      <- fetch_ofv(lst)
+etas     <- fetch_etas(lst)
 
-# 4. Work with THETA estimates
-parsed$theta
-#> # A tibble: … 
-#>   parameter estimate se  lower upper
-#>   <chr>       <dbl>  <dbl> <dbl> <dbl>
-#> 1 THETA1       5.12   0.34  4.46  5.78
-#> …
+# 3) Extract raw result table (.tab)
+df_tab <- read.table(
+  paste0(run_dir, "/results.tab"),
+  skip   = 1,
+  header = TRUE
+)
 
-# 5. Batch‐parse a directory of runs
-all_results <- parse_lst_dir("path/to/lst_files/")
+# 4) Inspect
+head(thetas)
+head(omegas)
+head(ofv)
+head(etas)
+
+# 5) Simple plot of OFV history
+plot(ofv$STEP, ofv$OBJECTIVE, type = "b",
+     xlab = "Iteration", ylab = "OFV",
+     main = "NONMEM OFV Trace")
 ```
 
 ## Functions
 
-| Function           | Description                                                 |
-| ------------------ | ----------------------------------------------------------- |
-| `parse_lst()`      | Parse a single `.lst` file into structured components.      |
-| `parse_lst_dir()`  | Recursively parse all `.lst` files in a directory.          |
-| `read_lst_lines()` | Read raw lines from a `.lst` for custom downstream parsing. |
-| `summarize_runs()` | Combine metadata across multiple parsed runs.               |
-| `export_to_csv()`  | Write parsed tables to CSV files for reporting.             |
+| Function          | Description                                                                       |
+| :---------------- | :-------------------------------------------------------------------------------- |
+| `read_lst_file()` | Reads a NONMEM `.lst` file into R and returns a structured list object.           |
+| `fetch_thetas()`  | Pulls summary of fixed effect estimates (`THETA`) from the `lst` object.          |
+| `fetch_sigmas()`  | Pulls residual error model variances (`SIGMA`).                                   |
+| `fetch_omegas()`  | Pulls inter‐individual variability variances (`OMEGA`).                           |
+| `fetch_ofv()`     | Extracts the objective function value history over the minimization.              |
+| `fetch_etas()`    | Extracts post‐hoc ETA estimates for each individual (conditional mode estimates). |
+| `fetch_condn()`   | Alias for `fetch_omegas()` (pulls IIV components).                                |
 
+---
 
 ## Examples
 
-### Extracting variance–covariance components
+### 1. Extract and compare parameter tables
 
 ```r
-res <- parse_lst("run001.lst")
+# Read and extract
+lst   <- read_lst_file("run0.lst")
+th    <- fetch_thetas(lst)
+om    <- fetch_omegas(lst)
+sg    <- fetch_sigmas(lst)
 
-# View IIV covariance (OMEGA)
-res$omega
+# Combine and view
+library(dplyr)
+bind_rows(
+  th   %>% mutate(source = "theta"),
+  om   %>% mutate(source = "omega"),
+  sg   %>% mutate(source = "sigma")
+) %>%
+  glimpse()
 ```
 
-### Plotting observed vs. individual predictions
+### 2. Plot ETA distribution
 
 ```r
+eta_df <- fetch_etas(lst)
+
 library(ggplot2)
+ggplot(eta_df, aes(x = ETA_ID, y = ETA)) +
+  geom_boxplot() +
+  facet_wrap(~PARAMETER, scales = "free_y") +
+  labs(title = "ETA Distributions", x = "Individual ID", y = "ETA")
+```
 
-tbl <- res$table_output
+### 3. Trace of objective function
 
-ggplot(tbl, aes(x = IPRED, y = DV)) +
-  geom_point(alpha = 0.5) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
-  labs(
-    x = "Individual Predictions",
-    y = "Observations",
-    title = "Observed vs. Individual Predictions"
-  ) +
-  theme_minimal()
+```r
+ofv <- fetch_ofv(lst)
+ggplot(ofv, aes(step, ofv)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "OFV Trace", x = "Iteration", y = "OFV")
 ```
 
 ## Contributing
 
-We welcome contributions! Please:
+1. Fork the repository
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Open a Pull Request
 
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/awesome-feature`).
-3. Commit your changes (`git commit -m "Add awesome-feature"`).
-4. Push to your branch (`git push origin feature/awesome-feature`).
-5. Open a Pull Request.
-
-Please adhere to the existing code style and include unit tests where appropriate.
+Please run `devtools::check()` and ensure all examples and tests pass before submitting.
 
 
 ## License
 
-`lstparseR` is released under the MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+
+<p align="center">
+  <em>Developed by the Clinical Pharmacy group at Saarland University</em>
+</p>
+
+**What’s in this README?**
+
+* **Title & description**: concisely explains the package purpose.
+* **Installation**: from CRAN (future) and GitHub.
+* **Quick Start**: minimal code snippet showing core workflow.
+* **Function reference**: table of primary exports.
+* **Worked examples**: three typical use cases.
+* **Contributing**: standard open‐source workflow.
+* **License**: pointer to MIT license.
+
 
