@@ -1,7 +1,7 @@
 # lstparseR
 
 <p align="center">
-  <img src="logo.png" alt="pyDarwinXploR hex sticker" width="200" />
+  <img src="hex_lstparseR.png" alt="pyDarwinXploR hex sticker" width="200" />
 </p>
 
 
