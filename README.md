@@ -1,5 +1,10 @@
 # lstparseR
 
+<p align="center">
+  <img src="logo.png" alt="pyDarwinXploR hex sticker" width="200" />
+</p>
+
+
 `lstparseR` is an R package designed to simplify and standardize the parsing of NONMEM “.lst” (listing) files. It provides functions to extract model run metadata, parameter estimates, variance–covariance components, residual diagnostics, and other rich output directly into tidy R data frames for downstream analysis, reporting, or visualization.
 
 
