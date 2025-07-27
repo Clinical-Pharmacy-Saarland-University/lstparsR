@@ -2,8 +2,6 @@
 
 `lstparseR` is an R package designed to simplify and standardize the parsing of NONMEM “.lst” (listing) files. It provides functions to extract model run metadata, parameter estimates, variance–covariance components, residual diagnostics, and other rich output directly into tidy R data frames for downstream analysis, reporting, or visualization.
 
-````markdown
----
 
 ## Features
 
@@ -13,7 +11,7 @@
 - **Batch processing**: parse many `.lst` files at once and combine results.
 - **Lightweight dependency** footprint.
 
----
+
 
 ## Installation
 
@@ -23,8 +21,6 @@ You can install the latest development version of `lstparseR` directly from GitH
 # install.packages("remotes")  # if you haven’t already
 remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
 ````
-
----
 
 ## Quick Start
 
@@ -55,8 +51,6 @@ parsed$theta
 all_results <- parse_lst_dir("path/to/lst_files/")
 ```
 
----
-
 ## Functions
 
 | Function           | Description                                                 |
@@ -67,7 +61,6 @@ all_results <- parse_lst_dir("path/to/lst_files/")
 | `summarize_runs()` | Combine metadata across multiple parsed runs.               |
 | `export_to_csv()`  | Write parsed tables to CSV files for reporting.             |
 
----
 
 ## Examples
 
@@ -98,8 +91,6 @@ ggplot(tbl, aes(x = IPRED, y = DV)) +
   theme_minimal()
 ```
 
----
-
 ## Contributing
 
 We welcome contributions! Please:
@@ -112,11 +103,8 @@ We welcome contributions! Please:
 
 Please adhere to the existing code style and include unit tests where appropriate.
 
----
 
 ## License
 
 `lstparseR` is released under the MIT License. See [LICENSE](LICENSE) for details.
 
-```
-```
