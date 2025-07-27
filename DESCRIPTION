@@ -1,15 +1,21 @@
 Package: lstparseR
-Title: Tidy Parsing of NONMEM Listing Files Output for PK/PD Workflows
-Version: 0.0.1.0
+Type: Package
+Title: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows
+Version: 0.0.1.9000
 Authors@R: 
     c(
-        person("Raban", "Heller", email = "raban.heller@charite.de", role = c("aut", "cre")),
-        person("Simeon", "Rüdesheim", email = "simeon.ruedesheim@uni-saarland.de", role = "aut"),
-        person("Dominik", "Selzer", email = "dominik.selzer@uni-saarland.de", role = "aut")
+      person("Raban", "Heller", email = "raban.heller@charite.de", role = c("aut", "cre")),
+      person("Simeon", "Rüdesheim", email = "simeon.ruedesheim@uni-saarland.de", role = "aut"),
+      person("Dominik", "Selzer", email = "dominik.selzer@uni-saarland.de", role = "aut")
     )
-Description: What the package does (one paragraph).
-License: GPL3 + file LICENSE
+Description: lstparseR provides a suite of functions to read, clean, and reshape NONMEM
+  listing (.lst) files into tidy data frames for downstream population
+  pharmacokinetic/pharmacodynamic (PK/PD) analyses. Out‑of‑the‑box parsers
+  extract THETA, OMEGA, SIGMA, ETA, OFV, and other standard tables, handling
+  varying report formats, variable missingness, and user‑defined filters.
+License: GPL-3
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports:
@@ -19,9 +25,10 @@ Imports:
     stringi,
     stringr,
     tibble
-Suggests: 
-    testthat (>= 3.0.0)
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
-URL: https://github.com/Clinical-Pharmacy-Saarland-University/medinfoR
-BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/medinfoR/issues
-
+URL: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR
+BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/issues
