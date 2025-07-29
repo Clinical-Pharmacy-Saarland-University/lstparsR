@@ -27,7 +27,7 @@ fetch_thetas <- function(lst, rse_digits = NA) {
     df$RSE <- NA_real_
   } else {
     se_block <- se_block$result
-    df$RSE <- se_block$value * 100 / df$Value
+    df$RSE <- se_block$value * 100 / abs(df$Value)
     if (!is.na(rse_digits)) {
       df$RSE <- round(df$RSE, rse_digits)
     }
