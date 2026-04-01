@@ -1,5 +1,5 @@
 # ============================================================
-# Internal utilities for lstparseR
+# Internal utilities for lstparsR
 # Not exported. Prefix all names with a dot.
 # ============================================================
 

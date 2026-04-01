@@ -1,8 +1,8 @@
-# lstparseR Shiny Application
-# Launch via lstparseR::run_app()
+# lstparsR Shiny Application
+# Launch via lstparsR::run_app()
 
 library(shiny)
-library(lstparseR)
+library(lstparsR)
 
 # -- UI -----------------------------------------------------------------------
 
@@ -146,11 +146,11 @@ ui <- fluidPage(
 
   navbarPage(
     title = tags$span(
-      tags$img(src = "logo.png", alt = "lstparseR"),
-      "lstparseR"
+      tags$img(src = "logo.png", alt = "lstparsR"),
+      "lstparsR"
     ),
     id = "main_nav",
-    windowTitle = "lstparseR",
+    windowTitle = "lstparsR",
 
     # -- Tab: Home / Upload ---------------------------------------------------
     tabPanel(
@@ -178,9 +178,9 @@ ui <- fluidPage(
             )
           ),
           div(class = "card",
-            h4("About lstparseR"),
+            h4("About lstparsR"),
             p(class = "info-text",
-              "lstparseR reads NONMEM .lst output files and extracts",
+              "lstparsR reads NONMEM .lst output files and extracts",
               "parameter estimates into tidy data frames for downstream",
               "population PK/PD analysis."
             ),
@@ -192,8 +192,8 @@ ui <- fluidPage(
             ),
             p(class = "info-text",
               tags$strong("Package: "),
-              tags$a(href = "https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR",
-                     "github.com/.../lstparseR", target = "_blank")
+              tags$a(href = "https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR",
+                     "github.com/.../lstparsR", target = "_blank")
             ),
             p(class = "info-text",
               tags$strong("License: "), "MIT"
@@ -472,7 +472,7 @@ server <- function(input, output, session) {
   # -- Downloads: individual CSVs ---------------------------------------------
 
   output$dl_thetas_csv <- downloadHandler(
-    filename = function() "lstparseR_thetas.csv",
+    filename = function() "lstparsR_thetas.csv",
     content  = function(file) {
       df <- thetas_df()
       if (is.null(df)) df <- data.frame()
@@ -481,7 +481,7 @@ server <- function(input, output, session) {
   )
 
   output$dl_etas_csv <- downloadHandler(
-    filename = function() "lstparseR_etas.csv",
+    filename = function() "lstparsR_etas.csv",
     content  = function(file) {
       df <- etas_df()
       if (is.null(df)) df <- data.frame()
@@ -490,7 +490,7 @@ server <- function(input, output, session) {
   )
 
   output$dl_sigmas_csv <- downloadHandler(
-    filename = function() "lstparseR_sigmas.csv",
+    filename = function() "lstparsR_sigmas.csv",
     content  = function(file) {
       df <- sigmas_df()
       if (is.null(df)) df <- data.frame()
@@ -499,36 +499,36 @@ server <- function(input, output, session) {
   )
 
   output$dl_scalars_csv <- downloadHandler(
-    filename = function() "lstparseR_scalars.csv",
+    filename = function() "lstparsR_scalars.csv",
     content  = function(file) write.csv(scalars_df(), file, row.names = FALSE)
   )
 
   # -- Downloads: individual RDS ----------------------------------------------
 
   output$dl_thetas_rds <- downloadHandler(
-    filename = function() "lstparseR_thetas.rds",
+    filename = function() "lstparsR_thetas.rds",
     content  = function(file) saveRDS(thetas_df(), file)
   )
 
   output$dl_etas_rds <- downloadHandler(
-    filename = function() "lstparseR_etas.rds",
+    filename = function() "lstparsR_etas.rds",
     content  = function(file) saveRDS(etas_df(), file)
   )
 
   output$dl_sigmas_rds <- downloadHandler(
-    filename = function() "lstparseR_sigmas.rds",
+    filename = function() "lstparsR_sigmas.rds",
     content  = function(file) saveRDS(sigmas_df(), file)
   )
 
   output$dl_scalars_rds <- downloadHandler(
-    filename = function() "lstparseR_scalars.rds",
+    filename = function() "lstparsR_scalars.rds",
     content  = function(file) saveRDS(scalars_df(), file)
   )
 
   # -- Downloads: all-in-one --------------------------------------------------
 
   output$dl_all_csv <- downloadHandler(
-    filename = function() "lstparseR_all.zip",
+    filename = function() "lstparsR_all.zip",
     content  = function(file) {
       tmpdir <- tempdir()
       csv_files <- character(0)
@@ -564,7 +564,7 @@ server <- function(input, output, session) {
   )
 
   output$dl_all_rds <- downloadHandler(
-    filename = function() "lstparseR_all.rds",
+    filename = function() "lstparsR_all.rds",
     content  = function(file) {
       saveRDS(list(
         thetas  = thetas_df(),

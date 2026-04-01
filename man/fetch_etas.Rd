@@ -29,7 +29,7 @@ and, if available, standard errors, RSE, and ETA shrinkage from a NONMEM
 \code{.lst} file.
 }
 \examples{
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_etas(lst)
 }

@@ -1,4 +1,4 @@
 library(testthat)
-library(lstparseR)
+library(lstparsR)
 
-test_check("lstparseR")
+test_check("lstparsR")

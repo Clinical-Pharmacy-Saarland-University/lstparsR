@@ -17,7 +17,7 @@ test_that("fetch_ofv returns numeric for no_cov (footer fallback)", {
 })
 
 test_that("fetch_ofv warns and returns NA for empty lst", {
-  fake <- lstparseR:::.lst_new(c("line1", "line2", "no objv here"))
+  fake <- lstparsR:::.lst_new(c("line1", "line2", "no objv here"))
   expect_warning(result <- fetch_ofv(fake))
   expect_true(is.na(result))
 })

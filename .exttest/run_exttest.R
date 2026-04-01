@@ -1,5 +1,5 @@
 # =============================================================================
-# lstparseR Extended Test Harness
+# lstparsR Extended Test Harness
 # =============================================================================
 #
 # Reads every .lst file in .exttest/_collected_lst/, runs all fetch_* parsers,
@@ -120,10 +120,10 @@ for (i in seq_along(lst_files)) {
 
   # --- Step 2: estimation method detection -----------------------------------
   est_method <- tryCatch(
-    lstparseR:::.get_estimation_method(lst),
+    lstparsR:::.get_estimation_method(lst),
     error = function(e) NA_character_
   )
-  has_cov <- lstparseR:::.has_covariance_step(lst)
+  has_cov <- lstparsR:::.has_covariance_step(lst)
 
   # --- Step 3: fetch_thetas --------------------------------------------------
   r_th <- run_parser(fetch_thetas, lst)
@@ -286,7 +286,7 @@ unique_errors <- function(pname) {
 }
 
 summary_lines <- c(
-  "lstparseR Extended Test Report",
+  "lstparsR Extended Test Report",
   sprintf("Generated: %s", Sys.time()),
   sprintf("R version: %s", R.version.string),
   "",

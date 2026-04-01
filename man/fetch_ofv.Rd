@@ -21,7 +21,7 @@ falls back to the workflow footer (\code{OFV = ...}) and returns \code{NA} with 
 warning if neither is found.
 }
 \examples{
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_ofv(lst)
 }

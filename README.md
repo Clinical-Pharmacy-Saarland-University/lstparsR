@@ -1,12 +1,12 @@
-# lstparseR <img src="man/figures/logo.png" align="right" height="139" />
+# lstparsR <img src="man/figures/logo.png" align="right" height="139" />
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml)
-[![CRAN status](https://www.r-pkg.org/badges/version/lstparseR)](https://CRAN.R-project.org/package=lstparseR)
+[![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/lstparsR)](https://CRAN.R-project.org/package=lstparsR)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-**lstparseR** reads NONMEM `.lst` output files and extracts parameter
+**lstparsR** reads NONMEM `.lst` output files and extracts parameter
 estimates into tidy data frames for downstream population PK/PD analysis.
 
 ## Features
@@ -26,19 +26,19 @@ Install the development version from GitHub:
 
 ```r
 # install.packages("remotes")
-remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
+remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparsR")
 ```
 
 CRAN release (planned):
 
 ```r
-install.packages("lstparseR")
+install.packages("lstparsR")
 ```
 
 ## Quick Start
 
 ```r
-library(lstparseR)
+library(lstparsR)
 
 # Read a listing file
 lst <- read_lst_file("run001.lst")
@@ -92,7 +92,7 @@ fetch_condn(lst)
 ## Handling Failed Runs
 
 When a NONMEM run did not converge or the covariance step was skipped,
-`lstparseR` returns `NA` for unavailable quantities instead of raising
+`lstparsR` returns `NA` for unavailable quantities instead of raising
 errors. This is critical for automated workflows (e.g., pyDARWIN, PsN)
 where hundreds of runs are parsed at once:
 
@@ -108,7 +108,7 @@ fetch_all(lst_fail)       # thetas/etas/sigmas = NULL, ofv/condn = NA
 Launch a browser-based interface for uploading and parsing `.lst` files:
 
 ```r
-lstparseR::run_app()
+lstparsR::run_app()
 ```
 
 The app lets you upload one or more `.lst` files, view parsed results in
@@ -117,7 +117,7 @@ interactive tables, and download them as CSV or RDS.
 ## Citation
 
 ```r
-citation("lstparseR")
+citation("lstparsR")
 ```
 
 ## License
