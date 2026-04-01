@@ -1,34 +1,42 @@
 Package: lstparseR
 Type: Package
 Title: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows
-Version: 0.0.1.9000
-Authors@R: 
+Version: 0.1.0
+Authors@R:
     c(
-      person("Raban", "Heller", email = "raban.heller@charite.de", role = c("aut", "cre")),
-      person("Simeon", "Rüdesheim", email = "simeon.ruedesheim@uni-saarland.de", role = "aut"),
-      person("Dominik", "Selzer", email = "dominik.selzer@uni-saarland.de", role = "aut")
+      person("Raban", "Heller",
+             email = "raban.heller@charite.de",
+             role = c("aut", "cre")),
+      person("Simeon", "Rüdesheim",
+             email = "simeon.ruedesheim@uni-saarland.de",
+             role = "aut"),
+      person("Dominik", "Selzer",
+             email = "dominik.selzer@uni-saarland.de",
+             role = "aut")
     )
-Description: lstparseR provides a suite of functions to read, clean, and reshape NONMEM
-  listing (.lst) files into tidy data frames for downstream population
-  pharmacokinetic/pharmacodynamic (PK/PD) analyses. Out‑of‑the‑box parsers
-  extract THETA, OMEGA, SIGMA, ETA, OFV, and other standard tables, handling
-  varying report formats, variable missingness, and user‑defined filters.
-License: GPL-3
+Description: Provides functions to read, clean, and reshape NONMEM listing
+    (.lst) files into tidy data frames for downstream population
+    pharmacokinetic and pharmacodynamic (PK/PD) analyses. Parsers extract
+    THETA, OMEGA, SIGMA, objective function value (OFV), condition number,
+    and shrinkage values from NONMEM output files. Both runs with and without
+    a covariance step are handled gracefully, returning NA for unavailable
+    quantities rather than raising errors.
+License: GPL (>= 3)
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports:
-    purrr,
-    checkmate,
-    dplyr,
-    stringi,
-    stringr,
-    tibble
+    checkmate (>= 2.1.0),
+    purrr (>= 1.0.0),
+    stringr (>= 1.5.0),
+    tibble (>= 3.1.0)
 Suggests:
-    testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    shiny (>= 1.7.0),
+    testthat (>= 3.0.0),
+    withr (>= 2.5.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
 URL: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR
 BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/issues

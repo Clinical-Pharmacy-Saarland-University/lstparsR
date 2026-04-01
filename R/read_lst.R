@@ -1,49 +1,53 @@
-#' Read .lst File Contents
+#' Read a NONMEM Listing File
 #'
-#' Reads the contents of a .lst file, ensuring the file exists and has the correct extension before proceeding.
-#' The function reads the file line by line and assigns a specific class to the resulting object for further processing.
+#' Reads a NONMEM `.lst` output file into memory as a character vector
+#' with class `"lst"` for use by the `fetch_*` family of functions.
 #'
-#' @param lst_file_path The file path to the .lst file that needs to be read. The function checks that this file exists
-#' and that it has a .lst extension before attempting to read it.
+#' @param path Character string. Path to the `.lst` file.
 #'
-#' @return Returns a character vector, where each element represents a line from the .lst file.
-#' The returned object is assigned the class "lst" for identification and further use in processing.
+#' @return A character vector of class `"lst"`, where each element is one
+#'   line of the file.
 #'
-#' @examples
-#' # Assuming you have a .mod file at the specified path:
-#' /dontrun{
-#' lst_file_path <- "path/to/your/file.lst"
-#' lst_contents <- read_lst_file(lst_file_path)
-#' print(lst_contents)
-#' }
 #' @export
 #'
-#' @keywords file-io
-read_lst_file <- function(lst_file_path) {
-  checkmate::assert_file_exists(lst_file_path)
-  checkmate::assert_file(lst_file_path, extension = ".lst")
+#' @examples
+#' path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+#' lst  <- read_lst_file(path)
+#' print(lst)
+read_lst_file <- function(path) {
+  checkmate::assert_string(path)
+  checkmate::assert_file_exists(path, extension = "lst")
 
-  chars_parsed <- tryCatch(
-    {
-      readLines(lst_file_path) |>
-        suppressWarnings()
-    },
+  lines <- tryCatch(
+    readLines(path, warn = FALSE),
     error = function(e) {
-      stop(paste0("Error while reading file: ", lst_file_path, "\\n", e))
+      stop(sprintf("Failed to read file '%s': %s", path, conditionMessage(e)),
+           call. = FALSE)
     }
   )
 
-  lst <- chars_parsed |>
-    .lst_from_char_vec()
-
-  return(lst)
+  .lst_new(lines)
 }
 
-.lst_from_char_vec <- function(char_vec) {
-  checkmate::assert_character(char_vec, min.len = 1)
+# Constructor -- also used in tests to build lst objects from character vectors
+#' @noRd
+.lst_new <- function(lines) {
+  checkmate::assert_character(lines)
+  structure(lines, class = "lst")
+}
 
-  lst <- char_vec
-  class(lst) <- "lst"
+#' @export
+print.lst <- function(x, ...) {
+  cat(sprintf("<lst> NONMEM listing file: %d lines\n", length(x)))
+  invisible(x)
+}
 
-  return(lst)
+#' @export
+summary.lst <- function(object, ...) {
+  method <- tryCatch(.get_estimation_method(object), error = function(e) "unknown")
+  cat(sprintf("<lst> NONMEM listing file\n"))
+  cat(sprintf("  Lines            : %d\n", length(object)))
+  cat(sprintf("  Estimation method: %s\n", method))
+  cat(sprintf("  Covariance step  : %s\n", .has_covariance_step(object)))
+  invisible(object)
 }
