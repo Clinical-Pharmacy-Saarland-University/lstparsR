@@ -13,3 +13,6 @@
 ^_debug\.R$
 ^\.exttest
 ^\.changes
+^_pkgdown\.ya?ml$
+^docs$
+^pkgdown$
