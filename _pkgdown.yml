@@ -1,5 +1,7 @@
 url: https://clinical-pharmacy-saarland-university.github.io/lstparsR/
 
+logo: man/figures/logo.png
+
 template:
   bootstrap: 5
   bootswatch: flatly
