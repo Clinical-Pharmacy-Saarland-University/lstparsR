@@ -1,4 +1,4 @@
-#' Launch the lstparseR Shiny Application
+#' Launch the lstparsR Shiny Application
 #'
 #' Opens an interactive browser-based application for uploading NONMEM `.lst`
 #' files, viewing parsed parameter tables, and downloading results in CSV or
@@ -18,15 +18,15 @@
 run_app <- function(...) {
   if (!requireNamespace("shiny", quietly = TRUE)) {
     stop(
-      "The 'shiny' package is required to run the lstparseR app.\n",
+      "The 'shiny' package is required to run the lstparsR app.\n",
       "Install it with: install.packages(\"shiny\")",
       call. = FALSE
     )
   }
 
-  app_dir <- system.file("shiny", package = "lstparseR")
+  app_dir <- system.file("shiny", package = "lstparsR")
   if (app_dir == "") {
-    stop("Could not find the Shiny app directory. Try reinstalling lstparseR.",
+    stop("Could not find the Shiny app directory. Try reinstalling lstparsR.",
          call. = FALSE)
   }
 

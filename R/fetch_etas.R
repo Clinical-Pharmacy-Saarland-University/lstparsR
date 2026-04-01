@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @examples
-#' path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+#' path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 #' lst  <- read_lst_file(path)
 #' fetch_etas(lst)
 fetch_etas <- function(lst, digits = NA, shk_digits = NA) {

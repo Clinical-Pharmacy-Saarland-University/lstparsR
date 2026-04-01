@@ -1,4 +1,4 @@
-Package: lstparseR
+Package: lstparsR
 Type: Package
 Title: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows
 Version: 0.1.0
@@ -39,5 +39,5 @@ Suggests:
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown
 VignetteBuilder: knitr
-URL: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR
-BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/issues
+URL: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
+BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/issues

@@ -1,4 +1,4 @@
-# lstparseR 0.1.0
+# lstparsR 0.1.0
 
 * Initial CRAN release.
 * `read_lst_file()`: reads NONMEM `.lst` files; returns S3 class `"lst"`.

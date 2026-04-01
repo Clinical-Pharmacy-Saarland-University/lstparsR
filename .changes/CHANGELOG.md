@@ -1,4 +1,4 @@
-# lstparseR v0.1.0 — Full Changelog vs Archive (v0.0.1.9000)
+# lstparsR v0.1.0 — Full Changelog vs Archive (v0.0.1.9000)
 
 **Date:** 2026-03-31
 **Scope:** Complete rewrite from scratch. No files were copied from the archive.
@@ -71,7 +71,7 @@ R/
   fetch_condn.R     — fetch_condn()
   fetch_all.R       — fetch_all()           [NEW]
   run_app.R         — run_app()             [NEW]
-  lstparseR-package.R — package-level docs  [NEW]
+  lstparsR-package.R — package-level docs  [NEW]
 ```
 
 Key architectural changes:
@@ -308,7 +308,7 @@ The new `.parse_vector_block()`:
 | `R/parse_condn.R` | `R/fetch_condn.R` | Fixed hardcoded offsets. Dynamic eigenvalue scan. Covariance step guard. |
 | — | `R/fetch_all.R` | **New.** Convenience wrapper with `safely()`. |
 | — | `R/run_app.R` | **New.** Shiny app launcher. |
-| — | `R/lstparseR-package.R` | **New.** Package docs and `@importFrom` declarations. |
+| — | `R/lstparsR-package.R` | **New.** Package docs and `@importFrom` declarations. |
 | — | `inst/shiny/app.R` | **New.** Full Shiny application. |
 
 ---
@@ -391,7 +391,7 @@ against **7,638 real NONMEM listing files**:
 | Vignette | none | `vignettes/getting-started.Rmd` — full walkthrough with batch processing example |
 | NEWS | none | `NEWS.md` — changelog |
 | CRAN comments | none | `cran-comments.md` |
-| Man pages | 6 `.Rd` files | 9 `.Rd` files (added `fetch_all`, `run_app`, `lstparseR-package`) |
+| Man pages | 6 `.Rd` files | 9 `.Rd` files (added `fetch_all`, `run_app`, `lstparsR-package`) |
 | Roxygen | basic `@param`/`@return` | Full markdown roxygen with `@examples`, cross-references, `\describe{}` blocks |
 | CI | none | `.github/workflows/R-CMD-check.yaml` (ubuntu/macOS/windows x release/devel/oldrel) |
 

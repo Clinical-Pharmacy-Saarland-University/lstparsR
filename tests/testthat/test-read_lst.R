@@ -23,5 +23,5 @@ test_that("summary.lst produces output", {
 })
 
 test_that(".lst_new rejects non-character input", {
-  expect_error(lstparseR:::.lst_new(1:5))
+  expect_error(lstparsR:::.lst_new(1:5))
 })

@@ -9,7 +9,7 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^hex_lstparseR\.png$
+^hex_lstparsR\.png$
 ^_debug\.R$
 ^\.exttest
 ^\.changes

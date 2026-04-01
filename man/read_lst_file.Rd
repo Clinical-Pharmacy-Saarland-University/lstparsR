@@ -18,7 +18,7 @@ Reads a NONMEM \code{.lst} output file into memory as a character vector
 with class \code{"lst"} for use by the \verb{fetch_*} family of functions.
 }
 \examples{
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 print(lst)
 }

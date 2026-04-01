@@ -19,7 +19,7 @@
 #' @export
 #'
 #' @examples
-#' path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+#' path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 #' lst  <- read_lst_file(path)
 #' fetch_thetas(lst)
 fetch_thetas <- function(lst, digits = NA) {

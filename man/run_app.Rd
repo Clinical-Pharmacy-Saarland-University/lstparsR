@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_app.R
 \name{run_app}
 \alias{run_app}
-\title{Launch the lstparseR Shiny Application}
+\title{Launch the lstparsR Shiny Application}
 \usage{
 run_app(...)
 }

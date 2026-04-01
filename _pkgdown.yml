@@ -1,4 +1,4 @@
-url: https://clinical-pharmacy-saarland-university.github.io/lstparseR/
+url: https://clinical-pharmacy-saarland-university.github.io/lstparsR/
 
 template:
   bootstrap: 5
@@ -22,11 +22,11 @@ navbar:
       href: news/index.html
   right:
     - icon: fa-github
-      href: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR
+      href: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
       aria-label: GitHub
 
 home:
-  title: "lstparseR — Tidy Parsing of NONMEM Listing Files"
+  title: "lstparsR — Tidy Parsing of NONMEM Listing Files"
   description: >
     Parse NONMEM .lst output files into tidy tibbles for population
     PK/PD analysis. Extracts THETA, OMEGA, SIGMA, OFV, condition number,
@@ -35,10 +35,10 @@ home:
 articles:
   - title: "Vignettes"
     desc: >
-      Step-by-step guides for using lstparseR in population PK/PD workflows.
+      Step-by-step guides for using lstparsR in population PK/PD workflows.
     contents:
       - getting-started
-      - lstparseR-guide
+      - lstparsR-guide
 
 reference:
   - title: "Read Listing Files"
@@ -68,4 +68,4 @@ reference:
   - title: "Package"
     desc: "Package-level documentation."
     contents:
-      - lstparseR-package
+      - lstparsR-package

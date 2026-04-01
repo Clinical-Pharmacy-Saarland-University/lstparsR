@@ -24,7 +24,7 @@ as the ratio of the largest to smallest eigenvalue. A condition number above
 Returns \code{NA} gracefully when no covariance step was run.
 }
 \examples{
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_condn(lst)
 }

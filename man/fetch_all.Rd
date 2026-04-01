@@ -33,7 +33,7 @@ returns a named list. Failed individual parsers produce a warning and return
 \code{NULL} for that element rather than stopping the entire call.
 }
 \examples{
-path   <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path   <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst    <- read_lst_file(path)
 result <- fetch_all(lst)
 result$thetas

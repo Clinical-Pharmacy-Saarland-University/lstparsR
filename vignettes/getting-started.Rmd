@@ -1,20 +1,20 @@
 ---
-title: "Getting Started with lstparseR"
+title: "Getting Started with lstparsR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with lstparseR}
+  %\VignetteIndexEntry{Getting Started with lstparsR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-library(lstparseR)
+library(lstparsR)
 ```
 
 ## Overview
 
-**lstparseR** reads NONMEM `.lst` listing files and extracts parameter
+**lstparsR** reads NONMEM `.lst` listing files and extracts parameter
 estimates into tidy tibbles. It is designed for population pharmacokinetic
 and pharmacodynamic (PK/PD) workflows where many model runs need to be
 parsed programmatically.
@@ -33,7 +33,7 @@ Use `read_lst_file()` to load a `.lst` file into an S3 object of class
 `"lst"`:
 
 ```{r read}
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 lst
 summary(lst)
@@ -118,7 +118,7 @@ When NONMEM did not run or complete a covariance step, SE, RSE, shrinkage,
 and condition number are returned as `NA`:
 
 ```{r no-cov}
-path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparseR")
+path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
 lst2  <- read_lst_file(path2)
 fetch_thetas(lst2)
 fetch_condn(lst2)
@@ -144,7 +144,7 @@ all_thetas <- map_dfr(results, "thetas", .id = "run")
 
 ## Supported Estimation Methods
 
-lstparseR detects and supports the following NONMEM estimation methods:
+lstparsR detects and supports the following NONMEM estimation methods:
 
 - First Order (FO)
 - First Order Conditional Estimation (FOCE)
@@ -159,7 +159,7 @@ lstparseR detects and supports the following NONMEM estimation methods:
 For interactive use, launch the built-in Shiny application:
 
 ```{r shiny, eval = FALSE}
-lstparseR::run_app()
+lstparsR::run_app()
 ```
 
 This opens a browser-based interface where you can upload `.lst` files,
