@@ -10,10 +10,13 @@ ui <- fluidPage(
   tags$head(
     tags$style(HTML("
       :root {
-        --primary: #2563eb;
-        --primary-light: #dbeafe;
+        --primary: #2272B4;
+        --primary-dark: #1B5E94;
+        --primary-light: #E8F1F8;
+        --accent: #F5A623;
+        --accent-light: #FFF4E0;
         --surface: #f8fafc;
-        --border: #e2e8f0;
+        --border: #d6e3ed;
         --text: #1e293b;
         --text-muted: #64748b;
         --success: #16a34a;
@@ -31,11 +34,23 @@ ui <- fluidPage(
         border: none;
         margin-bottom: 0;
       }
-      .navbar-brand, .navbar .nav > li > a {
+      .navbar-brand {
+        color: #fff !important;
+        font-weight: 700;
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+      }
+      .navbar-brand img {
+        height: 32px;
+        width: auto;
+      }
+      .navbar .nav > li > a {
         color: #fff !important;
         font-weight: 600;
       }
-      .navbar .nav > li > a:hover {
+      .navbar .nav > li > a:hover,
+      .navbar .nav > li.active > a {
         background: rgba(255,255,255,0.15) !important;
       }
       .tab-content { padding-top: 24px; }
@@ -49,7 +64,7 @@ ui <- fluidPage(
       }
       .card h4 {
         margin-top: 0;
-        color: var(--text);
+        color: var(--primary);
         font-weight: 600;
         font-size: 16px;
         margin-bottom: 16px;
@@ -59,11 +74,12 @@ ui <- fluidPage(
         padding: 16px;
         border-radius: 10px;
         background: var(--primary-light);
+        border: 1px solid var(--border);
       }
       .stat-box .value {
         font-size: 28px;
         font-weight: 700;
-        color: var(--primary);
+        color: var(--accent);
         line-height: 1.2;
       }
       .stat-box .label {
@@ -84,24 +100,25 @@ ui <- fluidPage(
       .badge-warn { background: #fef3c7; color: var(--warning); }
       .badge-fail { background: #fee2e2; color: var(--danger); }
       .btn-primary {
-        background: var(--primary);
-        border-color: var(--primary);
+        background: var(--accent);
+        border-color: var(--accent);
         border-radius: 8px;
         font-weight: 500;
+        color: #fff;
       }
       .btn-primary:hover {
-        background: #1d4ed8;
-        border-color: #1d4ed8;
+        background: #E09510;
+        border-color: #E09510;
       }
       .btn-outline {
         background: #fff;
-        border: 1px solid var(--border);
+        border: 1px solid var(--primary);
         border-radius: 8px;
         font-weight: 500;
-        color: var(--text);
+        color: var(--primary);
       }
       .btn-outline:hover {
-        background: var(--surface);
+        background: var(--primary-light);
       }
       .well {
         background: #fff;
@@ -114,15 +131,24 @@ ui <- fluidPage(
         line-height: 1.6;
       }
       .table { font-size: 13px; }
+      .table thead th {
+        background: var(--primary-light);
+        color: var(--primary);
+        border-bottom: 2px solid var(--primary);
+      }
       .shiny-output-error { color: var(--danger); }
       a { color: var(--primary); }
+      a:hover { color: var(--accent); }
       hr { border-color: var(--border); }
       .download-group .btn { margin-right: 8px; margin-bottom: 8px; }
     "))
   ),
 
   navbarPage(
-    title = "lstparseR",
+    title = tags$span(
+      tags$img(src = "logo.png", alt = "lstparseR"),
+      "lstparseR"
+    ),
     id = "main_nav",
     windowTitle = "lstparseR",
 
