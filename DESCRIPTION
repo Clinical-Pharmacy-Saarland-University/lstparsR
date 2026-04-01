@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R:
     c(
       person("Raban", "Heller",
-             email = "raban.heller@charite.de",
+             email = "raban.heller@uni-ulm.de",
              role = c("aut", "cre")),
       person("Simeon", "Rüdesheim",
              email = "simeon.ruedesheim@uni-saarland.de",
