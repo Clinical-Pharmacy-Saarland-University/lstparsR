@@ -1,0 +1,166 @@
+---
+title: "Getting Started with lstparseR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with lstparseR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(lstparseR)
+```
+
+## Overview
+
+**lstparseR** reads NONMEM `.lst` listing files and extracts parameter
+estimates into tidy tibbles. It is designed for population pharmacokinetic
+and pharmacodynamic (PK/PD) workflows where many model runs need to be
+parsed programmatically.
+
+Key design choices:
+
+- All output is returned as tibbles with consistent column names.
+- Missing quantities (e.g., standard errors when the covariance step is
+  absent) are `NA`, never errors.
+- Both VECTOR blocks (THETA) and lower-triangular MATRIX blocks
+  (OMEGA, SIGMA) are handled, including multi-line parameter sets.
+
+## Reading a Listing File
+
+Use `read_lst_file()` to load a `.lst` file into an S3 object of class
+`"lst"`:
+
+```{r read}
+path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+lst  <- read_lst_file(path)
+lst
+summary(lst)
+```
+
+The `lst` object is simply a character vector (one element per line) with
+class `"lst"` attached. All `fetch_*` functions require this class.
+
+## Extracting THETA (Fixed Effects)
+
+```{r thetas}
+fetch_thetas(lst)
+```
+
+Each row corresponds to one THETA parameter. The `se` and `rse` columns
+contain the standard error and relative standard error (as a percentage),
+respectively.
+
+Use the `digits` argument to round RSE values:
+
+```{r thetas-rounded}
+fetch_thetas(lst, digits = 1)
+```
+
+## Extracting OMEGA (Random Effects)
+
+`fetch_etas()` extracts the diagonal of the OMEGA covariance matrix,
+plus ETA shrinkage when reported:
+
+```{r etas}
+fetch_etas(lst)
+```
+
+Shrinkage values can be rounded separately:
+
+```{r etas-rounded}
+fetch_etas(lst, digits = 1, shk_digits = 1)
+```
+
+## Extracting SIGMA (Residual Error)
+
+```{r sigmas}
+fetch_sigmas(lst)
+```
+
+## Objective Function Value
+
+```{r ofv}
+fetch_ofv(lst)
+```
+
+For failed runs, `fetch_ofv()` falls back to the workflow footer
+(`OFV = ...`) if the standard `#OBJV:` line is absent.
+
+## Condition Number
+
+The condition number is computed as the ratio of the largest to smallest
+eigenvalue of the correlation matrix of parameter estimates. Values above
+1000 suggest numerical instability:
+
+```{r condn}
+fetch_condn(lst)
+```
+
+## All at Once
+
+`fetch_all()` runs every parser in a single call. Individual parser
+failures are caught and returned as `NULL` with a warning, so a single
+problematic section does not abort the entire extraction:
+
+```{r fetch-all}
+result <- fetch_all(lst)
+names(result)
+result$thetas
+result$ofv
+result$condn
+```
+
+## Runs Without a Covariance Step
+
+When NONMEM did not run or complete a covariance step, SE, RSE, shrinkage,
+and condition number are returned as `NA`:
+
+```{r no-cov}
+path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparseR")
+lst2  <- read_lst_file(path2)
+fetch_thetas(lst2)
+fetch_condn(lst2)
+```
+
+## Batch Processing
+
+A common pattern is to parse many `.lst` files at once:
+
+```{r batch, eval = FALSE}
+library(purrr)
+
+lst_files <- list.files("models/", pattern = "\\.lst$", full.names = TRUE)
+
+results <- map(lst_files, \(f) {
+  lst <- read_lst_file(f)
+  fetch_all(lst)
+})
+
+# Combine all THETA tables
+all_thetas <- map_dfr(results, "thetas", .id = "run")
+```
+
+## Supported Estimation Methods
+
+lstparseR detects and supports the following NONMEM estimation methods:
+
+- First Order (FO)
+- First Order Conditional Estimation (FOCE)
+- First Order Conditional Estimation with Interaction (FOCE-I)
+- Stochastic Approximation Expectation-Maximization (SAEM)
+- Importance Sampling (IMP)
+- Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
+- Markov Chain Monte Carlo Bayesian Analysis
+
+## Interactive Exploration
+
+For interactive use, launch the built-in Shiny application:
+
+```{r shiny, eval = FALSE}
+lstparseR::run_app()
+```
+
+This opens a browser-based interface where you can upload `.lst` files,
+view parsed results in tables, and download them as CSV or RDS.

@@ -1,0 +1,285 @@
+---
+title: "lstparseR: Tidy Parsing of NONMEM Listing Files"
+author:
+  - Raban Heller^[Charit\'{e} -- Universit\"{a}tsmedizin Berlin, raban.heller@charite.de]
+  - Simeon R\"{u}desheim^[Saarland University, simeon.ruedesheim@uni-saarland.de]
+  - Dominik Selzer^[Saarland University, dominik.selzer@uni-saarland.de]
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    latex_engine: pdflatex
+    keep_tex: false
+    fig_caption: true
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{hyperref}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhead[L]{lstparseR v0.1.0}
+  - \fancyhead[R]{\thepage}
+  - \fancyfoot[C]{}
+  - \renewcommand{\headrulewidth}{0.4pt}
+vignette: >
+  %\VignetteIndexEntry{lstparseR: Tidy Parsing of NONMEM Listing Files}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4,
+  out.width = "100%"
+)
+library(lstparseR)
+```
+
+\newpage
+
+# Introduction
+
+Population pharmacokinetic and pharmacodynamic (PK/PD) modelling with
+NONMEM produces listing files (`.lst`) that contain parameter estimates,
+standard errors, objective function values, eigenvalues, and shrinkage
+statistics in a structured but complex text format. Extracting these
+quantities for downstream analysis --- model comparison tables, forest
+plots, covariate analyses --- typically requires manual copy-paste or
+ad-hoc scripts that are fragile and error-prone.
+
+**lstparseR** provides a clean, validated interface for reading `.lst`
+files and returning tidy data frames. It is designed with two goals:
+
+1. **Robustness.** All parsers return `NA` for unavailable quantities
+   rather than raising errors. This makes the package safe for batch
+   workflows where some NONMEM runs may have failed or been terminated
+   early.
+
+2. **Tidiness.** All output is returned as tibbles with consistent,
+   lowercase column names (`parameter`, `estimate`, `se`, `rse`,
+   `shrinkage`) ready for binding across runs with `dplyr` or `purrr`.
+
+The package supports all major NONMEM estimation methods: FOCE-I, FOCE,
+FO, SAEM, IMP, IMPMAP, and Bayesian analysis.
+
+# Installation
+
+Install the development version from GitHub:
+
+```{r install, eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
+```
+
+# Quick Start
+
+```{r quickstart}
+library(lstparseR)
+
+path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+lst  <- read_lst_file(path)
+lst
+```
+
+```{r quickstart-all}
+result <- fetch_all(lst)
+names(result)
+```
+
+# Reading Listing Files
+
+`read_lst_file()` reads a `.lst` file into an S3 object of class `"lst"`.
+This is simply a character vector (one element per line) with the class
+attribute attached. All `fetch_*` functions require this class as input.
+
+```{r read}
+lst <- read_lst_file(
+  system.file("testdata", "full_cov.lst", package = "lstparseR")
+)
+summary(lst)
+```
+
+# Extracting Parameters
+
+## THETA --- Fixed Effects
+
+`fetch_thetas()` extracts the THETA parameter estimates from the
+*FINAL PARAMETER ESTIMATE* section. When the covariance step was
+completed, standard errors (SE) and relative standard errors (RSE, in
+percent) are also reported.
+
+```{r thetas}
+fetch_thetas(lst)
+```
+
+The `digits` argument rounds RSE values:
+
+```{r thetas-round}
+fetch_thetas(lst, digits = 1)
+```
+
+## OMEGA --- Random Effects
+
+`fetch_etas()` extracts the diagonal of the OMEGA covariance matrix
+(variance of inter-individual random effects). ETA shrinkage is included
+when reported by NONMEM.
+
+```{r etas}
+fetch_etas(lst)
+```
+
+Both RSE and shrinkage rounding can be controlled independently:
+
+```{r etas-round}
+fetch_etas(lst, digits = 1, shk_digits = 1)
+```
+
+## SIGMA --- Residual Error
+
+`fetch_sigmas()` extracts the diagonal of the SIGMA covariance matrix
+(variance of residual error terms).
+
+```{r sigmas}
+fetch_sigmas(lst)
+```
+
+## Objective Function Value
+
+`fetch_ofv()` extracts the OFV from the `#OBJV:` line. For failed or
+early-terminated runs, it falls back to the workflow footer
+(`OFV = ...`) if present.
+
+```{r ofv}
+fetch_ofv(lst)
+fetch_ofv(lst, digits = 2)
+```
+
+## Condition Number
+
+`fetch_condn()` computes the condition number of the correlation matrix
+of parameter estimates as the ratio of the largest to the smallest
+eigenvalue. Condition numbers above 1000 suggest numerical instability
+in the estimation.
+
+```{r condn}
+fetch_condn(lst)
+fetch_condn(lst, digits = 1)
+```
+
+## All Parameters at Once
+
+`fetch_all()` is a convenience wrapper that calls every parser and returns
+a named list. Individual failures are caught and returned as `NULL` with
+a warning, so one problematic section does not abort the entire call.
+
+```{r fetchall}
+result <- fetch_all(lst)
+result$thetas
+result$ofv
+result$condn
+```
+
+# Handling Runs Without a Covariance Step
+
+When NONMEM did not complete the covariance step, SE, RSE, shrinkage,
+and condition number are returned as `NA`. The parameter estimates and
+OFV are still available.
+
+```{r nocov}
+path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparseR")
+lst2  <- read_lst_file(path2)
+summary(lst2)
+```
+
+```{r nocov-thetas}
+fetch_thetas(lst2)
+```
+
+```{r nocov-condn}
+fetch_condn(lst2)
+```
+
+# Batch Processing
+
+A common pattern is to parse many `.lst` files from a model development
+workflow:
+
+```{r batch, eval = FALSE}
+library(purrr)
+
+files <- list.files("models/", pattern = "\\.lst$", full.names = TRUE)
+
+results <- map(files, \(f) {
+  lst <- read_lst_file(f)
+  fetch_all(lst)
+})
+
+# Combine all THETA tables with run identifier
+all_thetas <- map_dfr(results, "thetas", .id = "run")
+
+# Extract OFV for model comparison
+ofvs <- map_dbl(results, "ofv")
+```
+
+Since `fetch_all()` uses `purrr::safely()` internally, failed runs
+produce `NULL` elements rather than stopping the pipeline.
+
+# Function Reference
+
+\begin{longtable}{lp{9cm}}
+\toprule
+\textbf{Function} & \textbf{Description} \\
+\midrule
+\texttt{read\_lst\_file()} & Read a \texttt{.lst} file into an \texttt{lst} object \\
+\texttt{fetch\_thetas()} & THETA estimates with SE and RSE \\
+\texttt{fetch\_etas()} & OMEGA diagonal with SE, RSE, and ETA shrinkage \\
+\texttt{fetch\_sigmas()} & SIGMA diagonal with SE and RSE \\
+\texttt{fetch\_ofv()} & Objective function value (with footer fallback) \\
+\texttt{fetch\_condn()} & Condition number from eigenvalues \\
+\texttt{fetch\_all()} & Run all parsers; return named list \\
+\texttt{run\_app()} & Launch interactive Shiny application \\
+\bottomrule
+\end{longtable}
+
+# Supported Estimation Methods
+
+lstparseR automatically detects the estimation method from the `.lst`
+file header. The following methods are supported:
+
+\begin{itemize}
+  \item First Order (FO)
+  \item First Order Conditional Estimation (FOCE)
+  \item First Order Conditional Estimation with Interaction (FOCE-I)
+  \item Stochastic Approximation Expectation-Maximization (SAEM)
+  \item Importance Sampling (IMP)
+  \item Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
+  \item Markov Chain Monte Carlo Bayesian Analysis
+\end{itemize}
+
+# Interactive Shiny Application
+
+For interactive exploration, lstparseR includes a Shiny application that
+can be launched with:
+
+```{r shiny, eval = FALSE}
+lstparseR::run_app()
+```
+
+The application provides:
+
+- Multi-file upload with instant parsing
+- Overview dashboard with parse status summary
+- Sortable tables for THETA, OMEGA, and SIGMA parameters
+- OFV and condition number summary
+- Download buttons for CSV and RDS export
+
+# Session Info
+
+```{r sessioninfo}
+sessionInfo()
+```

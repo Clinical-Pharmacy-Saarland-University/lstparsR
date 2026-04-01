@@ -1,151 +1,125 @@
-<p align="center">
-  <img src="hex_lstparseR.png" alt="pyDarwinXploR hex sticker" width="200" />
-</p>
+# lstparseR <img src="man/figures/logo.png" align="right" height="139" />
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/lstparseR)](https://CRAN.R-project.org/package=lstparseR)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<!-- badges: end -->
 
-# lstparseR
+**lstparseR** reads NONMEM `.lst` output files and extracts parameter
+estimates into tidy data frames for downstream population PK/PD analysis.
 
-`lstparseR` is an R package designed to simplify and standardize the parsing of NONMEM “.lst” (listing) files. It provides functions to extract model run metadata, parameter estimates, variance–covariance components, residual diagnostics, and other rich output directly into tidy R data frames for downstream analysis, reporting, or visualization.
+## Features
 
+- Parses THETA, OMEGA (diagonal), and SIGMA (diagonal) estimates
+- Extracts standard errors, relative standard errors, and ETA shrinkage
+- Reports objective function value (OFV) and condition number
+- Handles multi-line parameter blocks (any number of THETAs/ETAs)
+- Returns `NA` gracefully when the covariance step is absent or the run
+  failed -- safe for use in automated pipelines
+- Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian methods
+- Includes an interactive Shiny app for point-and-click exploration
 
 ## Installation
 
+Install the development version from GitHub:
+
 ```r
-# From CRAN (when available)
+# install.packages("remotes")
+remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
+```
+
+CRAN release (planned):
+
+```r
 install.packages("lstparseR")
-
-# Latest development version from GitHub
-if (!requireNamespace("remotes", quietly = TRUE))
-  install.packages("remotes")
-
-remotes::install_github(
-  "Clinical-Pharmacy-Saarland-University/lstparseR",
-  build_vignettes = TRUE
-)
-````
-
+```
 
 ## Quick Start
 
 ```r
 library(lstparseR)
 
-# Point to a NONMEM run directory
-run_dir <- "/path/to/nonmem/run0"
+# Read a listing file
+lst <- read_lst_file("run001.lst")
 
-# 1) Read the main .lst file
-lst  <- read_lst_file(file.path(run_dir, "run0.lst"))
+# Extract everything at once
+result <- fetch_all(lst)
+result$thetas
+#> # A tibble: 12 x 4
+#>    parameter estimate       se      rse
+#>    <chr>        <dbl>    <dbl>    <dbl>
+#>  1 TH_1        34.1     3.37      9.88
+#>  2 TH_2    387000    5.41e+7  13979.
+#>  ...
 
-# 2) Extract parameter tables
-thetas  <- fetch_thetas(lst)
-sigmas  <- fetch_sigmas(lst)
-omegas  <- fetch_omegas(lst)       # alias: fetch_condn()
-ofv      <- fetch_ofv(lst)
-etas     <- fetch_etas(lst)
-
-# 3) Extract raw result table (.tab)
-df_tab <- read.table(
-  paste0(run_dir, "/results.tab"),
-  skip   = 1,
-  header = TRUE
-)
-
-# 4) Inspect
-head(thetas)
-head(omegas)
-head(ofv)
-head(etas)
-
-# 5) Simple plot of OFV history
-plot(ofv$STEP, ofv$OBJECTIVE, type = "b",
-     xlab = "Iteration", ylab = "OFV",
-     main = "NONMEM OFV Trace")
+result$ofv
+#> [1] 8986.318
 ```
 
-## Functions
+## Function Reference
 
-| Function          | Description                                                                       |
-| :---------------- | :-------------------------------------------------------------------------------- |
-| `read_lst_file()` | Reads a NONMEM `.lst` file into R and returns a structured list object.           |
-| `fetch_thetas()`  | Pulls summary of fixed effect estimates (`THETA`) from the `lst` object.          |
-| `fetch_sigmas()`  | Pulls residual error model variances (`SIGMA`).                                   |
-| `fetch_omegas()`  | Pulls inter‐individual variability variances (`OMEGA`).                           |
-| `fetch_ofv()`     | Extracts the objective function value history over the minimization.              |
-| `fetch_etas()`    | Extracts post‐hoc ETA estimates for each individual (conditional mode estimates). |
-| `fetch_condn()`   | Alias for `fetch_omegas()` (pulls IIV components).                                |
+| Function | Description |
+|---|---|
+| `read_lst_file()` | Read a `.lst` file into an `lst` object |
+| `fetch_thetas()` | Extract THETA estimates with SE and RSE |
+| `fetch_etas()` | Extract OMEGA diagonal with SE, RSE, and shrinkage |
+| `fetch_sigmas()` | Extract SIGMA diagonal with SE and RSE |
+| `fetch_ofv()` | Extract the objective function value |
+| `fetch_condn()` | Compute condition number from eigenvalues |
+| `fetch_all()` | Run all parsers and return a named list |
+| `run_app()` | Launch the interactive Shiny application |
 
----
-
-## Examples
-
-### 1. Extract and compare parameter tables
+## Individual Parsers
 
 ```r
-# Read and extract
-lst   <- read_lst_file("run0.lst")
-th    <- fetch_thetas(lst)
-om    <- fetch_omegas(lst)
-sg    <- fetch_sigmas(lst)
+lst <- read_lst_file("run001.lst")
 
-# Combine and view
-library(dplyr)
-bind_rows(
-  th   %>% mutate(source = "theta"),
-  om   %>% mutate(source = "omega"),
-  sg   %>% mutate(source = "sigma")
-) %>%
-  glimpse()
+# Fixed effects
+fetch_thetas(lst)
+
+# Random effects (with shrinkage)
+fetch_etas(lst)
+
+# Residual error
+fetch_sigmas(lst)
+
+# Scalar summaries
+fetch_ofv(lst)
+fetch_condn(lst)
 ```
 
-### 2. Plot ETA distribution
+## Handling Failed Runs
+
+When a NONMEM run did not converge or the covariance step was skipped,
+`lstparseR` returns `NA` for unavailable quantities instead of raising
+errors. This is critical for automated workflows (e.g., pyDARWIN, PsN)
+where hundreds of runs are parsed at once:
 
 ```r
-eta_df <- fetch_etas(lst)
-
-library(ggplot2)
-ggplot(eta_df, aes(x = ETA_ID, y = ETA)) +
-  geom_boxplot() +
-  facet_wrap(~PARAMETER, scales = "free_y") +
-  labs(title = "ETA Distributions", x = "Individual ID", y = "ETA")
+lst_fail <- read_lst_file("failed_run.lst")
+fetch_ofv(lst_fail)       # NA or fallback footer value
+fetch_condn(lst_fail)     # NA
+fetch_all(lst_fail)       # thetas/etas/sigmas = NULL, ofv/condn = NA
 ```
 
-### 3. Trace of objective function
+## Interactive Shiny App
+
+Launch a browser-based interface for uploading and parsing `.lst` files:
 
 ```r
-ofv <- fetch_ofv(lst)
-ggplot(ofv, aes(step, ofv)) +
-  geom_line() +
-  geom_point() +
-  labs(title = "OFV Trace", x = "Iteration", y = "OFV")
+lstparseR::run_app()
 ```
 
-## Contributing
+The app lets you upload one or more `.lst` files, view parsed results in
+interactive tables, and download them as CSV or RDS.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Open a Pull Request
+## Citation
 
-Please run `devtools::check()` and ensure all examples and tests pass before submitting.
-
+```r
+citation("lstparseR")
+```
 
 ## License
 
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
-
-<p align="center">
-  <em>Developed by the Clinical Pharmacy group at Saarland University</em>
-</p>
-
-**What’s in this README?**
-
-* **Title & description**: concisely explains the package purpose.
-* **Installation**: from CRAN (future) and GitHub.
-* **Quick Start**: minimal code snippet showing core workflow.
-* **Function reference**: table of primary exports.
-* **Worked examples**: three typical use cases.
-* **Contributing**: standard open‐source workflow.
-* **License**: pointer to MIT license.
-
-
+GPL (>= 3)

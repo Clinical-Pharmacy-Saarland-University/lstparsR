@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.archive$
+^\.github$
+^\.claude$
+^LICENSE\.md$
+^README\.Rmd$
+^cran-comments\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^hex_lstparseR\.png$
+^_debug\.R$
+^\.exttest
+^\.changes
