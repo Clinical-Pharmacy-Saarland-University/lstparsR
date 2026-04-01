@@ -5,9 +5,7 @@ template:
   bootswatch: flatly
   bslib:
     primary: "#2272B4"
-    link-color: "#2272B4"
-    navbar-bg: "#2272B4"
-    headings-color: "#2272B4"
+    danger: "#dc2626"
 
 navbar:
   bg: primary

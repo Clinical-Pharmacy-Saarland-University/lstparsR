@@ -14,5 +14,6 @@
 ^\.exttest
 ^\.changes
 ^_pkgdown\.ya?ml$
+^_build\.R$
 ^docs$
 ^pkgdown$
