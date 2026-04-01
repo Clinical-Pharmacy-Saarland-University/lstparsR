@@ -301,10 +301,29 @@ pipeline.
 
 ## Function Reference
 
+| Function                                                                                                          | Description                                     |
+|-------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
+| [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/read_lst_file.md) | Read a `.lst` file into an `lst` object         |
+| [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_thetas.md)   | THETA estimates with SE and RSE                 |
+| [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_etas.md)       | OMEGA diagonal with SE, RSE, and ETA shrinkage  |
+| [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_sigmas.md)   | SIGMA diagonal with SE and RSE                  |
+| [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_ofv.md)         | Objective function value (with footer fallback) |
+| [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_condn.md)     | Condition number from eigenvalues               |
+| [`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_all.md)         | Run all parsers; return named list              |
+| [`run_app()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/run_app.md)             | Launch interactive Shiny application            |
+
 ## Supported Estimation Methods
 
 lstparseR automatically detects the estimation method from the `.lst`
 file header. The following methods are supported:
+
+- First Order (FO)
+- First Order Conditional Estimation (FOCE)
+- First Order Conditional Estimation with Interaction (FOCE-I)
+- Stochastic Approximation Expectation-Maximization (SAEM)
+- Importance Sampling (IMP)
+- Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
+- Markov Chain Monte Carlo Bayesian Analysis
 
 ## Interactive Shiny Application
 

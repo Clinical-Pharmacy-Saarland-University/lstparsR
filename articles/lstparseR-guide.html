@@ -55,16 +55,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>lstparseR: Tidy Parsing of NONMEM Listing Files</h1>
-                        <h4 data-toc-skip class="author">Raban Heller<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;Charit'{e} – Universit&quot;{a}tsmedizin Berlin, &lt;a href=&quot;mailto:raban.heller@charite.de&quot; class=&quot;email&quot;&gt;raban.heller@charite.de&lt;/a&gt;&lt;/p&gt;"><sup>1</sup></a>
-</h4>
-                        <h4 data-toc-skip class="author">Simeon
-R"{u}desheim<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Saarland University, &lt;a href="mailto:simeon.ruedesheim@uni-saarland.de" class="email"&gt;simeon.ruedesheim@uni-saarland.de&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>
-</h4>
-                        <h4 data-toc-skip class="author">Dominik
-Selzer<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;Saarland University, &lt;a href="mailto:dominik.selzer@uni-saarland.de" class="email"&gt;dominik.selzer@uni-saarland.de&lt;/a&gt;&lt;/p&gt;'><sup>3</sup></a>
-</h4>
             
-            <h4 data-toc-skip class="date">2026-04-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/blob/main/vignettes/lstparseR-guide.Rmd" class="external-link"><code>vignettes/lstparseR-guide.Rmd</code></a></small>
       <div class="d-none name"><code>lstparseR-guide.Rmd</code></div>
@@ -72,7 +63,6 @@ Selzer<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-cont
 
     
     
-<div style="page-break-after: always;"></div>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
@@ -349,13 +339,61 @@ stopping the pipeline.</p>
 <div class="section level2">
 <h2 id="function-reference">Function Reference<a class="anchor" aria-label="anchor" href="#function-reference"></a>
 </h2>
-
+<table class="table">
+<thead><tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="../reference/read_lst_file.html">read_lst_file()</a></code></td>
+<td>Read a <code>.lst</code> file into an <code>lst</code> object</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/fetch_thetas.html">fetch_thetas()</a></code></td>
+<td>THETA estimates with SE and RSE</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/fetch_etas.html">fetch_etas()</a></code></td>
+<td>OMEGA diagonal with SE, RSE, and ETA shrinkage</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/fetch_sigmas.html">fetch_sigmas()</a></code></td>
+<td>SIGMA diagonal with SE and RSE</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/fetch_ofv.html">fetch_ofv()</a></code></td>
+<td>Objective function value (with footer fallback)</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/fetch_condn.html">fetch_condn()</a></code></td>
+<td>Condition number from eigenvalues</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/fetch_all.html">fetch_all()</a></code></td>
+<td>Run all parsers; return named list</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/run_app.html">run_app()</a></code></td>
+<td>Launch interactive Shiny application</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="supported-estimation-methods">Supported Estimation Methods<a class="anchor" aria-label="anchor" href="#supported-estimation-methods"></a>
 </h2>
 <p>lstparseR automatically detects the estimation method from the
 <code>.lst</code> file header. The following methods are supported:</p>
+<ul>
+<li>First Order (FO)</li>
+<li>First Order Conditional Estimation (FOCE)</li>
+<li>First Order Conditional Estimation with Interaction (FOCE-I)</li>
+<li>Stochastic Approximation Expectation-Maximization (SAEM)</li>
+<li>Importance Sampling (IMP)</li>
+<li>Importance Sampling Assisted by Mode A Posteriori (IMPMAP)</li>
+<li>Markov Chain Monte Carlo Bayesian Analysis</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="interactive-shiny-application">Interactive Shiny Application<a class="anchor" aria-label="anchor" href="#interactive-shiny-application"></a>
@@ -413,7 +451,6 @@ that can be launched with:</p>
 <span><span class="co">#&gt; [33] bslib_0.10.0      checkmate_2.3.4   tools_4.5.3       pkgdown_2.2.0    </span></span>
 <span><span class="co">#&gt; [37] cachem_1.1.0      desc_1.4.3</span></span></code></pre></div>
 </div>
-
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
