@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>lstparseR — Tidy Parsing of NONMEM Listing Files • lstparseR</title>
+<title>lstparsR — Tidy Parsing of NONMEM Listing Files • lstparsR</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -15,12 +15,12 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="lstparseR — Tidy Parsing of NONMEM Listing Files">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="lstparsR — Tidy Parsing of NONMEM Listing Files">
 <meta name="description" content="Parse NONMEM .lst output files into tidy tibbles for population PK/PD analysis. Extracts THETA, OMEGA, SIGMA, OFV, condition number, and ETA shrinkage with graceful NA handling for failed runs.
 ">
 <meta property="og:description" content="Parse NONMEM .lst output files into tidy tibbles for population PK/PD analysis. Extracts THETA, OMEGA, SIGMA, OFV, condition number, and ETA shrinkage with graceful NA handling for failed runs.
 ">
-<meta property="og:image" content="https://clinical-pharmacy-saarland-university.github.io/lstparseR/logo.png">
+<meta property="og:image" content="https://clinical-pharmacy-saarland-university.github.io/lstparsR/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -28,7 +28,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">lstparseR</a>
+    <a class="navbar-brand me-2" href="index.html">lstparsR</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
@@ -46,7 +46,7 @@
 <li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
       </ul>
 </div>
 
@@ -56,12 +56,12 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="lstparser-">lstparseR <a class="anchor" aria-label="anchor" href="#lstparser-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="lstparsr-">lstparsR <a class="anchor" aria-label="anchor" href="#lstparsr-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 
-<p><strong>lstparseR</strong> reads NONMEM <code>.lst</code> output files and extracts parameter estimates into tidy data frames for downstream population PK/PD analysis.</p>
+<p><strong>lstparsR</strong> reads NONMEM <code>.lst</code> output files and extracts parameter estimates into tidy data frames for downstream population PK/PD analysis.</p>
 <div class="section level2">
 <h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
 </h2>
@@ -81,16 +81,16 @@
 <p>Install the development version from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Clinical-Pharmacy-Saarland-University/lstparseR"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Clinical-Pharmacy-Saarland-University/lstparsR"</span><span class="op">)</span></span></code></pre></div>
 <p>CRAN release (planned):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"lstparseR"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"lstparsR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR" class="external-link">lstparseR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR" class="external-link">lstparsR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Read a listing file</span></span>
 <span><span class="va">lst</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="st">"run001.lst"</span><span class="op">)</span></span>
@@ -174,7 +174,7 @@
 <div class="section level2">
 <h2 id="handling-failed-runs">Handling Failed Runs<a class="anchor" aria-label="anchor" href="#handling-failed-runs"></a>
 </h2>
-<p>When a NONMEM run did not converge or the covariance step was skipped, <code>lstparseR</code> returns <code>NA</code> for unavailable quantities instead of raising errors. This is critical for automated workflows (e.g., pyDARWIN, PsN) where hundreds of runs are parsed at once:</p>
+<p>When a NONMEM run did not converge or the covariance step was skipped, <code>lstparsR</code> returns <code>NA</code> for unavailable quantities instead of raising errors. This is critical for automated workflows (e.g., pyDARWIN, PsN) where hundreds of runs are parsed at once:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lst_fail</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="st">"failed_run.lst"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/fetch_ofv.html">fetch_ofv</a></span><span class="op">(</span><span class="va">lst_fail</span><span class="op">)</span>       <span class="co"># NA or fallback footer value</span></span>
@@ -186,14 +186,14 @@
 </h2>
 <p>Launch a browser-based interface for uploading and parsing <code>.lst</code> files:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">lstparseR</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">lstparsR</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The app lets you upload one or more <code>.lst</code> files, view parsed results in interactive tables, and download them as CSV or RDS.</p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"lstparseR"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"lstparsR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
@@ -204,8 +204,8 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -221,7 +221,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing lstparseR</a></li>
+<li><a href="authors.html#citation">Citing lstparsR</a></li>
 </ul>
 </div>
 
@@ -237,8 +237,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://CRAN.R-project.org/package=lstparseR" class="external-link"><img src="https://www.r-pkg.org/badges/version/lstparseR" alt="CRAN status"></a></li>
+<li><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://CRAN.R-project.org/package=lstparsR" class="external-link"><img src="https://www.r-pkg.org/badges/version/lstparsR" alt="CRAN status"></a></li>
 <li><a href="https://opensource.org/licenses/MIT" class="external-link"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a></li>
 </ul>
 </div>

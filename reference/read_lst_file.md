@@ -23,7 +23,7 @@ the file.
 ## Examples
 
 ``` r
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 print(lst)
 #> <lst> NONMEM listing file: 1321 lines

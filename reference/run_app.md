@@ -1,4 +1,4 @@
-# Launch the lstparseR Shiny Application
+# Launch the lstparsR Shiny Application
 
 Opens an interactive browser-based application for uploading NONMEM
 `.lst` files, viewing parsed parameter tables, and downloading results

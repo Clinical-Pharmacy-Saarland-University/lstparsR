@@ -16,7 +16,7 @@ fetch_condn(lst, digits = NA)
 - lst:
 
   An object of class `"lst"` from
-  [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/read_lst_file.md).
+  [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md).
 
 - digits:
 
@@ -34,7 +34,7 @@ Returns `NA` gracefully when no covariance step was run.
 ## Examples
 
 ``` r
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_condn(lst)
 #> [1] 23.30882

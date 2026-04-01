@@ -1,8 +1,8 @@
-# Getting Started with lstparseR
+# Getting Started with lstparsR
 
 ## Overview
 
-**lstparseR** reads NONMEM `.lst` listing files and extracts parameter
+**lstparsR** reads NONMEM `.lst` listing files and extracts parameter
 estimates into tidy tibbles. It is designed for population
 pharmacokinetic and pharmacodynamic (PK/PD) workflows where many model
 runs need to be parsed programmatically.
@@ -18,11 +18,11 @@ Key design choices:
 ## Reading a Listing File
 
 Use
-[`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/read_lst_file.md)
+[`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md)
 to load a `.lst` file into an S3 object of class `"lst"`:
 
 ``` r
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 lst
 #> <lst> NONMEM listing file: 1321 lines
@@ -84,7 +84,7 @@ fetch_thetas(lst, digits = 1)
 
 ## Extracting OMEGA (Random Effects)
 
-[`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_etas.md)
+[`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_etas.md)
 extracts the diagonal of the OMEGA covariance matrix, plus ETA shrinkage
 when reported:
 
@@ -137,7 +137,7 @@ fetch_ofv(lst)
 ```
 
 For failed runs,
-[`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_ofv.md)
+[`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_ofv.md)
 falls back to the workflow footer (`OFV = ...`) if the standard `#OBJV:`
 line is absent.
 
@@ -154,7 +154,7 @@ fetch_condn(lst)
 
 ## All at Once
 
-[`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_all.md)
+[`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_all.md)
 runs every parser in a single call. Individual parser failures are
 caught and returned as `NULL` with a warning, so a single problematic
 section does not abort the entire extraction:
@@ -191,7 +191,7 @@ When NONMEM did not run or complete a covariance step, SE, RSE,
 shrinkage, and condition number are returned as `NA`:
 
 ``` r
-path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparseR")
+path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
 lst2  <- read_lst_file(path2)
 fetch_thetas(lst2)
 #> # A tibble: 12 × 4
@@ -233,7 +233,7 @@ all_thetas <- map_dfr(results, "thetas", .id = "run")
 
 ## Supported Estimation Methods
 
-lstparseR detects and supports the following NONMEM estimation methods:
+lstparsR detects and supports the following NONMEM estimation methods:
 
 - First Order (FO)
 - First Order Conditional Estimation (FOCE)
@@ -248,7 +248,7 @@ lstparseR detects and supports the following NONMEM estimation methods:
 For interactive use, launch the built-in Shiny application:
 
 ``` r
-lstparseR::run_app()
+lstparsR::run_app()
 ```
 
 This opens a browser-based interface where you can upload `.lst` files,

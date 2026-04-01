@@ -11,17 +11,17 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/blob/main/DESCRIPTION)
 
-Heller R, Rüdesheim S, Selzer D (2026). *lstparseR: Tidy Parsing of
+Heller R, Rüdesheim S, Selzer D (2026). *lstparsR: Tidy Parsing of
 NONMEM Listing Files for Population PK/PD Workflows*. R package version
 0.1.0,
-<https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR>.
+<https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR>.
 
     @Manual{,
-      title = {lstparseR: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows},
+      title = {lstparsR: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows},
       author = {Raban Heller and Simeon Rüdesheim and Dominik Selzer},
       year = {2026},
       note = {R package version 0.1.0},
-      url = {https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR},
+      url = {https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR},
     }

@@ -15,7 +15,7 @@ fetch_etas(lst, digits = NA, shk_digits = NA)
 - lst:
 
   An object of class `"lst"` from
-  [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/read_lst_file.md).
+  [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md).
 
 - digits:
 
@@ -53,7 +53,7 @@ columns:
 ## Examples
 
 ``` r
-path <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_etas(lst)
 #> # A tibble: 7 × 5

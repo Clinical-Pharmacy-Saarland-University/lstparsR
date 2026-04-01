@@ -1,6 +1,6 @@
-# lstparseR
+# lstparsR
 
-**lstparseR** reads NONMEM `.lst` output files and extracts parameter
+**lstparsR** reads NONMEM `.lst` output files and extracts parameter
 estimates into tidy data frames for downstream population PK/PD
 analysis.
 
@@ -21,19 +21,19 @@ Install the development version from GitHub:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
+remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparsR")
 ```
 
 CRAN release (planned):
 
 ``` r
-install.packages("lstparseR")
+install.packages("lstparsR")
 ```
 
 ## Quick Start
 
 ``` r
-library(lstparseR)
+library(lstparsR)
 
 # Read a listing file
 lst <- read_lst_file("run001.lst")
@@ -54,16 +54,16 @@ result$ofv
 
 ## Function Reference
 
-| Function                                                                                                          | Description                                        |
-|-------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/read_lst_file.md) | Read a `.lst` file into an `lst` object            |
-| [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_thetas.md)   | Extract THETA estimates with SE and RSE            |
-| [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_etas.md)       | Extract OMEGA diagonal with SE, RSE, and shrinkage |
-| [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_sigmas.md)   | Extract SIGMA diagonal with SE and RSE             |
-| [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_ofv.md)         | Extract the objective function value               |
-| [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_condn.md)     | Compute condition number from eigenvalues          |
-| [`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_all.md)         | Run all parsers and return a named list            |
-| [`run_app()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/run_app.md)             | Launch the interactive Shiny application           |
+| Function                                                                                                         | Description                                        |
+|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
+| [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md) | Read a `.lst` file into an `lst` object            |
+| [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_thetas.md)   | Extract THETA estimates with SE and RSE            |
+| [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_etas.md)       | Extract OMEGA diagonal with SE, RSE, and shrinkage |
+| [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_sigmas.md)   | Extract SIGMA diagonal with SE and RSE             |
+| [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_ofv.md)         | Extract the objective function value               |
+| [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_condn.md)     | Compute condition number from eigenvalues          |
+| [`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_all.md)         | Run all parsers and return a named list            |
+| [`run_app()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/run_app.md)             | Launch the interactive Shiny application           |
 
 ## Individual Parsers
 
@@ -87,7 +87,7 @@ fetch_condn(lst)
 ## Handling Failed Runs
 
 When a NONMEM run did not converge or the covariance step was skipped,
-`lstparseR` returns `NA` for unavailable quantities instead of raising
+`lstparsR` returns `NA` for unavailable quantities instead of raising
 errors. This is critical for automated workflows (e.g., pyDARWIN, PsN)
 where hundreds of runs are parsed at once:
 
@@ -103,7 +103,7 @@ fetch_all(lst_fail)       # thetas/etas/sigmas = NULL, ofv/condn = NA
 Launch a browser-based interface for uploading and parsing `.lst` files:
 
 ``` r
-lstparseR::run_app()
+lstparsR::run_app()
 ```
 
 The app lets you upload one or more `.lst` files, view parsed results in
@@ -112,7 +112,7 @@ interactive tables, and download them as CSV or RDS.
 ## Citation
 
 ``` r
-citation("lstparseR")
+citation("lstparsR")
 ```
 
 ## License

@@ -2,9 +2,9 @@
 
 ### Vignettes
 
-Step-by-step guides for using lstparseR in population PK/PD workflows.
+Step-by-step guides for using lstparsR in population PK/PD workflows.
 
 - [Getting Started with
-  lstparseR](https://clinical-pharmacy-saarland-university.github.io/lstparseR/articles/getting-started.md):
-- [lstparseR: Tidy Parsing of NONMEM Listing
-  Files](https://clinical-pharmacy-saarland-university.github.io/lstparseR/articles/lstparseR-guide.md):
+  lstparsR](https://clinical-pharmacy-saarland-university.github.io/lstparsR/articles/getting-started.md):
+- [lstparsR: Tidy Parsing of NONMEM Listing
+  Files](https://clinical-pharmacy-saarland-university.github.io/lstparsR/articles/lstparsR-guide.md):

@@ -15,7 +15,7 @@ fetch_all(lst, digits = NA, shk_digits = NA, ofv_digits = NA, cn_digits = NA)
 - lst:
 
   An object of class `"lst"` from
-  [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/read_lst_file.md).
+  [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md).
 
 - digits:
 
@@ -41,38 +41,38 @@ A named list with elements:
 
   [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
   from
-  [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_thetas.md),
+  [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_thetas.md),
   or `NULL` on failure.
 
 - etas:
 
   [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
   from
-  [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_etas.md),
+  [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_etas.md),
   or `NULL` on failure.
 
 - sigmas:
 
   [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
   from
-  [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_sigmas.md),
+  [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_sigmas.md),
   or `NULL` on failure.
 
 - ofv:
 
   Numeric from
-  [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_ofv.md).
+  [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_ofv.md).
 
 - condn:
 
   Numeric from
-  [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparseR/reference/fetch_condn.md),
+  [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_condn.md),
   or `NA` if no covariance step.
 
 ## Examples
 
 ``` r
-path   <- system.file("testdata", "full_cov.lst", package = "lstparseR")
+path   <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst    <- read_lst_file(path)
 result <- fetch_all(lst)
 result$thetas
