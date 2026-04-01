@@ -1,28 +1,6 @@
 ---
 title: "lstparseR: Tidy Parsing of NONMEM Listing Files"
-author:
-  - Raban Heller^[Charit\'{e} -- Universit\"{a}tsmedizin Berlin, raban.heller@charite.de]
-  - Simeon R\"{u}desheim^[Saarland University, simeon.ruedesheim@uni-saarland.de]
-  - Dominik Selzer^[Saarland University, dominik.selzer@uni-saarland.de]
-date: "`r Sys.Date()`"
-output:
-  pdf_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
-    latex_engine: pdflatex
-    keep_tex: false
-    fig_caption: true
-header-includes:
-  - \usepackage{booktabs}
-  - \usepackage{longtable}
-  - \usepackage{hyperref}
-  - \usepackage{fancyhdr}
-  - \pagestyle{fancy}
-  - \fancyhead[L]{lstparseR v0.1.0}
-  - \fancyhead[R]{\thepage}
-  - \fancyfoot[C]{}
-  - \renewcommand{\headrulewidth}{0.4pt}
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{lstparseR: Tidy Parsing of NONMEM Listing Files}
   %\VignetteEngine{knitr::rmarkdown}
@@ -40,9 +18,7 @@ knitr::opts_chunk$set(
 library(lstparseR)
 ```
 
-\newpage
-
-# Introduction
+## Introduction
 
 Population pharmacokinetic and pharmacodynamic (PK/PD) modelling with
 NONMEM produces listing files (`.lst`) that contain parameter estimates,
@@ -67,7 +43,7 @@ files and returning tidy data frames. It is designed with two goals:
 The package supports all major NONMEM estimation methods: FOCE-I, FOCE,
 FO, SAEM, IMP, IMPMAP, and Bayesian analysis.
 
-# Installation
+## Installation
 
 Install the development version from GitHub:
 
@@ -76,7 +52,7 @@ Install the development version from GitHub:
 remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparseR")
 ```
 
-# Quick Start
+## Quick Start
 
 ```{r quickstart}
 library(lstparseR)
@@ -91,7 +67,7 @@ result <- fetch_all(lst)
 names(result)
 ```
 
-# Reading Listing Files
+## Reading Listing Files
 
 `read_lst_file()` reads a `.lst` file into an S3 object of class `"lst"`.
 This is simply a character vector (one element per line) with the class
@@ -104,9 +80,9 @@ lst <- read_lst_file(
 summary(lst)
 ```
 
-# Extracting Parameters
+## Extracting Parameters
 
-## THETA --- Fixed Effects
+### THETA — Fixed Effects
 
 `fetch_thetas()` extracts the THETA parameter estimates from the
 *FINAL PARAMETER ESTIMATE* section. When the covariance step was
@@ -123,7 +99,7 @@ The `digits` argument rounds RSE values:
 fetch_thetas(lst, digits = 1)
 ```
 
-## OMEGA --- Random Effects
+### OMEGA — Random Effects
 
 `fetch_etas()` extracts the diagonal of the OMEGA covariance matrix
 (variance of inter-individual random effects). ETA shrinkage is included
@@ -139,7 +115,7 @@ Both RSE and shrinkage rounding can be controlled independently:
 fetch_etas(lst, digits = 1, shk_digits = 1)
 ```
 
-## SIGMA --- Residual Error
+### SIGMA — Residual Error
 
 `fetch_sigmas()` extracts the diagonal of the SIGMA covariance matrix
 (variance of residual error terms).
@@ -148,7 +124,7 @@ fetch_etas(lst, digits = 1, shk_digits = 1)
 fetch_sigmas(lst)
 ```
 
-## Objective Function Value
+### Objective Function Value
 
 `fetch_ofv()` extracts the OFV from the `#OBJV:` line. For failed or
 early-terminated runs, it falls back to the workflow footer
@@ -159,7 +135,7 @@ fetch_ofv(lst)
 fetch_ofv(lst, digits = 2)
 ```
 
-## Condition Number
+### Condition Number
 
 `fetch_condn()` computes the condition number of the correlation matrix
 of parameter estimates as the ratio of the largest to the smallest
@@ -171,7 +147,7 @@ fetch_condn(lst)
 fetch_condn(lst, digits = 1)
 ```
 
-## All Parameters at Once
+### All Parameters at Once
 
 `fetch_all()` is a convenience wrapper that calls every parser and returns
 a named list. Individual failures are caught and returned as `NULL` with
@@ -184,7 +160,7 @@ result$ofv
 result$condn
 ```
 
-# Handling Runs Without a Covariance Step
+## Handling Runs Without a Covariance Step
 
 When NONMEM did not complete the covariance step, SE, RSE, shrinkage,
 and condition number are returned as `NA`. The parameter estimates and
@@ -204,7 +180,7 @@ fetch_thetas(lst2)
 fetch_condn(lst2)
 ```
 
-# Batch Processing
+## Batch Processing
 
 A common pattern is to parse many `.lst` files from a model development
 workflow:
@@ -229,39 +205,33 @@ ofvs <- map_dbl(results, "ofv")
 Since `fetch_all()` uses `purrr::safely()` internally, failed runs
 produce `NULL` elements rather than stopping the pipeline.
 
-# Function Reference
+## Function Reference
 
-\begin{longtable}{lp{9cm}}
-\toprule
-\textbf{Function} & \textbf{Description} \\
-\midrule
-\texttt{read\_lst\_file()} & Read a \texttt{.lst} file into an \texttt{lst} object \\
-\texttt{fetch\_thetas()} & THETA estimates with SE and RSE \\
-\texttt{fetch\_etas()} & OMEGA diagonal with SE, RSE, and ETA shrinkage \\
-\texttt{fetch\_sigmas()} & SIGMA diagonal with SE and RSE \\
-\texttt{fetch\_ofv()} & Objective function value (with footer fallback) \\
-\texttt{fetch\_condn()} & Condition number from eigenvalues \\
-\texttt{fetch\_all()} & Run all parsers; return named list \\
-\texttt{run\_app()} & Launch interactive Shiny application \\
-\bottomrule
-\end{longtable}
+| Function | Description |
+|---|---|
+| `read_lst_file()` | Read a `.lst` file into an `lst` object |
+| `fetch_thetas()` | THETA estimates with SE and RSE |
+| `fetch_etas()` | OMEGA diagonal with SE, RSE, and ETA shrinkage |
+| `fetch_sigmas()` | SIGMA diagonal with SE and RSE |
+| `fetch_ofv()` | Objective function value (with footer fallback) |
+| `fetch_condn()` | Condition number from eigenvalues |
+| `fetch_all()` | Run all parsers; return named list |
+| `run_app()` | Launch interactive Shiny application |
 
-# Supported Estimation Methods
+## Supported Estimation Methods
 
 lstparseR automatically detects the estimation method from the `.lst`
 file header. The following methods are supported:
 
-\begin{itemize}
-  \item First Order (FO)
-  \item First Order Conditional Estimation (FOCE)
-  \item First Order Conditional Estimation with Interaction (FOCE-I)
-  \item Stochastic Approximation Expectation-Maximization (SAEM)
-  \item Importance Sampling (IMP)
-  \item Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
-  \item Markov Chain Monte Carlo Bayesian Analysis
-\end{itemize}
+- First Order (FO)
+- First Order Conditional Estimation (FOCE)
+- First Order Conditional Estimation with Interaction (FOCE-I)
+- Stochastic Approximation Expectation-Maximization (SAEM)
+- Importance Sampling (IMP)
+- Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
+- Markov Chain Monte Carlo Bayesian Analysis
 
-# Interactive Shiny Application
+## Interactive Shiny Application
 
 For interactive exploration, lstparseR includes a Shiny application that
 can be launched with:
@@ -278,7 +248,7 @@ The application provides:
 - OFV and condition number summary
 - Download buttons for CSV and RDS export
 
-# Session Info
+## Session Info
 
 ```{r sessioninfo}
 sessionInfo()
