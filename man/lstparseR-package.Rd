@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Raban Heller \email{raban.heller@charite.de}
+\strong{Maintainer}: Raban Heller \email{raban.heller@uni-ulm.de}
 
 Authors:
 \itemize{
