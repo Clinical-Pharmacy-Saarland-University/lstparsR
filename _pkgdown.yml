@@ -1,0 +1,73 @@
+url: https://clinical-pharmacy-saarland-university.github.io/lstparseR/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  bslib:
+    primary: "#2272B4"
+    link-color: "#2272B4"
+    navbar-bg: "#2272B4"
+    headings-color: "#2272B4"
+
+navbar:
+  bg: primary
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Get Started"
+      href: articles/getting-started.html
+    - text: "Vignettes"
+      href: articles/index.html
+    - text: "Functions"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR
+      aria-label: GitHub
+
+home:
+  title: "lstparseR — Tidy Parsing of NONMEM Listing Files"
+  description: >
+    Parse NONMEM .lst output files into tidy tibbles for population
+    PK/PD analysis. Extracts THETA, OMEGA, SIGMA, OFV, condition number,
+    and ETA shrinkage with graceful NA handling for failed runs.
+
+articles:
+  - title: "Vignettes"
+    desc: >
+      Step-by-step guides for using lstparseR in population PK/PD workflows.
+    contents:
+      - getting-started
+      - lstparseR-guide
+
+reference:
+  - title: "Read Listing Files"
+    desc: "Import NONMEM `.lst` files into R."
+    contents:
+      - read_lst_file
+
+  - title: "Extract Parameters"
+    desc: "Parse individual parameter blocks from a listing file."
+    contents:
+      - fetch_thetas
+      - fetch_etas
+      - fetch_sigmas
+      - fetch_ofv
+      - fetch_condn
+
+  - title: "Convenience Wrappers"
+    desc: "Run all parsers in one call."
+    contents:
+      - fetch_all
+
+  - title: "Interactive Application"
+    desc: "Browser-based Shiny interface for point-and-click exploration."
+    contents:
+      - run_app
+
+  - title: "Package"
+    desc: "Package-level documentation."
+    contents:
+      - lstparseR-package
