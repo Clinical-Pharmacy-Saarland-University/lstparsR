@@ -1,4 +1,4 @@
-# lstparsR <img src="man/figures/logo.png" align="right" height="139" />
+# lstparsR <img src="man/figures/logo.png" align="right" height="139" alt="lstparsR logo" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml)

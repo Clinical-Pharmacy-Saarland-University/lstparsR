@@ -6,14 +6,12 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^cran-comments\.md$
-^_pkgdown\.yml$
+^_pkgdown\.ya?ml$
 ^docs$
 ^pkgdown$
 ^hex_lstparsR\.png$
+^lstparsR_icon\.svg$
 ^_debug\.R$
+^_build\.R$
 ^\.exttest
 ^\.changes
-^_pkgdown\.ya?ml$
-^_build\.R$
-^docs$
-^pkgdown$
