@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparseR/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/lstparseR)](https://CRAN.R-project.org/package=lstparseR)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
 **lstparseR** reads NONMEM `.lst` output files and extracts parameter
@@ -122,4 +122,4 @@ citation("lstparseR")
 
 ## License
 
-GPL (>= 3)
+MIT

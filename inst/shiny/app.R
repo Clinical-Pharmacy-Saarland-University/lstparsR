@@ -196,7 +196,7 @@ ui <- fluidPage(
                      "github.com/.../lstparseR", target = "_blank")
             ),
             p(class = "info-text",
-              tags$strong("License: "), "GPL (>= 3)"
+              tags$strong("License: "), "MIT"
             )
           )
         ),
