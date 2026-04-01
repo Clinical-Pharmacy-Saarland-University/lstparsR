@@ -1,0 +1,83 @@
+11.02.2025 
+10:26
+$PROBLEM    2 compartment fitting
+$INPUT       ID TIME AMT RATE DV MDV EVID WT AGE SEX BUN SCR OCC CRCL COV1 COV2
+
+$DATA      D:\Users\raban.heller\Documents\GitHub\pyDarwinXploR\Examples\ExamplePenFunc/dataWithPeriod.csv IGNORE=@
+
+$SUBROUTINE ADVAN2 ;; advan2 
+$PK      
+  CWTKGONE = WT/81  ;; WEIGHT CENTERED ON ONE
+  CWTKGZERO = WT-81 ;; WEIGHT CENTERED ON ZERO
+  CAGE = AGE/60     ;; AGE CENTERED ON ONE
+  CCRCL = CRCL/85.6 ;; CRCL CENTERD ON ONE
+  CCOV1 = COV1-15.4 ;; COVARIATE 1 CENTERED ON ZERO
+  IOVV = 0  
+  TVV2=THETA(1) *CWTKGONE**THETA(4) *EXP(SEX*THETA(5))    *EXP(IOVV)
+  V2=TVV2*EXP(ETA(2))   
+  IOVCL = 0
+  TVCL= THETA(3) *CWTKGONE**THETA(6)  *CCRCL**THETA(7)  *EXP(IOVCL)
+  CL=TVCL*EXP(ETA(1)) 
+
+  K=CL/V2      
+  ;; PK 1 compartment   
+  D1=THETA(8) *EXP(ETA(3)) ; infusion only    
+  TVKA=THETA(2) 
+  KA=TVKA      
+  S2 = V2 
+$ERROR     	
+  REP = IREP      
+  IPRED =F  
+  IOBS = F +EPS(1)
+  Y=IOBS
+$THETA      
+  (0.001,100) 	; THETA(1) V  UNITS = L
+  (0.001, 10) 	; THETA(2) KA UNITS = 1/HR    
+  (0.001,20)	; THETA(3) CL UNITS =  L/HR
+  ;; THETA 1 compartment   
+  (-4,0.8) 	; THETA(4) POWER volume ~WT    
+  (-4,0.1) 	; THETA(5) EXPONENTIAL volume~SEX    
+
+
+  (-4,.7) 	; THETA(6) POWER clearance~WT  
+
+  (-4,-0.2) 	; THETA(7) POWER clearance~CRCL 
+
+  (0.01,0.2) 		;; THETA(8) D1  
+$OMEGA    
+  0.1  		; ETA(1) CLEARANCE 
+  0.4  		; ETA(2) VOLUME  
+
+$OMEGA  ;; diagonal OMEGA 
+  0.1 		;; ETA(3) ETA ON ALAG1
+  0.1 		;; ETA(4) ETA ON D1   
+  ;; no iov ON CL
+  ;; no iov ON V
+$SIGMA   
+  200 	; EPS(1) additive error
+
+$EST METHOD=COND INTER MAX = 9999 MSFO=MSF1 PRINT = 10
+$COV UNCOND PRINT=E  PRECOND=1 PRECONDS=TOS  MATRIX = R
+
+;; Phenotype: ({'ADVAN': 0, 'K23~WT': 1, 'KAETA': 0, 'V2~WT': 1, 'V2~AGE': 0, 'V2~SEX': 1, 'V2~COV2': 0, 'CL~WT': 1, 'CL~AGE': 0, 'CL~CRCL': 1, 'CL~COV1': 0, 'IOVCL': 1, 'IOVV': 1, 'INITCL': 1, 'ETAD1LAG': 3, 'D1LAG': 1, 'RESERR': 1})
+;; Genotype: [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 3, 1, 1]
+;; Num non-influential tokens: 1
+  
+NM-TRAN MESSAGES 
+ 
+ AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.
+ 
+AN ERROR WAS FOUND ON LINE 4 AT THE APPROXIMATE POSITION NOTED:
+ $DATA      D:\Users\raban.heller\Documents\GitHub\pyDarwinXploR\Examples\ExamplePenFunc/dataWithPeriod.csv IGNORE=@
+           X
+ THE CHARACTERS IN ERROR ARE: D
+   23  THERE ARE TOO MANY CHARACTERS IN THIS VALUE.
+OFV = 99999999
+success = False
+covariance = False
+correlation = False
+Condition # = 99999999
+Num Non fixed THETAs = 0
+Num Non fixed OMEGAs = 0
+Num Non fixed SIGMAs = 0
+Original run directory = D:\Users\raban.heller\Documents\GitHub\pyDarwinXploR\Examples\ExamplePenFunc\rundir\01\25

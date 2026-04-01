@@ -1,0 +1,70 @@
+29/01/2025 
+10:05
+  ##Description: search-numCpt-F-nF
+  ##Author: Certara
+  ##DATA ../../../../pkOralBolus.csv
+  ##MAP    Aa = Dose CObs = CObs id = ID time = time
+  ##MODEL test() {
+  cfMicro(A1, Cl / V, Cl2 / V, Cl2 / V2, Cl3 / V, Cl3 / V3, first = (Aa = Ka))
+  C = A1 / V
+  dosepoint(Aa,  bioavail = F, idosevar = AaDose, infdosevar = AaInfDose, infratevar = AaInfRate)
+  stparm(F = ilogit( tvlogitF + nlogitF ))
+  fixef(tvlogitF= c(, 0, ))
+  ranef(diag(nlogitF) = c(1))
+  error(CEps = 0.1)
+  observe(CObs = C * (1 + CEps))
+
+  stparm(Cl = tvCl * exp( nCl ))
+  fixef(tvCl= c(, 1, ))
+  ranef(diag(nCl) = c(1))
+  stparm(V = tvV * exp( nV ))
+  fixef(tvV= c(, 1, ))
+  ranef(diag(nV) = c(1))
+  stparm(Cl2 = tvCl2 * exp( nCl2 ))
+  fixef(tvCl2= c(, 1, ))
+  ranef(diag(nCl2) = c(1))
+  stparm(V2 = tvV2 * exp( nV2 ))
+  fixef(tvV2= c(, 1, ))
+  ranef(diag(nV2) = c(1))
+  stparm(Cl3 = tvCl3 * exp( nCl3 ))
+  fixef(tvCl3= c(, 1, ))
+  ranef(diag(nCl3) = c(1))
+  stparm(V3 = tvV3 * exp( nV3 ))
+  fixef(tvV3= c(, 1, ))
+  ranef(diag(nV3) = c(1))
+  stparm(Ka = tvKa * exp( nKa ))
+  fixef(tvKa= c(, 1, ))
+  ranef(diag(nKa) = c(1))
+
+  }
+  ##ESTARGS
+  sort=FALSE method=FOCE-ELS stdErr=Auto-Detect numIterMAPNP=3
+  ##SIMARGS
+  numReplicates=5 seed=12345678 sort=FALSE
+  ##TABLES
+  table(file="ObsData.csv", obs(CObs), mode = keep)
+  simtbl(file="SimData.csv", CObs, mode = keep)
+
+
+;; Phenotype: ({'PML': 2, '_F': 1, '_nlogitF': 1})
+;; Genotype: [2, 1, 1]
+;; Num non-influential tokens: 0
+  
+NM-TRAN MESSAGES 
+ 
+ AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.
+ 
+AN ERROR WAS FOUND ON LINE 1 AT THE APPROXIMATE POSITION NOTED:
+   ##Description: search-numCpt-F-nF
+   X
+ THE CHARACTERS IN ERROR ARE: #
+   15  UNKNOWN CONTROL RECORD.
+OFV = 99999999
+success = False
+covariance = False
+correlation = False
+Condition # = 99999999
+Num Non fixed THETAs = 0
+Num Non fixed OMEGAs = 0
+Num Non fixed SIGMAs = 0
+Original run directory = C:\Users\raban\Desktop\Example11/Results/temp\0\12

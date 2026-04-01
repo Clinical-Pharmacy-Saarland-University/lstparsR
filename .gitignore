@@ -1,9 +1,8 @@
-.claude
+.claude/
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 inst/doc
 docs/
-.exttest/
 .changes/

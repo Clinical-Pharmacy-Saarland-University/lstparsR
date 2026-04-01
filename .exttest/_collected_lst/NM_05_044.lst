@@ -1,0 +1,115 @@
+28.07.2025 
+17:11
+$SIZES PD=-1000 LVR=-150 LTH=-200
+$PROBLEM single pyDarwin individual, one among multitude
+$INPUT ID TIME AMT RATE DV DROP MDV AGE SEX LBM DROP CMT EVID
+$DATA "D:\Users\selzer\Repos\GH\pyDarwinXploR\RemiR/data.csv" IGNORE=@
+$SUBROUTINE ADVAN11 TRANS4
+$PK
+
+
+  TVCLSEX = 0
+  IF(SEX == 1) THEN
+  TVCLSEX = THETA(1)
+  ENDIF
+  CL = THETA(2)   *(1 + TVCLSEX) * EXP(ETA(1)) ; CL
+  ; Q is not used ; Q
+
+  V1 = THETA(3)  *(LBM/50)**(THETA(4))  * EXP(ETA(2))
+  SC = V1 ; V1
+
+  V2 = THETA(5) *(1 + THETA(6) * (AGE))   * EXP(ETA(3)) ; V2
+
+
+  TVQ2SEX = 0
+  IF(SEX == 1) THEN
+  TVQ2SEX = THETA(7)
+  ENDIF
+  Q2 = THETA(8) *(1 + THETA(9) * (AGE))  *(1 + TVQ2SEX) * EXP(ETA(4)) ; Q2
+
+
+  TVQ3SEX = 0
+  IF(SEX == 1) THEN
+  TVQ3SEX = THETA(10)
+  ENDIF
+  Q3 = THETA(11) *(1 + THETA(12) * (AGE))  *(1 + TVQ3SEX) * EXP(ETA(5)) ; Q3
+
+
+  TVV3SEX = 0
+  IF(SEX == 1) THEN
+  TVV3SEX = THETA(13)
+  ENDIF
+  V3 = THETA(14)   *(1 + TVV3SEX) ; V3
+$ERROR
+  IPRED = F
+  Y = F *(1+EPS(1))+EPS(2)
+$SIGMA
+  ;proportional error
+  0.2	; EPS(1)
+  ;additive error
+  1	; EPS(2)
+$THETA
+
+
+  (1.1);CL~SEX1
+  (0, 2) ; CL 
+
+
+  ; Q is not used
+
+  (0, 5) ; V1 
+
+  (1); V1~LBM
+
+  (0, 10) ; V2 
+  (1); V2~AGE
+
+
+
+  (0.1);Q2~SEX1
+  (0, 2) ; Q2 
+  (1); Q2~AGE
+
+
+
+  (1);Q3~SEX1
+  (0, 0.05) ; Q3 
+  (1); Q3~AGE
+
+
+
+  (1);V3~SEX1
+  (0, 5) ; V3 
+
+
+$OMEGA
+  0.3  ; CL
+  ; Q is not used
+  0.3  ; V1
+  0.3  ; V2
+  0.3  ; Q2
+  0.3  ; Q3
+
+$EST METHOD = COND INTER NOABORT MAX = 999999
+$TABLE ID TIME AMT DV PRED IPRED WRES CWRES FILE=results.tab NOPRINT NOAPPEND ONEHEADER
+$COV UNCOND PRINT=E
+
+
+;; Phenotype: ([('ADVAN', 1), ('CL~AGE', 0), ('CL~LBM', 0), ('CL~SEX', 1), ('V1~AGE', 0), ('V1~LBM', 1), ('V1~SEX', 0), ('V2~AGE', 1), ('V2~LBM', 0), ('V2~SEX', 0), ('Q2~AGE', 1), ('Q2~LBM', 0), ('Q2~SEX', 1), ('Q3~AGE', 1), ('Q3~LBM', 0), ('Q3~SEX', 1), ('V3~AGE', 0), ('V3~LBM', 0), ('V3~SEX', 1), ('V3_OMEGA', 0), ('RESERR', 1)])
+;; Genotype: [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1]
+;; Num non-influential tokens: 7
+  
+NM-TRAN MESSAGES 
+  
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+             
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+OFV = 99999999
+success = False
+covariance = False
+correlation = False
+Condition # = 99999999
+Num Non fixed THETAs = 0
+Num Non fixed OMEGAs = 0
+Num Non fixed SIGMAs = 0
+Original run directory = D:\Users\selzer\Repos\GH\pyDarwinXploR\RemiR\temp\05\044

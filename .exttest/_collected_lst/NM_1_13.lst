@@ -1,0 +1,88 @@
+01/04/2025 
+10:03
+$SIZES PD=-1000 LVR=-150 LTH=-200
+$PROBLEM single pyDarwin individual, one among multitude
+$INPUT ID TIME AMT RATE MDV EVID DV WT DROP
+$DATA "../../../dataset.csv" IGNORE=@
+$SUBROUTINE ADVAN3 TRANS4
+$PK
+  CL = THETA(1) *(WT)**(THETA(2)) * EXP(ETA(1)) ; CL
+  ; V is not used ; V
+  ALAG1 = THETA(3)   * EXP(ETA(2)) ; ALAG1
+  F1 = THETA(4)  *(WT)**(THETA(F1~WT)) ; F1
+  ; Ka is not used ; Ka
+  ALAG2 = THETA(5)  ; ALAG2
+  ; F2
+  Q = THETA(6) *(WT)**(THETA(7)) * EXP(ETA(3)) ; Q
+  V1 = THETA(8) *(WT)**(THETA(9)) * EXP(ETA(4))
+  SC = V1 ; V1
+  V2 = THETA(10) *(WT)**(THETA(11)) * EXP(ETA(5)) ; V2
+  ; V3 is not used ; V3
+  ; ALAG3 is not used ; ALAG3
+  ; F3 is not used ; F3
+$ERROR
+  IPRED = F
+  Y = F *(1+EPS(1))+EPS(2)
+$SIGMA
+  ;proportional error
+  0.2	; EPS(1)
+  ;additive error
+  1	; EPS(2)
+$THETA
+  (0, 1) ; CL 
+  (0.1); CL~WT
+  ; V is not used
+  (0, 1) ; ALAG1
+  (0, 0.5) ; F1
+  ; Ka is not used
+  (0, 1) ; ALAG2
+  ; F2 is not used
+  (0, 1) ; Q 
+  (0.1); Q~WT
+  (0, 5) ; V1 
+  (0.1); V1~WT
+  (0, 1) ; V2 
+  (0.1); V2~WT
+  ; V3 is not used
+  ; ALAG3 is not used
+  ; F3 is not used
+$OMEGA
+  0.3  ; CL
+  ; V is not used
+  0.3  ; ALAG1
+  ; F1 is not used
+  ; Ka is not used
+  ; ALAG2 is not used
+  ; F2 is not used
+  0.3  ; Q
+  0.3  ; V1
+  0.3  ; V2
+  ; V3 is not used
+  ; ALAG3 is not used
+  ; F3 is not used
+$EST METHOD = COND INTER NOABORT MAX = 999999
+$COV UNCOND PRINT=E
+
+
+;; Phenotype: ({'ADVAN': 2, 'CL~WT': 1, 'CL_OMEGA': 1, 'V~WT': 1, 'V_OMEGA': 1, 'ALAG1_OMEGA': 1, 'ALAG1~WT': 0, 'ALAG1_THETA': 1, 'F1_OMEGA': 0, 'F1~WT': 1, 'F1_THETA': 1, 'Ka~WT': 1, 'Ka_OMEGA': 1, 'ALAG2_OMEGA': 0, 'ALAG2_THETA': 1, 'F2_OMEGA': 0, 'F2_THETA': 0, 'Q~WT': 1, 'V1~WT': 1, 'V2~WT': 1, 'V3~WT': 1, 'ALAG3_OMEGA': 1, 'ALAG3_THETA': 1, 'F3_OMEGA': 1, 'F3_THETA': 1, 'RESERR': 1})
+;; Genotype: [2, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+;; Num non-influential tokens: 10
+  
+NM-TRAN MESSAGES 
+ 
+ AN ERROR WAS FOUND IN THE CONTROL STATEMENTS.
+ 
+AN ERROR WAS FOUND ON LINE 10 AT THE APPROXIMATE POSITION NOTED:
+   F1 = THETA(4)  *(WT)**(THETA(F1~WT)) ; F1
+                                    X
+ THE CHARACTERS IN ERROR ARE: ~
+  653  MAY NOT APPEAR IN A SUBSCRIPT EXPRESSION.
+OFV = 99999999
+success = False
+covariance = False
+correlation = False
+Condition # = 99999999
+Num Non fixed THETAs = 0
+Num Non fixed OMEGAs = 0
+Num Non fixed SIGMAs = 0
+Original run directory = C:\Users\raban\Documents\GitHub\pyDarwinXploR\Examples\PKPD_auto_Example - II\run\temp\1\13

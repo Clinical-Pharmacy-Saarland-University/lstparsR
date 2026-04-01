@@ -1,0 +1,49 @@
+lstparseR Extended Test Report
+Generated: 2026-03-31 11:33:20.82484
+R version: R version 4.5.2 (2025-10-31 ucrt)
+
+Files scanned: 7638
+  read OK  : 7638
+  read FAIL: 0
+
+Parser results:
+  read_lst         OK:   0  FAIL:   0  SKIP:   0  WARN:   0
+  thetas           OK: 6447  FAIL: 1191  SKIP:   0  WARN:   3
+  etas             OK: 6447  FAIL: 1191  SKIP:   0  WARN:   0
+  sigmas           OK: 6447  FAIL: 1191  SKIP:   0  WARN:   0
+  ofv              OK: 7638  FAIL:   0  SKIP:   0  WARN:  14
+  condn            OK: 7638  FAIL:   0  SKIP:   0  WARN:   2
+
+Unique error messages:
+  thetas failures:
+    "Could not detect a known estimation method in this lst file.
+Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian." [1191 files: NM_0_0001.lst, NM_0_0002.lst, NM_0_0003.lst, ... (+1188 more)]
+  etas failures:
+    "Could not detect a known estimation method in this lst file.
+Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian." [1191 files: NM_0_0001.lst, NM_0_0002.lst, NM_0_0003.lst, ... (+1188 more)]
+  sigmas failures:
+    "Could not detect a known estimation method in this lst file.
+Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian." [1191 files: NM_0_0001.lst, NM_0_0002.lst, NM_0_0003.lst, ... (+1188 more)]
+
+Warnings summary:
+  [1 occurrences] .parse_vector_block: 29 IDs but 28 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.
+  [14 occurrences] OFV not found in lst file. Returning NA.
+  [2 occurrences] Eigenvalue section not found. Returning NA.
+  [1 occurrences] .parse_vector_block: 6 IDs but 5 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.
+  [1 occurrences] .parse_vector_block: 7 IDs but 6 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.
+
+Estimation methods detected:
+  FIRST ORDER                                             3 files
+  FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION     6444 files
+  NA                                                      1191 files
+
+Files with covariance step: 5522 / 7638
+
+Output files:
+  .exttest/report.csv
+  .exttest/errors.txt
+  .exttest/summary.txt
+  .exttest/values_thetas.csv
+  .exttest/values_etas.csv
+  .exttest/values_sigmas.csv
+  .exttest/values_scalar.csv
