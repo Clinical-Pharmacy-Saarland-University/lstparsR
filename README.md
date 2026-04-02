@@ -2,6 +2,8 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/pkgdown.yaml/badge.svg)](https://clinical-pharmacy-saarland-university.github.io/lstparsR/)
+[![Codecov test coverage](https://codecov.io/gh/Clinical-Pharmacy-Saarland-University/lstparsR/graph/badge.svg)](https://codecov.io/gh/Clinical-Pharmacy-Saarland-University/lstparsR)
 [![CRAN status](https://www.r-pkg.org/badges/version/lstparsR)](https://CRAN.R-project.org/package=lstparsR)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
