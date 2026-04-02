@@ -43,7 +43,6 @@ jobs:
                          "Rsamtools", "GenomicAlignments", "GenomicFeatures",
                          "GenomicRanges", "SummarizedExperiment", "Biobase",
                          "ComplexHeatmap")
-          # Only install packages that are actually in Suggests
           desc_suggests <- strsplit(read.dcf("DESCRIPTION")[, "Suggests"], ",\\s*")[[1]]
           desc_suggests <- trimws(gsub("\\s*\\(.*\\)", "", desc_suggests))
           to_install <- intersect(bioc_pkgs, desc_suggests)
@@ -54,7 +53,7 @@ jobs:
               error = function(e) message("Bioconductor install skipped: ", e$message)
             )
           } else {
-            message("No Bioconductor Suggests found — skipping.")
+            message("No Bioconductor Suggests found - skipping.")
           }
         shell: Rscript {0}
         continue-on-error: true

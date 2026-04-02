@@ -45,7 +45,7 @@ jobs:
               error = function(e) message("Bioconductor install skipped: ", e$message)
             )
           } else {
-            message("No Bioconductor Suggests found - skipping.")
+            message("No Bioconductor Suggests found — skipping.")
           }
         shell: Rscript {0}
         continue-on-error: true
