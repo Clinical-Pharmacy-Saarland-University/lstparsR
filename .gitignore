@@ -3,6 +3,8 @@
 .Rhistory
 .RData
 .Ruserdata
+.httr-oauth
+.DS_Store
 inst/doc
 docs/
 _build.R

@@ -16,3 +16,4 @@
 ^\.exttest
 ^\.changes
 ^codecov\.yml$
+^\.lintr$
