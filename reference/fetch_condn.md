@@ -29,7 +29,8 @@ eigenvalue section is absent.
 
 ## Details
 
-Returns `NA` gracefully when no covariance step was run.
+Returns `NA` gracefully when no covariance step was run or when
+eigenvalues were not printed (`EIGENVLS. PRINTED: NO`).
 
 ## Examples
 

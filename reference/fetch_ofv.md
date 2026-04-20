@@ -1,9 +1,7 @@
 # Extract the Objective Function Value (OFV) from a NONMEM Listing File
 
-Extracts the OFV reported on the `#OBJV:` line of a NONMEM `.lst` file.
-For failed or early-terminated runs where `#OBJV:` is absent, the
-function falls back to the workflow footer (`OFV = ...`) and returns
-`NA` with a warning if neither is found.
+Extracts the OFV from a NONMEM `.lst` file, trying several output
+formats produced by different NONMEM versions and estimation methods:
 
 ## Usage
 
@@ -25,6 +23,27 @@ fetch_ofv(lst, digits = NA)
 ## Value
 
 A single numeric value (the OFV), or `NA_real_` if not found.
+
+## Details
+
+1.  `#OBJV:***...*** <value> ***...***` — standard NONMEM 7.x banner
+    line
+
+2.  `MINIMUM VALUE OF OBJECTIVE FUNCTION = <value>` — same-line format
+
+3.  `OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT: <value>` — multi-line
+    FOCE-I
+
+4.  `FINAL VALUE OF OBJECTIVE FUNCTION <value>` — alternative wording
+
+5.  `OFV = <value>` — pyDARWIN / workflow tool footer
+
+When multiple `#OBJV:` lines are present (multiple estimation steps),
+the **last** occurrence is returned (final step result).
+
+Returns `NA_real_` with a
+[`warning()`](https://rdrr.io/r/base/warning.html) if no OFV can be
+found — never stops.
 
 ## Examples
 
