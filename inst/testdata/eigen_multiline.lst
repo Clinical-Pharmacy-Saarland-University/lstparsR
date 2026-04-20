@@ -1,0 +1,27 @@
+01.01.2020
+12:00
+$PROBLEM    minimal eigenvalue multiline format test
+$INPUT      ID TIME AMT DV MDV
+
+ ESTIMATION STEP OMITTED:                 NO
+ FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION
+
+ STANDARD ERROR OF ESTIMATE
+
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************               FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION              ********************
+ ********************                      EIGENVALUES OF COR MATRIX OF ESTIMATE                     ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+
+
+             1         2         3
+
+  1.00E-02
+  5.00E-01
+  1.00E+02
+
+ Elapsed finaloutput time in seconds:     0.10
+ #CPUT: Total CPU Time in Seconds,        0.10
