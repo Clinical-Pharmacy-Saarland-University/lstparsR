@@ -15,10 +15,22 @@ fetch_ofv(lst, digits = NA)
 A single numeric value (the OFV), or \code{NA_real_} if not found.
 }
 \description{
-Extracts the OFV reported on the \verb{#OBJV:} line of a NONMEM \code{.lst} file.
-For failed or early-terminated runs where \verb{#OBJV:} is absent, the function
-falls back to the workflow footer (\code{OFV = ...}) and returns \code{NA} with a
-warning if neither is found.
+Extracts the OFV from a NONMEM \code{.lst} file, trying several output formats
+produced by different NONMEM versions and estimation methods:
+}
+\details{
+\enumerate{
+\item \verb{#OBJV:***...***  <value>  ***...***} — standard NONMEM 7.x banner line
+\item \verb{MINIMUM VALUE OF OBJECTIVE FUNCTION  =  <value>} — same-line format
+\item \verb{OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:  <value>} — multi-line FOCE-I
+\item \verb{FINAL VALUE OF OBJECTIVE FUNCTION  <value>} — alternative wording
+\item \verb{OFV = <value>} — pyDARWIN / workflow tool footer
+}
+
+When multiple \verb{#OBJV:} lines are present (multiple estimation steps), the
+\strong{last} occurrence is returned (final step result).
+
+Returns \code{NA_real_} with a \code{warning()} if no OFV can be found — never stops.
 }
 \examples{
 path <- system.file("testdata", "full_cov.lst", package = "lstparsR")

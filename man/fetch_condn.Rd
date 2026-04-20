@@ -21,7 +21,8 @@ as the ratio of the largest to smallest eigenvalue. A condition number above
 1000 typically indicates numerical difficulties in parameter estimation.
 }
 \details{
-Returns \code{NA} gracefully when no covariance step was run.
+Returns \code{NA} gracefully when no covariance step was run or when eigenvalues
+were not printed (\verb{EIGENVLS. PRINTED: NO}).
 }
 \examples{
 path <- system.file("testdata", "full_cov.lst", package = "lstparsR")

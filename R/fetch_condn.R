@@ -4,7 +4,8 @@
 #' as the ratio of the largest to smallest eigenvalue. A condition number above
 #' 1000 typically indicates numerical difficulties in parameter estimation.
 #'
-#' Returns `NA` gracefully when no covariance step was run.
+#' Returns `NA` gracefully when no covariance step was run or when eigenvalues
+#' were not printed (`EIGENVLS. PRINTED: NO`).
 #'
 #' @param lst    An object of class `"lst"` from [read_lst_file()].
 #' @param digits Integer or `NA`. Rounding for the condition number. Default `NA`.
@@ -26,10 +27,25 @@ fetch_condn <- function(lst, digits = NA) {
     return(NA_real_)
   }
 
-  # Find the eigenvalue section header
+  # Eigenvalue number pattern (scientific notation, possibly with leading sign)
+  eigen_num_pat <- "-?[0-9]+\\.?[0-9]*[Ee][+-][0-9]+"
+
+  # ------------------------------------------------------------------ #
+  # Find the eigenvalue section header.
+  # Strip leading Fortran CC character (0 or 1) before matching.
+  # Accept multiple phrasings:
+  #   "EIGENVALUES OF COR MATRIX OF ESTIMATE"
+  #   "EIGENVALUES OF THE CORRELATION MATRIX OF ESTIMATES"
+  # ------------------------------------------------------------------ #
+  stripped <- sub("^[01]", " ", lst)
   eigen_header <- which(stringr::str_detect(
-    lst, stringr::fixed("EIGENVALUES OF COR MATRIX OF ESTIMATE")
+    stripped,
+    stringr::regex("EIGENVALUE", ignore_case = TRUE)
+  ) & stringr::str_detect(
+    stripped,
+    stringr::regex("MATRIX.*ESTIMATE", ignore_case = TRUE)
   ))
+
   if (length(eigen_header) == 0) {
     warning("Eigenvalue section not found. Returning NA.", call. = FALSE)
     return(NA_real_)
@@ -38,18 +54,45 @@ fetch_condn <- function(lst, digits = NA) {
   start <- eigen_header[1]
   n     <- length(lst)
 
-  # Scan forward past the header block (skip asterisk lines) to find eigenvalues
-  eigen_lines <- character(0)
+  # ------------------------------------------------------------------ #
+  # Scan forward from the line AFTER the header.
+  # Skip:
+  #   - asterisk lines (page borders)
+  #   - blank / whitespace-only lines
+  #   - integer-only index lines (e.g. "  1  2  3  4 ...")
+  # Collect all lines that contain at least one scientific-notation number.
+  # Stop when we hit a non-blank line with no numbers (section boundary).
+  # ------------------------------------------------------------------ #
+  eigen_lines  <- character(0)
   found_values <- FALSE
-  for (i in seq.int(start + 4, min(start + 30, n))) {
-    line <- lst[i]
-    if (stringr::str_detect(line, "[0-9]\\.?[0-9]*E[+-][0-9]+")) {
-      eigen_lines <- c(eigen_lines, line)
+
+  for (i in seq.int(start + 1, min(start + 40, n))) {
+    line    <- lst[i]
+    trimmed <- stringr::str_trim(line)
+
+    # Skip blank lines (before or between value blocks)
+    if (nchar(trimmed) == 0) {
+      if (found_values) break   # blank line after values = end of block
+      next
+    }
+
+    # Skip asterisk-only lines (section borders)
+    if (stringr::str_detect(trimmed, "^\\*+$")) next
+
+    # Skip lines that are entirely within the section header box
+    # (contain asterisks as padding around text)
+    if (stringr::str_detect(trimmed, "^\\*{5,}")) next
+
+    # Check for scientific notation numbers
+    if (stringr::str_detect(line, eigen_num_pat)) {
+      eigen_lines  <- c(eigen_lines, line)
       found_values <- TRUE
     } else if (found_values) {
-      # Stop once we've found values and hit a non-value line
+      # Non-blank, non-number line after we already collected values → stop
       break
     }
+    # Non-blank, non-number line before values: could be integer index line —
+    # just skip and keep looking (found_values remains FALSE)
   }
 
   if (length(eigen_lines) == 0) {
@@ -60,7 +103,7 @@ fetch_condn <- function(lst, digits = NA) {
   # Extract all eigenvalues
   eigenvalues <- suppressWarnings(as.numeric(unlist(stringr::str_extract_all(
     paste(eigen_lines, collapse = " "),
-    "-?[0-9]+\\.?[0-9]*E[+-][0-9]+"
+    eigen_num_pat
   ))))
   eigenvalues <- eigenvalues[!is.na(eigenvalues) & eigenvalues > 0]
 
