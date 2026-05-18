@@ -4,6 +4,7 @@
 .Ruserdata
 .httr-oauth
 .DS_Store
+.changes
 inst/doc
 docs/
 _build.R
