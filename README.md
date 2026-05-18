@@ -4,7 +4,11 @@
 [![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/pkgdown.yaml/badge.svg)](https://clinical-pharmacy-saarland-university.github.io/lstparsR/)
 [![CRAN status](https://www.r-pkg.org/badges/version/lstparsR)](https://CRAN.R-project.org/package=lstparsR)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Codecov test coverage](https://codecov.io/gh/Clinical-Pharmacy-Saarland-University/lstparsR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Clinical-Pharmacy-Saarland-University/lstparsR?branch=main)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/lstparsR)](https://cran.r-project.org/package=lstparsR)
+[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/lstparsR)](https://cran.r-project.org/package=lstparsR)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 **lstparsR** reads NONMEM `.lst` output files and extracts parameter
