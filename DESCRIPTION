@@ -1,7 +1,7 @@
 Package: lstparsR
 Type: Package
 Title: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     c(
       person("Raban", "Heller",
@@ -25,7 +25,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.1.0)
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports:
     checkmate (>= 2.1.0),
     purrr (>= 1.0.0),
@@ -42,3 +41,4 @@ Config/Needs/website: pkgdown
 VignetteBuilder: knitr
 URL: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
 BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/issues
+Config/roxygen2/version: 8.0.0

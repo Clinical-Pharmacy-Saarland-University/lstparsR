@@ -18,8 +18,18 @@ test_that("fetch_ofv returns numeric for no_cov (without-constant fallback)", {
 })
 
 test_that("fetch_ofv warns and returns NA for empty lst", {
-  fake <- lstparsR:::.lst_new(c("line1", "line2", "no objv here"))
+  fake <- lstparsR:::.lst_new(c(
+    "line1", "line2", "no objv here",
+    " MINIMIZATION SUCCESSFUL"
+  ))
   expect_warning(result <- fetch_ofv(fake))
+  expect_true(is.na(result))
+})
+
+test_that("fetch_ofv returns NA silently for $SIMULATION-only runs", {
+  path <- system.file("testdata", "sim_only_no_ofv.lst", package = "lstparsR")
+  lst  <- read_lst_file(path)
+  expect_no_warning(result <- fetch_ofv(lst))
   expect_true(is.na(result))
 })
 

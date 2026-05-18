@@ -103,6 +103,14 @@ test_that("fetch_condn warns when no eigenvalue section found", {
   expect_true(is.na(result))
 })
 
+# --- EIGENVLS. PRINTED: NO  (legitimate-NA, no warning) ---
+test_that("fetch_condn returns NA silently when EIGENVLS. PRINTED: NO", {
+  path <- system.file("testdata", "eigen_printed_no.lst", package = "lstparsR")
+  lst  <- read_lst_file(path)
+  expect_no_warning(result <- fetch_condn(lst))
+  expect_true(is.na(result))
+})
+
 # --- Fixture file: multiline eigenvalues ---
 test_that("fetch_condn correctly parses eigen_multiline.lst fixture", {
   path <- system.file("testdata", "eigen_multiline.lst", package = "lstparsR")
