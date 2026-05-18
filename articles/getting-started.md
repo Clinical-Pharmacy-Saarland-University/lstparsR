@@ -22,6 +22,7 @@ Use
 to load a `.lst` file into an S3 object of class `"lst"`:
 
 ``` r
+
 path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
 lst  <- read_lst_file(path)
 lst
@@ -39,6 +40,7 @@ with class `"lst"` attached. All `fetch_*` functions require this class.
 ## Extracting THETA (Fixed Effects)
 
 ``` r
+
 fetch_thetas(lst)
 #> # A tibble: 12 × 4
 #>    parameter     estimate       se     rse
@@ -64,6 +66,7 @@ percentage), respectively.
 Use the `digits` argument to round RSE values:
 
 ``` r
+
 fetch_thetas(lst, digits = 1)
 #> # A tibble: 12 × 4
 #>    parameter     estimate       se     rse
@@ -89,6 +92,7 @@ extracts the diagonal of the OMEGA covariance matrix, plus ETA shrinkage
 when reported:
 
 ``` r
+
 fetch_etas(lst)
 #> # A tibble: 7 × 5
 #>   parameter estimate      se         rse shrinkage
@@ -105,6 +109,7 @@ fetch_etas(lst)
 Shrinkage values can be rounded separately:
 
 ``` r
+
 fetch_etas(lst, digits = 1, shk_digits = 1)
 #> # A tibble: 7 × 5
 #>   parameter estimate      se         rse shrinkage
@@ -121,6 +126,7 @@ fetch_etas(lst, digits = 1, shk_digits = 1)
 ## Extracting SIGMA (Residual Error)
 
 ``` r
+
 fetch_sigmas(lst)
 #> # A tibble: 2 × 4
 #>   parameter estimate      se    rse
@@ -132,6 +138,7 @@ fetch_sigmas(lst)
 ## Objective Function Value
 
 ``` r
+
 fetch_ofv(lst)
 #> [1] 8986.318
 ```
@@ -148,6 +155,7 @@ eigenvalue of the correlation matrix of parameter estimates. Values
 above 1000 suggest numerical instability:
 
 ``` r
+
 fetch_condn(lst)
 #> [1] 23.30882
 ```
@@ -160,6 +168,7 @@ caught and returned as `NULL` with a warning, so a single problematic
 section does not abort the entire extraction:
 
 ``` r
+
 result <- fetch_all(lst)
 names(result)
 #> [1] "thetas" "etas"   "sigmas" "ofv"    "condn"
@@ -191,6 +200,7 @@ When NONMEM did not run or complete a covariance step, SE, RSE,
 shrinkage, and condition number are returned as `NA`:
 
 ``` r
+
 path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
 lst2  <- read_lst_file(path2)
 fetch_thetas(lst2)
@@ -218,6 +228,7 @@ fetch_condn(lst2)
 A common pattern is to parse many `.lst` files at once:
 
 ``` r
+
 library(purrr)
 
 lst_files <- list.files("models/", pattern = "\\.lst$", full.names = TRUE)
@@ -248,6 +259,7 @@ lstparsR detects and supports the following NONMEM estimation methods:
 For interactive use, launch the built-in Shiny application:
 
 ``` r
+
 lstparsR::run_app()
 ```
 

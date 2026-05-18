@@ -23,6 +23,8 @@ Useful links:
 
 Authors:
 
+- Raban Heller <raban.heller@uni-ulm.de>
+
 - Simeon Rüdesheim <simeon.ruedesheim@uni-saarland.de>
 
 - Dominik Selzer <dominik.selzer@uni-saarland.de>

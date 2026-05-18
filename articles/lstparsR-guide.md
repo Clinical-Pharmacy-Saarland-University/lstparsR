@@ -30,6 +30,7 @@ FO, SAEM, IMP, IMPMAP, and Bayesian analysis.
 Install the development version from GitHub:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparsR")
 ```
@@ -37,6 +38,7 @@ remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparsR")
 ## Quick Start
 
 ``` r
+
 library(lstparsR)
 
 path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
@@ -46,6 +48,7 @@ lst
 ```
 
 ``` r
+
 result <- fetch_all(lst)
 names(result)
 #> [1] "thetas" "etas"   "sigmas" "ofv"    "condn"
@@ -59,6 +62,7 @@ character vector (one element per line) with the class attribute
 attached. All `fetch_*` functions require this class as input.
 
 ``` r
+
 lst <- read_lst_file(
   system.file("testdata", "full_cov.lst", package = "lstparsR")
 )
@@ -80,6 +84,7 @@ errors (SE) and relative standard errors (RSE, in percent) are also
 reported.
 
 ``` r
+
 fetch_thetas(lst)
 #> # A tibble: 12 × 4
 #>    parameter     estimate       se     rse
@@ -101,6 +106,7 @@ fetch_thetas(lst)
 The `digits` argument rounds RSE values:
 
 ``` r
+
 fetch_thetas(lst, digits = 1)
 #> # A tibble: 12 × 4
 #>    parameter     estimate       se     rse
@@ -127,6 +133,7 @@ inter-individual random effects). ETA shrinkage is included when
 reported by NONMEM.
 
 ``` r
+
 fetch_etas(lst)
 #> # A tibble: 7 × 5
 #>   parameter estimate      se         rse shrinkage
@@ -143,6 +150,7 @@ fetch_etas(lst)
 Both RSE and shrinkage rounding can be controlled independently:
 
 ``` r
+
 fetch_etas(lst, digits = 1, shk_digits = 1)
 #> # A tibble: 7 × 5
 #>   parameter estimate      se         rse shrinkage
@@ -163,6 +171,7 @@ extracts the diagonal of the SIGMA covariance matrix (variance of
 residual error terms).
 
 ``` r
+
 fetch_sigmas(lst)
 #> # A tibble: 2 × 4
 #>   parameter estimate      se    rse
@@ -178,6 +187,7 @@ extracts the OFV from the `#OBJV:` line. For failed or early-terminated
 runs, it falls back to the workflow footer (`OFV = ...`) if present.
 
 ``` r
+
 fetch_ofv(lst)
 #> [1] 8986.318
 fetch_ofv(lst, digits = 2)
@@ -193,6 +203,7 @@ Condition numbers above 1000 suggest numerical instability in the
 estimation.
 
 ``` r
+
 fetch_condn(lst)
 #> [1] 23.30882
 fetch_condn(lst, digits = 1)
@@ -207,6 +218,7 @@ list. Individual failures are caught and returned as `NULL` with a
 warning, so one problematic section does not abort the entire call.
 
 ``` r
+
 result <- fetch_all(lst)
 result$thetas
 #> # A tibble: 12 × 4
@@ -237,6 +249,7 @@ and condition number are returned as `NA`. The parameter estimates and
 OFV are still available.
 
 ``` r
+
 path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
 lst2  <- read_lst_file(path2)
 summary(lst2)
@@ -247,6 +260,7 @@ summary(lst2)
 ```
 
 ``` r
+
 fetch_thetas(lst2)
 #> # A tibble: 12 × 4
 #>    parameter     estimate       se     rse
@@ -266,6 +280,7 @@ fetch_thetas(lst2)
 ```
 
 ``` r
+
 fetch_condn(lst2)
 #> [1] 23.30882
 ```
@@ -276,6 +291,7 @@ A common pattern is to parse many `.lst` files from a model development
 workflow:
 
 ``` r
+
 library(purrr)
 
 files <- list.files("models/", pattern = "\\.lst$", full.names = TRUE)
@@ -301,16 +317,16 @@ pipeline.
 
 ## Function Reference
 
-| Function                                                                                                         | Description                                     |
-|------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md) | Read a `.lst` file into an `lst` object         |
-| [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_thetas.md)   | THETA estimates with SE and RSE                 |
-| [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_etas.md)       | OMEGA diagonal with SE, RSE, and ETA shrinkage  |
-| [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_sigmas.md)   | SIGMA diagonal with SE and RSE                  |
-| [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_ofv.md)         | Objective function value (with footer fallback) |
-| [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_condn.md)     | Condition number from eigenvalues               |
-| [`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_all.md)         | Run all parsers; return named list              |
-| [`run_app()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/run_app.md)             | Launch interactive Shiny application            |
+| Function | Description |
+|----|----|
+| [`read_lst_file()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/read_lst_file.md) | Read a `.lst` file into an `lst` object |
+| [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_thetas.md) | THETA estimates with SE and RSE |
+| [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_etas.md) | OMEGA diagonal with SE, RSE, and ETA shrinkage |
+| [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_sigmas.md) | SIGMA diagonal with SE and RSE |
+| [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_ofv.md) | Objective function value (with footer fallback) |
+| [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_condn.md) | Condition number from eigenvalues |
+| [`fetch_all()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_all.md) | Run all parsers; return named list |
+| [`run_app()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/run_app.md) | Launch interactive Shiny application |
 
 ## Supported Estimation Methods
 
@@ -331,6 +347,7 @@ For interactive exploration, lstparsR includes a Shiny application that
 can be launched with:
 
 ``` r
+
 lstparsR::run_app()
 ```
 
@@ -345,8 +362,9 @@ The application provides:
 ## Session Info
 
 ``` r
+
 sessionInfo()
-#> R version 4.5.3 (2026-03-11)
+#> R version 4.6.0 (2026-04-24)
 #> Platform: x86_64-pc-linux-gnu
 #> Running under: Ubuntu 24.04.4 LTS
 #> 
@@ -367,7 +385,7 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] lstparsR_0.1.0
+#> [1] lstparsR_0.1.1
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] vctrs_0.7.3       cli_3.6.6         knitr_1.51        rlang_1.2.0      
@@ -375,9 +393,9 @@ sessionInfo()
 #>  [9] textshaping_1.0.5 jsonlite_2.0.0    glue_1.8.1        backports_1.5.1  
 #> [13] htmltools_0.5.9   ragg_1.5.2        sass_0.4.10       rmarkdown_2.31   
 #> [17] tibble_3.3.1      evaluate_1.0.5    jquerylib_0.1.4   fastmap_1.2.0    
-#> [21] yaml_2.3.12       lifecycle_1.0.5   stringr_1.6.0     compiler_4.5.3   
+#> [21] yaml_2.3.12       lifecycle_1.0.5   stringr_1.6.0     compiler_4.6.0   
 #> [25] fs_2.1.0          pkgconfig_2.0.3   systemfonts_1.3.2 digest_0.6.39    
 #> [29] R6_2.6.1          utf8_1.2.6        pillar_1.11.1     magrittr_2.0.5   
-#> [33] bslib_0.10.0      checkmate_2.3.4   tools_4.5.3       pkgdown_2.2.0    
+#> [33] bslib_0.11.0      checkmate_2.3.4   tools_4.6.0       pkgdown_2.2.0    
 #> [37] cachem_1.1.0      desc_1.4.3
 ```

@@ -39,22 +39,19 @@ A named list with elements:
 
 - thetas:
 
-  [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
-  from
+  [tibble](https://tibble.tidyverse.org/reference/tibble.html) from
   [`fetch_thetas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_thetas.md),
   or `NULL` on failure.
 
 - etas:
 
-  [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
-  from
+  [tibble](https://tibble.tidyverse.org/reference/tibble.html) from
   [`fetch_etas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_etas.md),
   or `NULL` on failure.
 
 - sigmas:
 
-  [tibble::tibble](https://tibble.tidyverse.org/reference/tibble.html)
-  from
+  [tibble](https://tibble.tidyverse.org/reference/tibble.html) from
   [`fetch_sigmas()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_sigmas.md),
   or `NULL` on failure.
 

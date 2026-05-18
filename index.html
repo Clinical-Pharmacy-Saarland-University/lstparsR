@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="lstparsR — Tidy Parsing of NONMEM Listing Files">
 <meta name="description" content="Parse NONMEM .lst output files into tidy tibbles for population PK/PD analysis. Extracts THETA, OMEGA, SIGMA, OFV, condition number, and ETA shrinkage with graceful NA handling for failed runs.
@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">lstparsR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,40 +112,40 @@
 <h2 id="function-reference">Function Reference<a class="anchor" aria-label="anchor" href="#function-reference"></a>
 </h2>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th>Function</th>
 <th>Description</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/read_lst_file.html">read_lst_file()</a></code></td>
 <td>Read a <code>.lst</code> file into an <code>lst</code> object</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/fetch_thetas.html">fetch_thetas()</a></code></td>
 <td>Extract THETA estimates with SE and RSE</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/fetch_etas.html">fetch_etas()</a></code></td>
 <td>Extract OMEGA diagonal with SE, RSE, and shrinkage</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/fetch_sigmas.html">fetch_sigmas()</a></code></td>
 <td>Extract SIGMA diagonal with SE and RSE</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/fetch_ofv.html">fetch_ofv()</a></code></td>
 <td>Extract the objective function value</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/fetch_condn.html">fetch_condn()</a></code></td>
 <td>Compute condition number from eigenvalues</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code><a href="reference/fetch_all.html">fetch_all()</a></code></td>
 <td>Run all parsers and return a named list</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code><a href="reference/run_app.html">run_app()</a></code></td>
 <td>Launch the interactive Shiny application</td>
 </tr>

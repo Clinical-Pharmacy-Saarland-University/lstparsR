@@ -1,5 +1,28 @@
 # Changelog
 
+## lstparsR 0.1.1
+
+### Bug fixes
+
+- [`fetch_ofv()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_ofv.md):
+  No longer warns “OFV not found” for `$SIMULATION`-only runs (e.g. VPC
+  simulation outputs). Such runs legitimately produce no objective
+  function value; the function now returns `NA_real_` silently in that
+  case. The warning is still emitted when an estimation step ran but its
+  OFV cannot be parsed.
+- [`fetch_condn()`](https://clinical-pharmacy-saarland-university.github.io/lstparsR/reference/fetch_condn.md):
+  No longer warns “Eigenvalue section not found” when the user set
+  `EIGENVLS. PRINTED: NO` in `$COV`. In that case the covariance step
+  ran but the eigenvalue block is intentionally absent; the function now
+  returns `NA_real_` silently. The warning is still emitted when
+  eigenvalues are expected but cannot be located.
+- Reported by Christiane on multiple unrelated projects.
+
+### Internal
+
+- New internal helpers `.has_estimation_step()` and
+  `.eigenvalues_suppressed()` in `R/utils-internal.R`.
+
 ## lstparsR 0.1.0
 
 - Initial CRAN release.
