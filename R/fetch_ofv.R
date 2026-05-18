@@ -148,6 +148,12 @@ fetch_ofv <- function(lst, digits = NA) {
     }
   }
 
+  # Distinguish "missing because no $EST was performed" (legitimate NA, no
+  # warning) from "expected but unparseable" (genuine bug, warn).
+  if (!.has_estimation_step(lst)) {
+    return(NA_real_)
+  }
+
   warning("OFV not found in lst file. Returning NA.", call. = FALSE)
   NA_real_
 }

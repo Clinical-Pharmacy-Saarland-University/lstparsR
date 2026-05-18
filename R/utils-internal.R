@@ -61,6 +61,46 @@
 }
 
 # ------------------------------------------------------------------
+# Estimation-step detection
+# ------------------------------------------------------------------
+#
+# Returns TRUE if any marker indicates that NONMEM performed an
+# estimation step ($EST). Used to suppress the "OFV not found"
+# warning for $SIMULATION-only runs, where no OFV is ever produced.
+#
+#' @noRd
+.has_estimation_step <- function(lst) {
+  markers <- c(
+    "#OBJT:", "#OBJV:", "#METH:",
+    "MINIMIZATION SUCCESSFUL", "MINIMIZATION TERMINATED",
+    "MINIMUM VALUE OF OBJECTIVE FUNCTION",
+    "OBJECTIVE FUNCTION EVALUATIONS",
+    "BURN-IN ITERATIONS"
+  )
+  for (m in markers) {
+    if (any(stringr::str_detect(lst, stringr::fixed(m)))) return(TRUE)
+  }
+  FALSE
+}
+
+# ------------------------------------------------------------------
+# Eigenvalue-printing detection
+# ------------------------------------------------------------------
+#
+# Returns TRUE if the lst explicitly states "EIGENVLS. PRINTED: NO",
+# meaning the user opted out of printing eigenvalues even though the
+# covariance step ran. Used to suppress the "Eigenvalue section not
+# found" warning in that legitimate case.
+#
+#' @noRd
+.eigenvalues_suppressed <- function(lst) {
+  any(stringr::str_detect(
+    lst,
+    stringr::regex("EIGENVLS\\.\\s*PRINTED\\s*:\\s*NO", ignore_case = TRUE)
+  ))
+}
+
+# ------------------------------------------------------------------
 # Block header locator
 # ------------------------------------------------------------------
 #

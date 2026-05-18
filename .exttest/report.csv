@@ -369,8 +369,8 @@
 "long_lst.lst","thetas",TRUE,NA,".parse_vector_block: 29 IDs but 28 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.",29
 "long_lst.lst","etas",TRUE,NA,NA,3
 "long_lst.lst","sigmas",TRUE,NA,NA,9
-"long_lst.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
-"long_lst.lst","condn",TRUE,NA,"Eigenvalue section not found. Returning NA.",NA
+"long_lst.lst","ofv",TRUE,NA,NA,NA
+"long_lst.lst","condn",TRUE,NA,NA,NA
 "NM_0_0001.lst","read_lst_file",TRUE,NA,NA,74
 "NM_0_0001.lst","thetas",FALSE,"Could not detect a known estimation method in this lst file.
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
@@ -49287,8 +49287,8 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "test.lst","thetas",TRUE,NA,NA,4
 "test.lst","etas",TRUE,NA,NA,4
 "test.lst","sigmas",TRUE,NA,NA,1
-"test.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
-"test.lst","condn",TRUE,NA,"Eigenvalue section not found. Returning NA.",NA
+"test.lst","ofv",TRUE,NA,NA,NA
+"test.lst","condn",TRUE,NA,NA,NA
 "test_1.lst","read_lst_file",TRUE,NA,NA,1073
 "test_1.lst","thetas",TRUE,NA,NA,11
 "test_1.lst","etas",TRUE,NA,NA,6
@@ -49299,13 +49299,13 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "test_115.lst","thetas",TRUE,NA,NA,5
 "test_115.lst","etas",TRUE,NA,NA,5
 "test_115.lst","sigmas",TRUE,NA,NA,1
-"test_115.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"test_115.lst","ofv",TRUE,NA,NA,NA
 "test_115.lst","condn",TRUE,NA,NA,NA
 "test_116.lst","read_lst_file",TRUE,NA,NA,558
 "test_116.lst","thetas",TRUE,NA,NA,7
 "test_116.lst","etas",TRUE,NA,NA,6
 "test_116.lst","sigmas",TRUE,NA,NA,1
-"test_116.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"test_116.lst","ofv",TRUE,NA,NA,NA
 "test_116.lst","condn",TRUE,NA,NA,NA
 "theta_no_cov.lst","read_lst_file",TRUE,NA,NA,1246
 "theta_no_cov.lst","thetas",TRUE,NA,NA,12
@@ -49329,31 +49329,31 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "vpc_original.lst","thetas",TRUE,NA,NA,11
 "vpc_original.lst","etas",TRUE,NA,NA,6
 "vpc_original.lst","sigmas",TRUE,NA,NA,2
-"vpc_original.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_original.lst","ofv",TRUE,NA,NA,NA
 "vpc_original.lst","condn",TRUE,NA,NA,NA
 "vpc_original_107.lst","read_lst_file",TRUE,NA,NA,371
 "vpc_original_107.lst","thetas",TRUE,NA,NA,13
 "vpc_original_107.lst","etas",TRUE,NA,NA,6
 "vpc_original_107.lst","sigmas",TRUE,NA,NA,2
-"vpc_original_107.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_original_107.lst","ofv",TRUE,NA,NA,NA
 "vpc_original_107.lst","condn",TRUE,NA,NA,NA
 "vpc_original_110.lst","read_lst_file",TRUE,NA,NA,311
 "vpc_original_110.lst","thetas",TRUE,NA,NA,3
 "vpc_original_110.lst","etas",TRUE,NA,NA,2
 "vpc_original_110.lst","sigmas",TRUE,NA,NA,2
-"vpc_original_110.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_original_110.lst","ofv",TRUE,NA,NA,NA
 "vpc_original_110.lst","condn",TRUE,NA,NA,NA
 "vpc_original_112.lst","read_lst_file",TRUE,NA,NA,311
 "vpc_original_112.lst","thetas",TRUE,NA,NA,3
 "vpc_original_112.lst","etas",TRUE,NA,NA,2
 "vpc_original_112.lst","sigmas",TRUE,NA,NA,2
-"vpc_original_112.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_original_112.lst","ofv",TRUE,NA,NA,NA
 "vpc_original_112.lst","condn",TRUE,NA,NA,NA
 "vpc_original_117.lst","read_lst_file",TRUE,NA,NA,319
 "vpc_original_117.lst","thetas",TRUE,NA,NA,3
 "vpc_original_117.lst","etas",TRUE,NA,NA,3
 "vpc_original_117.lst","sigmas",TRUE,NA,NA,2
-"vpc_original_117.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_original_117.lst","ofv",TRUE,NA,NA,NA
 "vpc_original_117.lst","condn",TRUE,NA,NA,NA
 "vpc_simulation.1.lst","read_lst_file",TRUE,NA,NA,20192
 "vpc_simulation.1.lst","thetas",FALSE,"Could not detect a known estimation method in this lst file.
@@ -49362,7 +49362,7 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "vpc_simulation.1.lst","sigmas",FALSE,"Could not detect a known estimation method in this lst file.
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
-"vpc_simulation.1.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_simulation.1.lst","ofv",TRUE,NA,NA,NA
 "vpc_simulation.1.lst","condn",TRUE,NA,NA,NA
 "vpc_simulation.1_108.lst","read_lst_file",TRUE,NA,NA,20227
 "vpc_simulation.1_108.lst","thetas",FALSE,"Could not detect a known estimation method in this lst file.
@@ -49371,7 +49371,7 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "vpc_simulation.1_108.lst","sigmas",FALSE,"Could not detect a known estimation method in this lst file.
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
-"vpc_simulation.1_108.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_simulation.1_108.lst","ofv",TRUE,NA,NA,NA
 "vpc_simulation.1_108.lst","condn",TRUE,NA,NA,NA
 "vpc_simulation.1_111.lst","read_lst_file",TRUE,NA,NA,20163
 "vpc_simulation.1_111.lst","thetas",FALSE,"Could not detect a known estimation method in this lst file.
@@ -49380,7 +49380,7 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "vpc_simulation.1_111.lst","sigmas",FALSE,"Could not detect a known estimation method in this lst file.
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
-"vpc_simulation.1_111.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_simulation.1_111.lst","ofv",TRUE,NA,NA,NA
 "vpc_simulation.1_111.lst","condn",TRUE,NA,NA,NA
 "vpc_simulation.1_113.lst","read_lst_file",TRUE,NA,NA,20163
 "vpc_simulation.1_113.lst","thetas",FALSE,"Could not detect a known estimation method in this lst file.
@@ -49389,7 +49389,7 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "vpc_simulation.1_113.lst","sigmas",FALSE,"Could not detect a known estimation method in this lst file.
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
-"vpc_simulation.1_113.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_simulation.1_113.lst","ofv",TRUE,NA,NA,NA
 "vpc_simulation.1_113.lst","condn",TRUE,NA,NA,NA
 "vpc_simulation.1_118.lst","read_lst_file",TRUE,NA,NA,20165
 "vpc_simulation.1_118.lst","thetas",FALSE,"Could not detect a known estimation method in this lst file.
@@ -49398,5 +49398,5 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
 "vpc_simulation.1_118.lst","sigmas",FALSE,"Could not detect a known estimation method in this lst file.
 Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",NA,NA
-"vpc_simulation.1_118.lst","ofv",TRUE,NA,"OFV not found in lst file. Returning NA.",NA
+"vpc_simulation.1_118.lst","ofv",TRUE,NA,NA,NA
 "vpc_simulation.1_118.lst","condn",TRUE,NA,NA,NA

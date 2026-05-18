@@ -1,0 +1,23 @@
+ #METH: First Order Conditional Estimation with Interaction
+ EIGENVLS. PRINTED:              NO
+ SIGDIGITS REQUIRED:             3
+ SIGDIGITS ETAHAT (SIGLO):                  2
+ CONDITION NO. PRINTED:          NO
+ ESTIMATE OUTPUT TO MSF:         NO
+
+0MINIMIZATION SUCCESSFUL
+
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    2425.9977276603358
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    2391.9169410250151
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       4817.9146686853510
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+
+ #OBJT:**************                       MINIMUM VALUE OF OBJECTIVE FUNCTION                      ********************
+ #OBJV:********************************************     2391.917       **************************************************
+
+ STANDARD ERROR OF ESTIMATE
+ ----------------------------
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS
+ ----------------------------
+         TH 1
+         1.23E-01

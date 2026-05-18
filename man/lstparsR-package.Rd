@@ -6,7 +6,7 @@
 \alias{lstparsR-package}
 \title{lstparsR: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
 
 Provides functions to read, clean, and reshape NONMEM listing (.lst) files into tidy data frames for downstream population pharmacokinetic and pharmacodynamic (PK/PD) analyses. Parsers extract THETA, OMEGA, SIGMA, objective function value (OFV), condition number, and shrinkage values from NONMEM output files. Both runs with and without a covariance step are handled gracefully, returning NA for unavailable quantities rather than raising errors.
 }
@@ -23,6 +23,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Raban Heller \email{raban.heller@uni-ulm.de}
   \item Simeon Rüdesheim \email{simeon.ruedesheim@uni-saarland.de}
   \item Dominik Selzer \email{dominik.selzer@uni-saarland.de}
 }

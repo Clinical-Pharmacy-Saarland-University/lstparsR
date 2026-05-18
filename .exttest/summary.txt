@@ -1,5 +1,5 @@
 lstparsR Extended Test Report
-Generated: 2026-03-31 11:33:20.82484
+Generated: 2026-05-18 09:53:24.583887
 R version: R version 4.5.2 (2025-10-31 ucrt)
 
 Files scanned: 7638
@@ -11,8 +11,8 @@ Parser results:
   thetas           OK: 6447  FAIL: 1191  SKIP:   0  WARN:   3
   etas             OK: 6447  FAIL: 1191  SKIP:   0  WARN:   0
   sigmas           OK: 6447  FAIL: 1191  SKIP:   0  WARN:   0
-  ofv              OK: 7638  FAIL:   0  SKIP:   0  WARN:  14
-  condn            OK: 7638  FAIL:   0  SKIP:   0  WARN:   2
+  ofv              OK: 7638  FAIL:   0  SKIP:   0  WARN:   0
+  condn            OK: 7638  FAIL:   0  SKIP:   0  WARN:   0
 
 Unique error messages:
   thetas failures:
@@ -27,8 +27,6 @@ Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian." [1191 files: NM_0_000
 
 Warnings summary:
   [1 occurrences] .parse_vector_block: 29 IDs but 28 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.
-  [14 occurrences] OFV not found in lst file. Returning NA.
-  [2 occurrences] Eigenvalue section not found. Returning NA.
   [1 occurrences] .parse_vector_block: 6 IDs but 5 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.
   [1 occurrences] .parse_vector_block: 7 IDs but 6 values for 'THETA - VECTOR OF FIXED EFFECTS PARAMETERS'. Padding with NA.
 

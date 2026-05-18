@@ -20,9 +20,9 @@ fetch_all(lst, digits = NA, shk_digits = NA, ofv_digits = NA, cn_digits = NA)
 \value{
 A named list with elements:
 \describe{
-\item{thetas}{\link[tibble:tibble]{tibble::tibble} from \code{\link[=fetch_thetas]{fetch_thetas()}}, or \code{NULL} on failure.}
-\item{etas}{\link[tibble:tibble]{tibble::tibble} from \code{\link[=fetch_etas]{fetch_etas()}}, or \code{NULL} on failure.}
-\item{sigmas}{\link[tibble:tibble]{tibble::tibble} from \code{\link[=fetch_sigmas]{fetch_sigmas()}}, or \code{NULL} on failure.}
+\item{thetas}{\link[tibble:tibble]{tibble} from \code{\link[=fetch_thetas]{fetch_thetas()}}, or \code{NULL} on failure.}
+\item{etas}{\link[tibble:tibble]{tibble} from \code{\link[=fetch_etas]{fetch_etas()}}, or \code{NULL} on failure.}
+\item{sigmas}{\link[tibble:tibble]{tibble} from \code{\link[=fetch_sigmas]{fetch_sigmas()}}, or \code{NULL} on failure.}
 \item{ofv}{Numeric from \code{\link[=fetch_ofv]{fetch_ofv()}}.}
 \item{condn}{Numeric from \code{\link[=fetch_condn]{fetch_condn()}}, or \code{NA} if no covariance step.}
 }

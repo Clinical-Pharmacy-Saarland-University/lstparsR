@@ -27,6 +27,12 @@ fetch_condn <- function(lst, digits = NA) {
     return(NA_real_)
   }
 
+  # User opted out of printing eigenvalues (EIGENVLS. PRINTED: NO).
+  # Covariance step ran, but eigenvalues are legitimately absent.
+  if (.eigenvalues_suppressed(lst)) {
+    return(NA_real_)
+  }
+
   # Eigenvalue number pattern (scientific notation, possibly with leading sign)
   eigen_num_pat <- "-?[0-9]+\\.?[0-9]*[Ee][+-][0-9]+"
 
