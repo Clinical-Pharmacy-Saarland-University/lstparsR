@@ -3,12 +3,10 @@ url: https://clinical-pharmacy-saarland-university.github.io/lstparsR/
 logo: man/figures/logo.png
 
 template:
-  bootstrap: 5
-  bootswatch: flatly
-  bslib:
-    primary: "#2272B4"
-    danger: "#dc2626"
+  package: themakR
 
+development:
+  mode: auto
 navbar:
   bg: primary
   left:
