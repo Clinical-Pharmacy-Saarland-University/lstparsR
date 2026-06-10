@@ -17,3 +17,4 @@
 ^\.changes
 ^codecov\.yml$
 ^\.lintr$
+^_pkgdown\.yml$
