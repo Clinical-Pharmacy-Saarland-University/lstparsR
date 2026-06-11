@@ -2,7 +2,7 @@
 
 ## Authors
 
-- **Raban Heller**. Author, maintainer.
+- **R. Heller**. Author, maintainer.
 
 - **Simeon Rüdesheim**. Author.
 
@@ -20,7 +20,7 @@ NONMEM Listing Files for Population PK/PD Workflows*. R package version
 
     @Manual{,
       title = {lstparsR: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows},
-      author = {Raban Heller and Simeon Rüdesheim and Dominik Selzer},
+      author = {R. Heller and Simeon Rüdesheim and Dominik Selzer},
       year = {2026},
       note = {R package version 0.1.1},
       url = {https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR},
