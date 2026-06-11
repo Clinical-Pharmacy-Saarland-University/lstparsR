@@ -4,7 +4,7 @@ Title: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows
 Version: 0.1.1
 Authors@R:
     c(
-      person("Raban", "Heller",
+      person("R.", "Heller",
              email = "raban.heller@uni-ulm.de",
              role = c("aut", "cre")),
       person("Simeon", "Rüdesheim",
