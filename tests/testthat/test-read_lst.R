@@ -25,3 +25,18 @@ test_that("summary.lst produces output", {
 test_that(".lst_new rejects non-character input", {
   expect_error(lstparsR:::.lst_new(1:5))
 })
+
+test_that("read_lst_file wraps a readLines failure with a clear message", {
+  f <- withr::local_tempfile(fileext = ".lst")
+  writeLines("dummy", f)
+  testthat::local_mocked_bindings(
+    readLines = function(...) stop("disk on fire"), .package = "base"
+  )
+  expect_error(read_lst_file(f), "Failed to read file")
+})
+
+test_that("summary.lst falls back to 'unknown' method and returns invisibly", {
+  lst <- lstparsR:::.lst_new(c("no recognisable estimation method here"))
+  expect_output(summary(lst), "unknown")
+  expect_invisible(print(lstparsR:::.lst_new("x")))
+})
