@@ -8,3 +8,9 @@
 inst/doc
 docs/
 _build.R
+*.tmp
+*.log
+*~
+*.bak
+*.orig
+*.Rcheck/
