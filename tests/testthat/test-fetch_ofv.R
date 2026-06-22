@@ -116,3 +116,35 @@ test_that("fetch_ofv correctly parses ofv_without_constant.lst fixture", {
   result <- suppressWarnings(fetch_ofv(lst))
   expect_equal(result, -567.891234567890)
 })
+
+# --- digits rounding on each strategy ---
+test_that("fetch_ofv rounds the MINIMUM VALUE = format with digits", {
+  lst <- lstparsR:::.lst_new(" MINIMUM VALUE OF OBJECTIVE FUNCTION  =   1234.567")
+  expect_equal(suppressWarnings(fetch_ofv(lst, digits = 1)), 1234.6)
+})
+
+test_that("fetch_ofv rounds the multi-line WITHOUT CONSTANT format with digits", {
+  lst <- lstparsR:::.lst_new(c(
+    "0MINIMUM VALUE OF OBJECTIVE FUNCTION", "",
+    " OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:     -1234.567"
+  ))
+  expect_equal(suppressWarnings(fetch_ofv(lst, digits = 1)), -1234.6)
+})
+
+test_that("fetch_ofv falls back to a generic OBJECTIVE FUNCTION VALUE line", {
+  lst <- lstparsR:::.lst_new(c(
+    "0MINIMUM VALUE OF OBJECTIVE FUNCTION", "",
+    " OBJECTIVE FUNCTION VALUE:    500.567"
+  ))
+  expect_equal(suppressWarnings(fetch_ofv(lst, digits = 1)), 500.6)
+})
+
+test_that("fetch_ofv rounds the standalone WITHOUT CONSTANT format with digits", {
+  lst <- lstparsR:::.lst_new(" OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:  -567.891")
+  expect_equal(suppressWarnings(fetch_ofv(lst, digits = 2)), -567.89)
+})
+
+test_that("fetch_ofv extracts and rounds the pyDARWIN 'OFV =' footer", {
+  lst <- lstparsR:::.lst_new("OFV = 1234.567")
+  expect_equal(suppressWarnings(fetch_ofv(lst, digits = 1)), 1234.6)
+})

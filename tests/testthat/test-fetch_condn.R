@@ -119,3 +119,36 @@ test_that("fetch_condn correctly parses eigen_multiline.lst fixture", {
   # eigenvalues: 1e-2, 5e-1, 1e+2 => max/min = 1e2/1e-2 = 1e4
   expect_equal(result, 1e4)
 })
+
+# --- Stop at trailing non-numeric text after the eigenvalue block ---
+test_that("fetch_condn stops collecting at trailing text after values", {
+  lst <- lstparsR:::.lst_new(c(
+    " STANDARD ERROR OF ESTIMATE",
+    " EIGENVALUES OF COR MATRIX OF ESTIMATE",
+    "  1.00E-02  1.00E+02",
+    "  SOME TRAILING TEXT"
+  ))
+  expect_equal(fetch_condn(lst), 1e4)
+})
+
+# --- Header present but no numeric eigenvalues follow ---
+test_that("fetch_condn warns when the eigenvalue block has no numbers", {
+  lst <- lstparsR:::.lst_new(c(
+    " STANDARD ERROR OF ESTIMATE",
+    " EIGENVALUES OF COR MATRIX OF ESTIMATE",
+    " NO NUMBERS HERE"
+  ))
+  expect_warning(res <- fetch_condn(lst), "Could not extract eigenvalues")
+  expect_true(is.na(res))
+})
+
+# --- Fewer than two positive eigenvalues ---
+test_that("fetch_condn warns when fewer than two eigenvalues are found", {
+  lst <- lstparsR:::.lst_new(c(
+    " STANDARD ERROR OF ESTIMATE",
+    " EIGENVALUES OF COR MATRIX OF ESTIMATE",
+    "  1.00E+02"
+  ))
+  expect_warning(res <- fetch_condn(lst), "Fewer than 2")
+  expect_true(is.na(res))
+})
