@@ -19,12 +19,12 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Raban Heller <raban.heller@uni-ulm.de>
+**Maintainer**: R. Heller <raban.heller@uni-ulm.de>
 
 Authors:
 
-- Raban Heller <raban.heller@uni-ulm.de>
+- R. Heller <raban.heller@uni-ulm.de>
 
-- Simeon Rüdesheim <simeon.ruedesheim@uni-saarland.de>
+- D. Selzer <dominik.selzer@uni-saarland.de>
 
-- Dominik Selzer <dominik.selzer@uni-saarland.de>
+- S. Rüdesheim <simeon.ruedesheim@uni-saarland.de>
