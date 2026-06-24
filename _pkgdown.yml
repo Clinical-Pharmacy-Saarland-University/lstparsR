@@ -4,24 +4,36 @@ logo: man/figures/logo.png
 
 template:
   package: themakR
+  params:
+    part_of: >
+      the <a href="http://www.clinicalpharmacy.me">Clinical Pharmacy</a> group
+      and the <a href="https://cttir.github.io/website/">CTTIR</a> suite
 
 development:
   mode: auto
 navbar:
   bg: primary
-  left:
-    - text: "Home"
+  structure:
+    left:  [home, getstarted, articles, reference, news]
+    right: [github, lightswitch]
+  components:
+    home:
+      text: "Home"
       href: index.html
-    - text: "Get Started"
+    getstarted:
+      text: "Get Started"
       href: articles/getting-started.html
-    - text: "Vignettes"
+    articles:
+      text: "Vignettes"
       href: articles/index.html
-    - text: "Functions"
+    reference:
+      text: "Functions"
       href: reference/index.html
-    - text: "News"
+    news:
+      text: "News"
       href: news/index.html
-  right:
-    - icon: fa-github
+    github:
+      icon: fa-github
       href: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
       aria-label: GitHub
 
