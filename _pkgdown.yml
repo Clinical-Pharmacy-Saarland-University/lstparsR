@@ -43,6 +43,14 @@ home:
     Parse NONMEM .lst output files into tidy tibbles for population
     PK/PD analysis. Extracts THETA, OMEGA, SIGMA, OFV, condition number,
     and ETA shrinkage with graceful NA handling for failed runs.
+  sidebar:
+    structure: [links, license, community, citation, authors, rouniverse]
+    components:
+      rouniverse:
+        title: Clinical Pharmacy
+        text: >
+          Browse [Clinical Pharmacy](http://www.clinicalpharmacy.me) for
+          this package and the rest of our software.
 
 articles:
   - title: "Vignettes"
