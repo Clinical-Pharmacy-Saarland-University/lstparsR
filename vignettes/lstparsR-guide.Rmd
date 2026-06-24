@@ -1,6 +1,8 @@
 ---
 title: "lstparsR: Tidy Parsing of NONMEM Listing Files"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    css: themakr-vignette.css
 vignette: >
   %\VignetteIndexEntry{lstparsR: Tidy Parsing of NONMEM Listing Files}
   %\VignetteEngine{knitr::rmarkdown}
