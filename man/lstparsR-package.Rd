@@ -19,13 +19,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Raban Heller \email{raban.heller@uni-ulm.de}
+\strong{Maintainer}: R. Heller \email{raban.heller@uni-ulm.de}
 
 Authors:
 \itemize{
-  \item Raban Heller \email{raban.heller@uni-ulm.de}
-  \item Simeon Rüdesheim \email{simeon.ruedesheim@uni-saarland.de}
-  \item Dominik Selzer \email{dominik.selzer@uni-saarland.de}
+  \item R. Heller \email{raban.heller@uni-ulm.de}
+  \item D. Selzer \email{dominik.selzer@uni-saarland.de}
+  \item S. Rüdesheim \email{simeon.ruedesheim@uni-saarland.de}
 }
 
 }

@@ -7,11 +7,11 @@ Authors@R:
       person("R.", "Heller",
              email = "raban.heller@uni-ulm.de",
              role = c("aut", "cre")),
-      person("Simeon", "Rüdesheim",
-             email = "simeon.ruedesheim@uni-saarland.de",
-             role = "aut"),
-      person("Dominik", "Selzer",
+      person("D.", "Selzer",
              email = "dominik.selzer@uni-saarland.de",
+             role = "aut"),
+      person("S.", "Rüdesheim",
+             email = "simeon.ruedesheim@uni-saarland.de",
              role = "aut")
     )
 Description: Provides functions to read, clean, and reshape NONMEM listing
