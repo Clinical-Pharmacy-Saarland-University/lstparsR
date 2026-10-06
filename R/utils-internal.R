@@ -21,6 +21,35 @@
   invisible(TRUE)
 }
 
+#' @noRd
+.scan_range <- function(start, end) {
+  if (start > end) integer(0) else seq.int(start, end)
+}
+
+# Scope all outputs to the final problem and estimation step. Explicit
+# method markers take precedence over legacy result-page boundaries.
+#' @noRd
+.final_step <- function(lst) {
+  problems <- grep("^\\s*#PROB:", lst)
+  if (length(problems)) lst <- .lst_new(lst[seq.int(utils::tail(problems, 1), length(lst))])
+  methods <- grep("^\\s*#METH:", lst)
+  if (length(methods)) {
+    start <- utils::tail(methods, 1)
+  } else {
+    headers <- grep("FINAL PARAMETER ESTIMATE", lst, fixed = TRUE)
+    if (length(headers) < 2L) return(lst)
+    objectives <- grep("(?:MINIMUM|FINAL) VALUE OF OBJECTIVE FUNCTION|#OBJV:", lst)
+    preceding <- objectives[objectives > headers[length(headers) - 1L] &
+                              objectives < utils::tail(headers, 1)]
+    # Legacy pages without objective headers begin four lines before the title.
+    start <- if (length(preceding) &&
+                 any(grepl("VALUE OF OBJECTIVE FUNCTION", lst[preceding]))) {
+      preceding[1]
+    } else max(1L, utils::tail(headers, 1) - 4L)
+  }
+  .lst_new(lst[seq.int(start, length(lst))])
+}
+
 # ------------------------------------------------------------------
 # Estimation method detection
 # ------------------------------------------------------------------
@@ -40,7 +69,7 @@
 #' @noRd
 .get_estimation_method <- function(lst) {
   for (method in .ESTIMATION_METHODS) {
-    if (any(stringr::str_detect(lst, stringr::fixed(method)))) {
+    if (any(stringr::str_detect(toupper(lst), stringr::fixed(method)))) {
       return(method)
     }
   }
@@ -73,7 +102,7 @@
   markers <- c(
     "#OBJT:", "#OBJV:", "#METH:",
     "MINIMIZATION SUCCESSFUL", "MINIMIZATION TERMINATED",
-    "MINIMUM VALUE OF OBJECTIVE FUNCTION",
+    "MINIMUM VALUE OF OBJECTIVE FUNCTION", "FINAL VALUE OF OBJECTIVE FUNCTION",
     "OBJECTIVE FUNCTION EVALUATIONS",
     "BURN-IN ITERATIONS"
   )
@@ -116,7 +145,7 @@
 #' @noRd
 .find_section_page <- function(lst, method_str, section_str) {
   n <- length(lst)
-  for (i in seq_len(n - 5)) {
+  for (i in seq_len(max(0L, n - 5L))) {
     if (
       lst[i] == "1" &&
       stringr::str_detect(stringr::str_trim(lst[i + 1]), "^\\*{80,}$") &&
@@ -127,6 +156,17 @@
     }
   }
   NA_integer_
+}
+
+#' @noRd
+.page_end <- function(lst, page_start) {
+  n <- length(lst)
+  for (i in .scan_range(page_start + 1L, n - 1L)) {
+    if (trimws(lst[i]) == "1" && grepl("^\\*{80,}$", trimws(lst[i + 1L]))) {
+      return(i - 1L)
+    }
+  }
+  n
 }
 
 # ------------------------------------------------------------------
@@ -144,17 +184,20 @@
 #
 #' @noRd
 .parse_vector_block <- function(lst, page_start, subheader_str) {
-  n <- length(lst)
+  n <- .page_end(lst, page_start)
 
   # Find subheader line after the page start
   subheader_line <- NA_integer_
-  for (j in seq.int(page_start + 5, min(page_start + 200, n))) {
+  for (j in .scan_range(page_start + 5, min(page_start + 200, n))) {
     if (stringr::str_detect(lst[j], stringr::fixed(subheader_str))) {
       subheader_line <- j
       break
     }
   }
   if (is.na(subheader_line)) return(NULL)
+  boundaries <- grep("^\\s*(THETA|OMEGA|SIGMA)\\s*-", lst)
+  boundaries <- boundaries[boundaries > subheader_line]
+  if (length(boundaries)) n <- min(n, boundaries[1] - 1L)
 
   # Collect all ID lines (may span multiple lines, e.g. TH 1..TH12 on line 1,
 
@@ -162,7 +205,7 @@
   # and appear before the blank line that separates IDs from values.
   id_lines <- character(0)
   id_start <- NA_integer_
-  for (j in seq.int(subheader_line + 1, min(subheader_line + 10, n))) {
+  for (j in .scan_range(subheader_line + 1, min(subheader_line + 10, n))) {
     trimmed <- stringr::str_trim(lst[j])
     if (nchar(trimmed) > 0) {
       id_start <- j
@@ -176,7 +219,7 @@
   # duplicate — if a line starts with the same first token as the first line,
   # it's a duplicate row, not a continuation).
   first_token <- NULL
-  for (j in seq.int(id_start, min(id_start + 10, n))) {
+  for (j in .scan_range(id_start, min(id_start + 10, n))) {
     trimmed <- stringr::str_trim(lst[j])
     if (nchar(trimmed) == 0) break
     # If a line has scientific notation, it's a value line, not an ID line
@@ -205,7 +248,7 @@
 
   # Scan forward to find the first line containing scientific-notation values
   val_start <- NA_integer_
-  for (j in seq.int(id_start, min(id_start + 20, n))) {
+  for (j in .scan_range(id_start, min(id_start + 20, n))) {
     trimmed <- stringr::str_trim(lst[j])
     if (nchar(trimmed) > 0 &&
         stringr::str_detect(trimmed, "[0-9]E[+-]")) {
@@ -217,7 +260,7 @@
 
   # Collect value lines: all contiguous lines with scientific notation numbers
   val_lines <- character(0)
-  for (j in seq.int(val_start, min(val_start + 20, n))) {
+  for (j in .scan_range(val_start, min(val_start + 20, n))) {
     line <- lst[j]
     trimmed <- stringr::str_trim(line)
     if (trimmed == "" || trimmed == "1") break
@@ -265,18 +308,18 @@
 # Parses a MATRIX-type block (used for OMEGA/SIGMA).
 # Finds `subheader_str` after `page_start`, then for each named parameter
 # (lines like " ETA1" followed by "+  value  ...") extracts the diagonal
-# value (last non-"........." value on the + line(s) for that parameter).
+# value at the diagonal position, retaining missing-value placeholders.
 #
 # Returns a data.frame with columns `id` (character) and `value` (numeric),
 # or NULL on failure. ".........." entries become NA_real_.
 #
 #' @noRd
 .parse_matrix_block <- function(lst, page_start, subheader_str) {
-  n <- length(lst)
+  n <- .page_end(lst, page_start)
 
   # Find subheader
   subheader_line <- NA_integer_
-  for (j in seq.int(page_start + 5, min(page_start + 200, n))) {
+  for (j in .scan_range(page_start + 5, min(page_start + 200, n))) {
     if (stringr::str_detect(lst[j], stringr::fixed(subheader_str))) {
       subheader_line <- j
       break
@@ -308,25 +351,13 @@
       }
 
       if (length(plus_lines) > 0) {
-        # Combine all + lines and extract the last non-"........." token
-        combined <- paste(plus_lines, collapse = " ")
-        # Remove the leading "+" characters
-        combined <- gsub("\\+", " ", combined)
-        # Split into tokens
-        tokens <- unlist(stringr::str_split(stringr::str_trim(combined), "\\s+"))
-        tokens <- tokens[nchar(tokens) > 0]
-
-        # Find last token that is not dots (.........)
-        last_val <- NA_real_
-        for (tok in rev(tokens)) {
-          if (!stringr::str_detect(tok, "^\\.+$")) {
-            numeric_tok <- suppressWarnings(as.numeric(tok))
-            if (!is.na(numeric_tok)) {
-              last_val <- numeric_tok
-              break
-            }
-          }
-        }
+        # Strip carriage control only; exponent signs belong to the number.
+        combined <- paste(sub("^\\s*\\+", "", plus_lines), collapse = " ")
+        tokens <- strsplit(trimws(combined), "\\s+")[[1]]
+        diagonal <- as.integer(sub("^(ETA|EPS)", "", param_name))
+        last_val <- if (diagonal > 0L && length(tokens) >= diagonal) {
+          suppressWarnings(as.numeric(tokens[diagonal]))
+        } else NA_real_
 
         ids    <- c(ids, param_name)
         values <- c(values, last_val)
@@ -364,7 +395,7 @@
 #
 #' @noRd
 .parse_shrinkage <- function(lst, type = "ETASHRINKSD") {
-  pattern <- paste0(type, ".*?=")
+  pattern <- paste0("^\\s*", type, "(?:\\(%\\))?\\s*(?:=)?")
   lines   <- lst[stringr::str_detect(lst, pattern)]
   if (length(lines) == 0) return(NULL)
 

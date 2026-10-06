@@ -19,8 +19,8 @@ ui <- fluidPage(
         --border: #d6e3ed;
         --text: #1e293b;
         --text-muted: #64748b;
-        --success: #16a34a;
-        --warning: #d97706;
+        --success: #166534;
+        --warning: #92400e;
         --danger: #dc2626;
       }
       body {
@@ -79,7 +79,7 @@ ui <- fluidPage(
       .stat-box .value {
         font-size: 28px;
         font-weight: 700;
-        color: var(--accent);
+        color: var(--primary-dark);
         line-height: 1.2;
       }
       .stat-box .label {
@@ -104,7 +104,7 @@ ui <- fluidPage(
         border-color: var(--accent);
         border-radius: 8px;
         font-weight: 500;
-        color: #fff;
+        color: var(--text);
       }
       .btn-primary:hover {
         background: #E09510;
@@ -130,7 +130,14 @@ ui <- fluidPage(
         font-size: 14px;
         line-height: 1.6;
       }
+      .shiny-html-output, .shiny-table-output { max-width: 100%; overflow-x: auto; }
       .table { font-size: 13px; }
+      .table th, .table td { white-space: nowrap; }
+      #file_summary_table td:last-child {
+        min-width: 240px; max-width: 360px; white-space: normal;
+      }
+      @media (max-width: 600px) { .card { padding: 12px; } }
+
       .table thead th {
         background: var(--primary-light);
         color: var(--primary);
@@ -187,7 +194,7 @@ ui <- fluidPage(
             tags$ul(class = "info-text",
               tags$li("Parses THETA, OMEGA, SIGMA, OFV, condition number"),
               tags$li("Extracts standard errors, RSE, and ETA shrinkage"),
-              tags$li("Handles failed runs gracefully (returns NA)"),
+              tags$li("Shows partial results and parsing diagnostics"),
               tags$li("Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian")
             ),
             p(class = "info-text",
@@ -288,6 +295,28 @@ ui <- fluidPage(
 
 # -- Server -------------------------------------------------------------------
 
+# Format display values with six significant digits; downloads retain precision.
+.display_numbers <- function(x) {
+  for (name in names(x)) {
+    if (is.numeric(x[[name]])) {
+      x[[name]] <- vapply(x[[name]], format, character(1), digits = 6, trim = TRUE)
+    }
+  }
+  x
+}
+
+# Quote formula-leading text for spreadsheet consumers; numeric values and
+# the original text in RDS downloads remain unchanged.
+.write_csv <- function(x, file, ...) {
+  for (name in names(x)) {
+    if (is.character(x[[name]])) {
+      risky <- !is.na(x[[name]]) & grepl("^[[:space:]]*[=+@-]", x[[name]])
+      x[[name]][risky] <- paste0("'", x[[name]][risky])
+    }
+  }
+  utils::write.csv(x, file, ...)
+}
+
 server <- function(input, output, session) {
 
   # Reactive: parse all uploaded files
@@ -295,20 +324,30 @@ server <- function(input, output, session) {
     req(input$lst_files)
     files <- input$lst_files
 
+    file_ids <- make.unique(files$name)
     results <- lapply(seq_len(nrow(files)), function(i) {
-      fname <- files$name[i]
+      fname <- file_ids[i]
       fpath <- files$datapath[i]
-
-      # Rename temp file to have .lst extension (checkmate requires it)
-      lst_path <- paste0(fpath, ".lst")
-      file.copy(fpath, lst_path, overwrite = TRUE)
-
+      lst_path <- tempfile(fileext = ".lst")
+      on.exit(unlink(lst_path), add = TRUE)
+      diagnostics <- character()
       tryCatch({
+        if (!file.copy(fpath, lst_path)) stop("Unable to read uploaded file.")
         lst <- read_lst_file(lst_path)
-        res <- suppressWarnings(fetch_all(lst))
-        list(file = fname, result = res, error = NULL)
+        res <- withCallingHandlers(fetch_all(lst), warning = function(w) {
+          diagnostics <<- c(diagnostics, conditionMessage(w))
+          invokeRestart("muffleWarning")
+        })
+        has_values <- any(vapply(res, function(x) {
+          if (is.data.frame(x)) any(!is.na(x$estimate)) else any(!is.na(x))
+        }, logical(1)))
+        if (!has_values) diagnostics <- c(diagnostics, "No usable results found.")
+        list(file = fname, result = res,
+             covariance = lstparsR:::.has_covariance_step(lstparsR:::.final_step(lst)),
+             error = if (length(diagnostics)) paste(unique(diagnostics), collapse = "; ") else NULL)
       }, error = function(e) {
-        list(file = fname, result = NULL, error = conditionMessage(e))
+        list(file = fname, result = NULL, covariance = FALSE,
+             error = conditionMessage(e))
       })
     })
 
@@ -364,7 +403,7 @@ server <- function(input, output, session) {
     data.frame(
       file  = vapply(res, function(r) r$file, character(1)),
       ofv   = vapply(res, function(r) {
-        if (!is.null(r$result)) r$result$ofv else NA_real_
+        if (!is.null(r$result$ofv)) r$result$ofv else NA_real_
       }, numeric(1)),
       condn = vapply(res, function(r) {
         if (!is.null(r$result)) {
@@ -393,11 +432,8 @@ server <- function(input, output, session) {
 
   all_results_list <- reactive({
     res <- parsed()
-    out <- list()
-    for (r in res) {
-      out[[r$file]] <- r$result
-    }
-    out
+    stats::setNames(lapply(res, function(r) r$result),
+                    vapply(res, function(r) r$file, character(1)))
   })
 
   # -- Overview stats ---------------------------------------------------------
@@ -408,7 +444,7 @@ server <- function(input, output, session) {
     n_ok       <- sum(vapply(res, function(r) is.null(r$error), logical(1)))
     n_fail     <- n_files - n_ok
     n_with_cov <- sum(vapply(res, function(r) {
-      !is.null(r$result) && !is.na(r$result$condn)
+      isTRUE(r$covariance)
     }, logical(1)))
 
     fluidRow(
@@ -422,7 +458,7 @@ server <- function(input, output, session) {
       )),
       column(3, div(class = "stat-box",
         div(class = "value", n_fail),
-        div(class = "label", "Errors")
+        div(class = "label", "Needs Review")
       )),
       column(3, div(class = "stat-box",
         div(class = "value", n_with_cov),
@@ -435,8 +471,8 @@ server <- function(input, output, session) {
 
   output$file_summary_table <- renderTable({
     sc <- scalars_df()
-    sc$status <- ifelse(sc$error == "", "OK", "Error")
-    sc[, c("file", "status", "ofv", "condn", "n_thetas", "n_etas", "n_sigmas")]
+    sc$status <- ifelse(sc$error == "", "OK", "Needs review")
+    .display_numbers(sc[, c("file", "status", "ofv", "condn", "n_thetas", "n_etas", "n_sigmas", "error")])
   }, striped = TRUE, hover = TRUE, width = "100%",
      na = "NA", digits = 4)
 
@@ -445,27 +481,27 @@ server <- function(input, output, session) {
   output$thetas_table <- renderTable({
     df <- thetas_df()
     if (is.null(df)) return(data.frame(Message = "No THETA data available."))
-    df[, c("file", "parameter", "estimate", "se", "rse")]
+    .display_numbers(df[, c("file", "parameter", "estimate", "se", "rse")])
   }, striped = TRUE, hover = TRUE, width = "100%",
      na = "NA", digits = 6)
 
   output$etas_table <- renderTable({
     df <- etas_df()
     if (is.null(df)) return(data.frame(Message = "No ETA data available."))
-    df[, c("file", "parameter", "estimate", "se", "rse", "shrinkage")]
+    .display_numbers(df[, c("file", "parameter", "estimate", "se", "rse", "shrinkage")])
   }, striped = TRUE, hover = TRUE, width = "100%",
      na = "NA", digits = 6)
 
   output$sigmas_table <- renderTable({
     df <- sigmas_df()
     if (is.null(df)) return(data.frame(Message = "No SIGMA data available."))
-    df[, c("file", "parameter", "estimate", "se", "rse")]
+    .display_numbers(df[, c("file", "parameter", "estimate", "se", "rse")])
   }, striped = TRUE, hover = TRUE, width = "100%",
      na = "NA", digits = 6)
 
   output$scalars_table <- renderTable({
     sc <- scalars_df()
-    sc[, c("file", "ofv", "condn")]
+    .display_numbers(sc[, c("file", "ofv", "condn")])
   }, striped = TRUE, hover = TRUE, width = "100%",
      na = "NA", digits = 6)
 
@@ -476,7 +512,7 @@ server <- function(input, output, session) {
     content  = function(file) {
       df <- thetas_df()
       if (is.null(df)) df <- data.frame()
-      write.csv(df, file, row.names = FALSE)
+      .write_csv(df, file, row.names = FALSE)
     }
   )
 
@@ -485,7 +521,7 @@ server <- function(input, output, session) {
     content  = function(file) {
       df <- etas_df()
       if (is.null(df)) df <- data.frame()
-      write.csv(df, file, row.names = FALSE)
+      .write_csv(df, file, row.names = FALSE)
     }
   )
 
@@ -494,13 +530,13 @@ server <- function(input, output, session) {
     content  = function(file) {
       df <- sigmas_df()
       if (is.null(df)) df <- data.frame()
-      write.csv(df, file, row.names = FALSE)
+      .write_csv(df, file, row.names = FALSE)
     }
   )
 
   output$dl_scalars_csv <- downloadHandler(
     filename = function() "lstparsR_scalars.csv",
-    content  = function(file) write.csv(scalars_df(), file, row.names = FALSE)
+    content  = function(file) .write_csv(scalars_df(), file, row.names = FALSE)
   )
 
   # -- Downloads: individual RDS ----------------------------------------------
@@ -530,32 +566,34 @@ server <- function(input, output, session) {
   output$dl_all_csv <- downloadHandler(
     filename = function() "lstparsR_all.zip",
     content  = function(file) {
-      tmpdir <- tempdir()
+      tmpdir <- tempfile("results-")
+      dir.create(tmpdir)
+      on.exit(unlink(tmpdir, recursive = TRUE), add = TRUE)
       csv_files <- character(0)
 
       df <- thetas_df()
       if (!is.null(df) && nrow(df) > 0) {
         p <- file.path(tmpdir, "thetas.csv")
-        write.csv(df, p, row.names = FALSE)
+        .write_csv(df, p, row.names = FALSE)
         csv_files <- c(csv_files, p)
       }
 
       df <- etas_df()
       if (!is.null(df) && nrow(df) > 0) {
         p <- file.path(tmpdir, "etas.csv")
-        write.csv(df, p, row.names = FALSE)
+        .write_csv(df, p, row.names = FALSE)
         csv_files <- c(csv_files, p)
       }
 
       df <- sigmas_df()
       if (!is.null(df) && nrow(df) > 0) {
         p <- file.path(tmpdir, "sigmas.csv")
-        write.csv(df, p, row.names = FALSE)
+        .write_csv(df, p, row.names = FALSE)
         csv_files <- c(csv_files, p)
       }
 
       p <- file.path(tmpdir, "scalars.csv")
-      write.csv(scalars_df(), p, row.names = FALSE)
+      .write_csv(scalars_df(), p, row.names = FALSE)
       csv_files <- c(csv_files, p)
 
       zip(file, csv_files, flags = "-j")

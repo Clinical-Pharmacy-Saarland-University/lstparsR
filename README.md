@@ -20,8 +20,8 @@ estimates into tidy data frames for downstream population PK/PD analysis.
 - Extracts standard errors, relative standard errors, and ETA shrinkage
 - Reports objective function value (OFV) and condition number
 - Handles multi-line parameter blocks (any number of THETAs/ETAs)
-- Returns `NA` gracefully when the covariance step is absent or the run
-  failed -- safe for use in automated pipelines
+- Returns `NA` for missing optional quantities; `fetch_all()` retains partial
+  results and warns when an individual parser fails
 - Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian methods
 - Includes an interactive Shiny app for point-and-click exploration
 
@@ -96,10 +96,10 @@ fetch_condn(lst)
 
 ## Handling Failed Runs
 
-When a NONMEM run did not converge or the covariance step was skipped,
-`lstparsR` returns `NA` for unavailable quantities instead of raising
-errors. This is critical for automated workflows (e.g., pyDARWIN, PsN)
-where hundreds of runs are parsed at once:
+Missing optional quantities, such as standard errors without a covariance
+step, are returned as `NA`. Direct parameter parsers raise errors when their
+required sections are absent. For batch workflows, `fetch_all()` catches
+individual parser errors, warns, and returns `NULL` for the failed elements:
 
 ```r
 lst_fail <- read_lst_file("failed_run.lst")
@@ -128,3 +128,11 @@ citation("lstparsR")
 ## License
 
 MIT
+
+All parsers select the final problem and estimation step using NONMEM's
+`#PROB:` and `#METH:` markers when present. Legacy listings with multiple
+result pages use the final parameter page and its objective-function header.
+A failed final step does not fall back to earlier results. Missing quantities
+remain unavailable; warnings identify incomplete or unrecognized output.
+Condition numbers are infinite for zero eigenvalues and unavailable, with a
+warning, for negative eigenvalues.

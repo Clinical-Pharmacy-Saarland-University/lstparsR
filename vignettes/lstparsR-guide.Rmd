@@ -33,12 +33,12 @@ ad-hoc scripts that are fragile and error-prone.
 **lstparsR** provides a clean, validated interface for reading `.lst`
 files and returning tidy data frames. It is designed with two goals:
 
-1. **Robustness.** All parsers return `NA` for unavailable quantities
-   rather than raising errors. This makes the package safe for batch
-   workflows where some NONMEM runs may have failed or been terminated
-   early.
+1. **Robustness.** Parsers return `NA` for unavailable optional quantities.
+   Missing required parameter sections raise errors. For batch workflows,
+   `fetch_all()` catches individual parser errors, warns, and returns `NULL`
+   for those elements while retaining the other results.
 
-2. **Tidiness.** All output is returned as tibbles with consistent,
+2. **Tidiness.** Parameter output is returned as tibbles with consistent,
    lowercase column names (`parameter`, `estimate`, `se`, `rse`,
    `shrinkage`) ready for binding across runs with `dplyr` or `purrr`.
 
@@ -164,12 +164,12 @@ result$condn
 
 ## Handling Runs Without a Covariance Step
 
-When NONMEM did not complete the covariance step, SE, RSE, shrinkage,
+When NONMEM did not complete the covariance step, SE, RSE,
 and condition number are returned as `NA`. The parameter estimates and
 OFV are still available.
 
 ```{r nocov}
-path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
+path2 <- system.file("testdata", "theta_without_cov.lst", package = "lstparsR")
 lst2  <- read_lst_file(path2)
 summary(lst2)
 ```
@@ -246,7 +246,7 @@ The application provides:
 
 - Multi-file upload with instant parsing
 - Overview dashboard with parse status summary
-- Sortable tables for THETA, OMEGA, and SIGMA parameters
+- Tables for THETA, OMEGA, and SIGMA parameters
 - OFV and condition number summary
 - Download buttons for CSV and RDS export
 

@@ -45,7 +45,7 @@ fetch_all <- function(lst, digits = NA, shk_digits = NA,
     thetas = .safe_fetch(fetch_thetas, lst, digits = digits),
     etas   = .safe_fetch(fetch_etas,   lst, digits = digits, shk_digits = shk_digits),
     sigmas = .safe_fetch(fetch_sigmas, lst, digits = digits),
-    ofv    = fetch_ofv(lst,   digits = ofv_digits),
-    condn  = fetch_condn(lst, digits = cn_digits)
+    ofv    = .safe_fetch(fetch_ofv, lst, digits = ofv_digits),
+    condn  = .safe_fetch(fetch_condn, lst, digits = cn_digits)
   )
 }

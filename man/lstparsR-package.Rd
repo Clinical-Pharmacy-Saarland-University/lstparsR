@@ -10,22 +10,30 @@
 
 Provides functions to read, clean, and reshape NONMEM listing (.lst) files into tidy data frames for downstream population pharmacokinetic and pharmacodynamic (PK/PD) analyses. Parsers extract THETA, OMEGA, SIGMA, objective function value (OFV), condition number, and shrinkage values from NONMEM output files. Both runs with and without a covariance step are handled gracefully, returning NA for unavailable quantities rather than raising errors.
 }
+\details{
+Parsers use the final problem and estimation step. Explicit \verb{#PROB:} and
+\verb{#METH:} markers delimit results; legacy listings use final result pages.
+A failed final step does not reuse earlier estimates or covariance output.
+}
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://clinical-pharmacy-saarland-university.github.io/lstparsR/}
   \item \url{https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR}
   \item Report bugs at \url{https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: R. Heller \email{raban.heller@uni-ulm.de}
+\strong{Maintainer}: Raban Heller \email{raban.heller@uni-ulm.de}
 
 Authors:
 \itemize{
-  \item R. Heller \email{raban.heller@uni-ulm.de}
-  \item D. Selzer \email{dominik.selzer@uni-saarland.de}
-  \item S. Rüdesheim \email{simeon.ruedesheim@uni-saarland.de}
+  \item Raban Heller \email{raban.heller@uni-ulm.de}
+  \item Dominik Selzer \email{dominik.selzer@uni-saarland.de}
+  \item Simeon Rüdesheim \email{simeon.ruedesheim@uni-saarland.de}
+  \item Christiane Dings
+  \item Thorsten Lehr
 }
 
 }

@@ -23,9 +23,10 @@ parsed programmatically.
 
 Key design choices:
 
-- All output is returned as tibbles with consistent column names.
-- Missing quantities (e.g., standard errors when the covariance step is
-  absent) are `NA`, never errors.
+- Parameter output is returned as tibbles with consistent column names.
+- Missing optional quantities (e.g., standard errors when the covariance step
+  is absent) are `NA`. Missing required parameter sections raise errors;
+  `fetch_all()` catches these, warns, and returns `NULL` for failed elements.
 - Both VECTOR blocks (THETA) and lower-triangular MATRIX blocks
   (OMEGA, SIGMA) are handled, including multi-line parameter sets.
 
@@ -116,11 +117,11 @@ result$condn
 
 ## Runs Without a Covariance Step
 
-When NONMEM did not run or complete a covariance step, SE, RSE, shrinkage,
+When NONMEM did not run or complete a covariance step, SE, RSE,
 and condition number are returned as `NA`:
 
 ```{r no-cov}
-path2 <- system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
+path2 <- system.file("testdata", "theta_without_cov.lst", package = "lstparsR")
 lst2  <- read_lst_file(path2)
 fetch_thetas(lst2)
 fetch_condn(lst2)

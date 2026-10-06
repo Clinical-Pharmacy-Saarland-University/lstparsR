@@ -25,6 +25,7 @@
 #' fetch_etas(lst)
 fetch_etas <- function(lst, digits = NA, shk_digits = NA) {
   .assert_lst(lst)
+  lst <- .final_step(lst)
   checkmate::assert_number(digits,     lower = 0, na.ok = TRUE)
   checkmate::assert_number(shk_digits, lower = 0, na.ok = TRUE)
 
@@ -48,7 +49,7 @@ fetch_etas <- function(lst, digits = NA, shk_digits = NA) {
     if (!is.na(page_se)) {
       df_se <- .parse_matrix_block(lst, page_se, sub_str)
       if (!is.null(df_se) && nrow(df_se) == nrow(df_est)) {
-        se_vec <- df_se$value
+        se_vec <- df_se$value[match(df_est$id, df_se$id)]
       } else {
         warning("OMEGA SE row count does not match estimates. Setting SE to NA.")
       }
