@@ -69,6 +69,9 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          git-config-name: R. Heller
+          git-config-email: 58561665+r-heller@users.noreply.github.com
+          commit-message: Final improvements and refinements
           clean: true
           branch: gh-pages
           folder: docs
