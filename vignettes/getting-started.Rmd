@@ -1,5 +1,11 @@
 ---
 title: "Getting Started with lstparsR"
+author:
+  - Raban Heller
+  - Dominik Selzer
+  - Simeon Rüdesheim
+  - Christiane Dings
+  - Thorsten Lehr
 output:
   rmarkdown::html_vignette:
     css: themakr-vignette.css
