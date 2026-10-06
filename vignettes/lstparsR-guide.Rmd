@@ -1,5 +1,11 @@
 ---
 title: "lstparsR: Tidy Parsing of NONMEM Listing Files"
+author:
+  - Raban Heller
+  - Dominik Selzer
+  - Simeon Rüdesheim
+  - Christiane Dings
+  - Thorsten Lehr
 output:
   rmarkdown::html_vignette:
     css: themakr-vignette.css
