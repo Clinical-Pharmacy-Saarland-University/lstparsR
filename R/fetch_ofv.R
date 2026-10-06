@@ -27,6 +27,7 @@
 #' fetch_ofv(lst)
 fetch_ofv <- function(lst, digits = NA) {
   .assert_lst(lst)
+  lst <- .final_step(lst)
   checkmate::assert_number(digits, lower = 0, na.ok = TRUE)
 
   # Number pattern: handles integer, decimal, and scientific notation
@@ -76,23 +77,18 @@ fetch_ofv <- function(lst, digits = NA) {
     header_i <- min_idx[length(min_idx)]
     header_line <- lst[header_i]
 
-    # Sub-case A: "=" present on the same line
-    if (stringr::str_detect(header_line, "=")) {
-      after_eq <- stringr::str_extract(header_line, paste0("=\\s*(", num_pat, ")"))
-      if (!is.na(after_eq)) {
-        ofv <- suppressWarnings(as.numeric(trimws(
-          stringr::str_extract(after_eq, num_pat)
-        )))
-        if (!is.na(ofv)) {
-          if (!is.na(digits)) ofv <- round(ofv, digits)
-          return(ofv)
-        }
-      }
+    # Parse the numeric suffix with an optional equals sign.
+    suffix <- sub("^.*(?:MINIMUM|FINAL) VALUE OF OBJECTIVE FUNCTION\\s*=?\\s*",
+                  "", header_line, perl = TRUE)
+    ofv <- suppressWarnings(as.numeric(stringr::str_extract(suffix, paste0("^", num_pat))))
+    if (!is.na(ofv)) {
+      if (!is.na(digits)) ofv <- round(ofv, digits)
+      return(ofv)
     }
 
     # Sub-case B: check the next 10 lines for WITHOUT CONSTANT line
     n <- length(lst)
-    for (i in seq.int(header_i + 1, min(header_i + 10, n))) {
+    for (i in .scan_range(header_i + 1, min(header_i + 10, n))) {
       line <- lst[i]
       if (stringr::str_detect(line, "OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT")) {
         ofv <- suppressWarnings(as.numeric(trimws(stringr::str_extract(
@@ -140,7 +136,7 @@ fetch_ofv <- function(lst, digits = NA) {
   footer_lines <- lst[stringr::str_detect(lst, "^OFV\\s*=\\s*")]
   if (length(footer_lines) > 0) {
     ofv <- suppressWarnings(
-      as.numeric(trimws(stringr::str_extract(footer_lines[1], num_pat)))
+      as.numeric(trimws(stringr::str_extract(utils::tail(footer_lines, 1), num_pat)))
     )
     if (!is.na(ofv)) {
       if (!is.na(digits)) ofv <- round(ofv, digits)

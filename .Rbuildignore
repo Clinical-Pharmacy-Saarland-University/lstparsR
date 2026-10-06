@@ -2,7 +2,6 @@
 ^\.Rproj\.user$
 ^\.archive$
 ^\.github$
-^\.claude$
 ^LICENSE\.md$
 ^README\.Rmd$
 ^cran-comments\.md$
@@ -19,3 +18,4 @@
 ^\.lintr$
 ^_pkgdown\.yml$
 ^_coverage$
+^audit$

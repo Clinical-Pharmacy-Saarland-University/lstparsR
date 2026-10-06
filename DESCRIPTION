@@ -4,15 +4,17 @@ Title: Tidy Parsing of NONMEM Listing Files for Population PK/PD Workflows
 Version: 0.1.1
 Authors@R:
     c(
-      person("R.", "Heller",
+      person("Raban", "Heller",
              email = "raban.heller@uni-ulm.de",
              role = c("aut", "cre")),
-      person("D.", "Selzer",
+      person("Dominik", "Selzer",
              email = "dominik.selzer@uni-saarland.de",
              role = "aut"),
-      person("S.", "Rüdesheim",
+      person("Simeon", "Rüdesheim",
              email = "simeon.ruedesheim@uni-saarland.de",
-             role = "aut")
+             role = "aut"),
+      person("Christiane", "Dings", role = "aut"),
+      person("Thorsten", "Lehr", role = "aut")
     )
 Description: Provides functions to read, clean, and reshape NONMEM listing
     (.lst) files into tidy data frames for downstream population
@@ -40,6 +42,7 @@ Suggests:
 Config/testthat/edition: 3
 Config/Needs/website: CTTIR/themakR, pkgdown
 VignetteBuilder: knitr
-URL: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
+URL: https://clinical-pharmacy-saarland-university.github.io/lstparsR/,
+    https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
 BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/issues
 Config/roxygen2/version: 8.0.0

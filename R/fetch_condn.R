@@ -11,7 +11,8 @@
 #' @param digits Integer or `NA`. Rounding for the condition number. Default `NA`.
 #'
 #' @return A single numeric value (the condition number), or `NA_real_` if the
-#'   eigenvalue section is absent.
+#'   eigenvalue section is absent or contains invalid/negative eigenvalues.
+#'   Zero eigenvalues return `Inf` to indicate singularity.
 #'
 #' @export
 #'
@@ -21,6 +22,7 @@
 #' fetch_condn(lst)
 fetch_condn <- function(lst, digits = NA) {
   .assert_lst(lst)
+  lst <- .final_step(lst)
   checkmate::assert_number(digits, lower = 0, na.ok = TRUE)
 
   if (!.has_covariance_step(lst)) {
@@ -72,13 +74,12 @@ fetch_condn <- function(lst, digits = NA) {
   eigen_lines  <- character(0)
   found_values <- FALSE
 
-  for (i in seq.int(start + 1, min(start + 40, n))) {
+  for (i in .scan_range(start + 1, n)) {
     line    <- lst[i]
     trimmed <- stringr::str_trim(line)
 
     # Skip blank lines (before or between value blocks)
     if (nchar(trimmed) == 0) {
-      if (found_values) break   # blank line after values = end of block
       next
     }
 
@@ -89,8 +90,10 @@ fetch_condn <- function(lst, digits = NA) {
     # (contain asterisks as padding around text)
     if (stringr::str_detect(trimmed, "^\\*{5,}")) next
 
+    if (stringr::str_detect(trimmed, "^[0-9]+(?:\\s+[0-9]+)*$")) next
+
     # Check for scientific notation numbers
-    if (stringr::str_detect(line, eigen_num_pat)) {
+    if (stringr::str_detect(trimmed, paste0("^", eigen_num_pat, "(?:\\s+", eigen_num_pat, ")*$"))) {
       eigen_lines  <- c(eigen_lines, line)
       found_values <- TRUE
     } else if (found_values) {
@@ -111,10 +114,14 @@ fetch_condn <- function(lst, digits = NA) {
     paste(eigen_lines, collapse = " "),
     eigen_num_pat
   ))))
-  eigenvalues <- eigenvalues[!is.na(eigenvalues) & eigenvalues > 0]
+  if (any(!is.finite(eigenvalues)) || any(eigenvalues < 0)) {
+    warning("Invalid or negative eigenvalues. Returning NA.", call. = FALSE)
+    return(NA_real_)
+  }
+  if (any(eigenvalues == 0)) return(Inf)
 
   if (length(eigenvalues) < 2) {
-    warning("Fewer than 2 positive eigenvalues found. Returning NA.", call. = FALSE)
+    warning("Fewer than 2 eigenvalues found. Returning NA.", call. = FALSE)
     return(NA_real_)
   }
 

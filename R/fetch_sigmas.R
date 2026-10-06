@@ -22,6 +22,7 @@
 #' fetch_sigmas(lst)
 fetch_sigmas <- function(lst, digits = NA) {
   .assert_lst(lst)
+  lst <- .final_step(lst)
   checkmate::assert_number(digits, lower = 0, na.ok = TRUE)
 
   method  <- .get_estimation_method(lst)
@@ -44,7 +45,7 @@ fetch_sigmas <- function(lst, digits = NA) {
     if (!is.na(page_se)) {
       df_se <- .parse_matrix_block(lst, page_se, sub_str)
       if (!is.null(df_se) && nrow(df_se) == nrow(df_est)) {
-        se_vec <- df_se$value
+        se_vec <- df_se$value[match(df_est$id, df_se$id)]
       } else {
         warning("SIGMA SE row count does not match estimates. Setting SE to NA.")
       }

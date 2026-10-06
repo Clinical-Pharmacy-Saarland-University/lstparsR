@@ -1,3 +1,12 @@
+# lstparsR (development version)
+
+- Preserve scientific exponents and missing matrix diagonals, and read printed
+  ETA shrinkage with or without an equals sign.
+- Select a consistent final estimation step across parameter and scalar results.
+- Handle truncated objective output, grouped eigenvalues and singular matrices.
+- Preserve duplicate uploads, expose incomplete results, and improve table layout
+  and download isolation.
+
 # lstparsR 0.1.1
 
 ## Bug fixes

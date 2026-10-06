@@ -13,7 +13,8 @@ fetch_condn(lst, digits = NA)
 }
 \value{
 A single numeric value (the condition number), or \code{NA_real_} if the
-eigenvalue section is absent.
+eigenvalue section is absent or contains invalid/negative eigenvalues.
+Zero eigenvalues return \code{Inf} to indicate singularity.
 }
 \description{
 Computes the condition number of the correlation matrix of parameter estimates
