@@ -84,9 +84,12 @@ for population pharmacokinetic and pharmacodynamic (PK/PD) workflows
 where many model runs need to be parsed programmatically.</p>
 <p>Key design choices:</p>
 <ul>
-<li>All output is returned as tibbles with consistent column names.</li>
-<li>Missing quantities (e.g., standard errors when the covariance step
-is absent) are <code>NA</code>, never errors.</li>
+<li>Parameter output is returned as tibbles with consistent column
+names.</li>
+<li>Missing optional quantities (e.g., standard errors when the
+covariance step is absent) are <code>NA</code>. Missing required
+parameter sections raise errors; <code><a href="../reference/fetch_all.html">fetch_all()</a></code> catches these,
+warns, and returns <code>NULL</code> for failed elements.</li>
 <li>Both VECTOR blocks (THETA) and lower-triangular MATRIX blocks
 (OMEGA, SIGMA) are handled, including multi-line parameter sets.</li>
 </ul>
@@ -160,28 +163,28 @@ covariance matrix, plus ETA shrinkage when reported:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fetch_etas.html">fetch_etas</a></span><span class="op">(</span><span class="va">lst</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 5</span></span></span>
-<span><span class="co">#&gt;   parameter estimate      se         rse shrinkage</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ETA1       0.2      0.038<span style="text-decoration: underline;">9</span>        19.4        <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ETA2       0.255    0.046<span style="text-decoration: underline;">3</span>        18.2        <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ETA3       0.1     73          <span style="text-decoration: underline;">73</span>000          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ETA4       0.1     73          <span style="text-decoration: underline;">73</span>000          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ETA5       0.000<span style="text-decoration: underline;">01</span> 68      680<span style="text-decoration: underline;">000</span>000          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ETA6       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> ETA7       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   parameter estimate        se      rse shrinkage</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ETA1       0.2      3.89<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>  1.94<span style="color: #949494;">e</span> 1      5.08</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ETA2       0.255    4.63<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>  1.82<span style="color: #949494;">e</span> 1      1.62</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ETA3       0.1      2   <span style="color: #949494;">e</span>+73  2   <span style="color: #949494;">e</span>76    100   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ETA4       0.1      1.99<span style="color: #949494;">e</span>+73  1.99<span style="color: #949494;">e</span>76    100   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ETA5       0.000<span style="text-decoration: underline;">01</span>  6.85<span style="color: #949494;">e</span>+68  6.85<span style="color: #949494;">e</span>75     97.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ETA6       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>    <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>       99.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> ETA7       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>    <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>       97.0</span></span></code></pre></div>
 <p>Shrinkage values can be rounded separately:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/fetch_etas.html">fetch_etas</a></span><span class="op">(</span><span class="va">lst</span>, digits <span class="op">=</span> <span class="fl">1</span>, shk_digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 5</span></span></span>
-<span><span class="co">#&gt;   parameter estimate      se         rse shrinkage</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ETA1       0.2      0.038<span style="text-decoration: underline;">9</span>        19.4        <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ETA2       0.255    0.046<span style="text-decoration: underline;">3</span>        18.2        <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ETA3       0.1     73          <span style="text-decoration: underline;">73</span>000          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ETA4       0.1     73          <span style="text-decoration: underline;">73</span>000          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ETA5       0.000<span style="text-decoration: underline;">01</span> 68      680<span style="text-decoration: underline;">000</span>000          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ETA6       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> ETA7       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   parameter estimate        se      rse shrinkage</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ETA1       0.2      3.89<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>  1.94<span style="color: #949494;">e</span> 1       5.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ETA2       0.255    4.63<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span>  1.82<span style="color: #949494;">e</span> 1       1.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ETA3       0.1      2   <span style="color: #949494;">e</span>+73  2   <span style="color: #949494;">e</span>76     100  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ETA4       0.1      1.99<span style="color: #949494;">e</span>+73  1.99<span style="color: #949494;">e</span>76     100  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ETA5       0.000<span style="text-decoration: underline;">01</span>  6.85<span style="color: #949494;">e</span>+68  6.85<span style="color: #949494;">e</span>75      97.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ETA6       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>    <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>        99  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> ETA7       0.000<span style="text-decoration: underline;">01</span> <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>    <span style="color: #BB0000;">NA</span>   <span style="color: #949494;"> </span>        97</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="extracting-sigma-residual-error">Extracting SIGMA (Residual Error)<a class="anchor" aria-label="anchor" href="#extracting-sigma-residual-error"></a>
@@ -249,29 +252,29 @@ entire extraction:</p>
 <div class="section level2">
 <h2 id="runs-without-a-covariance-step">Runs Without a Covariance Step<a class="anchor" aria-label="anchor" href="#runs-without-a-covariance-step"></a>
 </h2>
-<p>When NONMEM did not run or complete a covariance step, SE, RSE,
-shrinkage, and condition number are returned as <code>NA</code>:</p>
+<p>When NONMEM did not run or complete a covariance step, SE, RSE, and
+condition number are returned as <code>NA</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">path2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"theta_no_cov.lst"</span>, package <span class="op">=</span> <span class="st">"lstparsR"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">path2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"testdata"</span>, <span class="st">"theta_without_cov.lst"</span>, package <span class="op">=</span> <span class="st">"lstparsR"</span><span class="op">)</span></span>
 <span><span class="va">lst2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="va">path2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/fetch_thetas.html">fetch_thetas</a></span><span class="op">(</span><span class="va">lst2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 12 × 4</span></span></span>
-<span><span class="co">#&gt;    parameter     estimate       se     rse</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> TH_1          34.1     3.37<span style="color: #949494;">e</span>+ 0 9.88<span style="color: #949494;">e</span> 0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> TH_2      <span style="text-decoration: underline;">387</span>000       5.41<span style="color: #949494;">e</span>+ 7 1.40<span style="color: #949494;">e</span> 4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> TH_3           8.05    5.2 <span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 6.46<span style="color: #949494;">e</span> 0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> TH_4           1.78    1.49<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 8.37<span style="color: #949494;">e</span> 0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> TH_5           0.498   2.78<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 5.58<span style="color: #949494;">e</span> 0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> TH_6           0.362   4.81<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 1.33<span style="color: #949494;">e</span> 2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> TH_7          -<span style="color: #BB0000;">0.171</span>   1.35<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 7.89<span style="color: #949494;">e</span> 1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> TH_8          -<span style="color: #BB0000;">0.031</span><span style="color: #BB0000; text-decoration: underline;">4</span>  2.69<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 8.57<span style="color: #949494;">e</span> 2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> TH_9          -<span style="color: #BB0000;">0.163</span>   2.78<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 1.71<span style="color: #949494;">e</span> 2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> TH10          -<span style="color: #BB0000;">0.23</span>    1.88<span style="color: #949494;">e</span><span style="color: #BB0000;">- 1</span> 8.17<span style="color: #949494;">e</span> 1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> TH11           0.005<span style="text-decoration: underline;">39</span> 1.98<span style="color: #949494;">e</span><span style="color: #BB0000;">- 2</span> 3.67<span style="color: #949494;">e</span> 2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> TH12           0.2     1.90<span style="color: #949494;">e</span>+74 9.50<span style="color: #949494;">e</span>76</span></span>
+<span><span class="co">#&gt;    parameter     estimate    se   rse</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> TH_1          34.1        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> TH_2      <span style="text-decoration: underline;">387</span>000          <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> TH_3           8.05       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> TH_4           1.78       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> TH_5           0.498      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> TH_6           0.362      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> TH_7          -<span style="color: #BB0000;">0.171</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> TH_8          -<span style="color: #BB0000;">0.031</span><span style="color: #BB0000; text-decoration: underline;">4</span>     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> TH_9          -<span style="color: #BB0000;">0.163</span>      <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> TH10          -<span style="color: #BB0000;">0.23</span>       <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> TH11           0.005<span style="text-decoration: underline;">39</span>    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> TH12           0.2        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="fu"><a href="../reference/fetch_condn.html">fetch_condn</a></span><span class="op">(</span><span class="va">lst2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 23.30882</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] NA</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="batch-processing">Batch Processing<a class="anchor" aria-label="anchor" href="#batch-processing"></a>
@@ -323,7 +326,7 @@ them as CSV or RDS.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller, D. Selzer, S. Rüdesheim.</p>
+  <p>Developed by Raban Heller, Dominik Selzer, Simeon Rüdesheim, Christiane Dings, Thorsten Lehr.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">
@@ -332,7 +335,7 @@ them as CSV or RDS.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

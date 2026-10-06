@@ -69,7 +69,8 @@ as the ratio of the largest to smallest eigenvalue. A condition number above
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A single numeric value (the condition number), or <code>NA_real_</code> if the
-eigenvalue section is absent.</p>
+eigenvalue section is absent or contains invalid/negative eigenvalues.
+Zero eigenvalues return <code>Inf</code> to indicate singularity.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -90,7 +91,7 @@ were not printed (<code>EIGENVLS. PRINTED: NO</code>).</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller, D. Selzer, S. Rüdesheim.</p>
+  <p>Developed by Raban Heller, Dominik Selzer, Simeon Rüdesheim, Christiane Dings, Thorsten Lehr.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">
@@ -99,7 +100,7 @@ were not printed (<code>EIGENVLS. PRINTED: NO</code>).</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

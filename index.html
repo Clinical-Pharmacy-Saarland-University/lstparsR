@@ -82,7 +82,7 @@
 <li>Extracts standard errors, relative standard errors, and ETA shrinkage</li>
 <li>Reports objective function value (OFV) and condition number</li>
 <li>Handles multi-line parameter blocks (any number of THETAs/ETAs)</li>
-<li>Returns <code>NA</code> gracefully when the covariance step is absent or the run failed – safe for use in automated pipelines</li>
+<li>Returns <code>NA</code> for missing optional quantities; <code><a href="reference/fetch_all.html">fetch_all()</a></code> retains partial results and warns when an individual parser fails</li>
 <li>Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian methods</li>
 <li>Includes an interactive Shiny app for point-and-click exploration</li>
 </ul>
@@ -102,7 +102,7 @@
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR" class="external-link">lstparsR</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clinical-pharmacy-saarland-university.github.io/lstparsR/">lstparsR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Read a listing file</span></span>
 <span><span class="va">lst</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="st">"run001.lst"</span><span class="op">)</span></span>
@@ -186,7 +186,7 @@
 <div class="section level2">
 <h2 id="handling-failed-runs">Handling Failed Runs<a class="anchor" aria-label="anchor" href="#handling-failed-runs"></a>
 </h2>
-<p>When a NONMEM run did not converge or the covariance step was skipped, <code>lstparsR</code> returns <code>NA</code> for unavailable quantities instead of raising errors. This is critical for automated workflows (e.g., pyDARWIN, PsN) where hundreds of runs are parsed at once:</p>
+<p>Missing optional quantities, such as standard errors without a covariance step, are returned as <code>NA</code>. Direct parameter parsers raise errors when their required sections are absent. For batch workflows, <code><a href="reference/fetch_all.html">fetch_all()</a></code> catches individual parser errors, warns, and returns <code>NULL</code> for the failed elements:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lst_fail</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="st">"failed_run.lst"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/fetch_ofv.html">fetch_ofv</a></span><span class="op">(</span><span class="va">lst_fail</span><span class="op">)</span>       <span class="co"># NA or fallback footer value</span></span>
@@ -211,6 +211,7 @@
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
 <p>MIT</p>
+<p>All parsers select the final problem and estimation step using NONMEM’s <code>#PROB:</code> and <code>#METH:</code> markers when present. Legacy listings with multiple result pages use the final parameter page and its objective-function header. A failed final step does not fall back to earlier results. Missing quantities remain unavailable; warnings identify incomplete or unrecognized output. Condition numbers are infinite for zero eigenvalues and unavailable, with a warning, for negative eigenvalues.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -240,9 +241,11 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>R. Heller <br><small class="roles"> Author, maintainer </small>   </li>
-<li>D. Selzer <br><small class="roles"> Author </small>   </li>
-<li>S. Rüdesheim <br><small class="roles"> Author </small>   </li>
+<li>Raban Heller <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Dominik Selzer <br><small class="roles"> Author </small>   </li>
+<li>Simeon Rüdesheim <br><small class="roles"> Author </small>   </li>
+<li>Christiane Dings <br><small class="roles"> Author </small>   </li>
+<li>Thorsten Lehr <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
@@ -258,7 +261,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by R. Heller, D. Selzer, S. Rüdesheim.</p>
+  <p>Developed by Raban Heller, Dominik Selzer, Simeon Rüdesheim, Christiane Dings, Thorsten Lehr.</p>
 </div>
 
 <div class="pkgdown-footer-center themakr-footer-suite">
@@ -267,7 +270,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
