@@ -16,3 +16,6 @@ _build.R
 *.Rcheck/
 _coverage/
 /audit/
+
+/candidate/
+/check/

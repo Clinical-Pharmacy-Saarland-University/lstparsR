@@ -1,12 +1,28 @@
-## R CMD check results
+## Submission
 
-0 errors | 0 warnings | 0 notes
+This is the first CRAN submission of lstparsR (version 0.1.2).
 
-## Test environments
+The package extracts parameter estimates and diagnostics from existing
+'NONMEM' listing files. A 'NONMEM' installation is not required. The optional
+Shiny application is launched only on request; examples and tests run without
+interactive input.
 
-- Local Windows 11, R 4.5.2
-- GitHub Actions (ubuntu-latest, macOS-latest, windows-latest; R devel, release, oldrel-1)
+## Checks
+
+Release-candidate checks and exact source-archive verification are recorded by
+the CRAN-preflight workflow. The submission handoff includes the final check
+logs and source-archive checksum.
+
+The incoming feasibility check may report "New submission" for this package.
+
+## Scope
+
+The package reads fixed-format result sections illustrated by the bundled
+examples. Method-header recognition is documented separately from numerical
+output-layout validation. Missing optional quantities return NA; unavailable
+required sections produce errors that fetch_all() contains with warnings and
+NULL elements.
 
 ## Downstream dependencies
 
-None -- this is a new package.
+This is a new CRAN package.

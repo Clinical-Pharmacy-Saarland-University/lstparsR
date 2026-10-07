@@ -195,7 +195,7 @@ ui <- fluidPage(
               tags$li("Parses THETA, OMEGA, SIGMA, OFV, condition number"),
               tags$li("Extracts standard errors, RSE, and ETA shrinkage"),
               tags$li("Shows partial results and parsing diagnostics"),
-              tags$li("Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian")
+              tags$li("Recognizes common estimation headers; output layouts vary")
             ),
             p(class = "info-text",
               tags$strong("Package: "),

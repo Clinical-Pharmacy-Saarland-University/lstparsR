@@ -1,4 +1,4 @@
-# lstparsR (development version)
+# lstparsR 0.1.2
 
 - Preserve scientific exponents and missing matrix diagonals, and read printed
   ETA shrinkage with or without an equals sign.
@@ -6,6 +6,7 @@
 - Handle truncated objective output, grouped eigenvalues and singular matrices.
 - Preserve duplicate uploads, expose incomplete results, and improve table layout
   and download isolation.
+- Clarify supported output layouts and first-submission metadata.
 
 # lstparsR 0.1.1
 
@@ -30,7 +31,7 @@
 
 # lstparsR 0.1.0
 
-* Initial CRAN release.
+* Initial development release.
 * `read_lst_file()`: reads NONMEM `.lst` files; returns S3 class `"lst"`.
 * `fetch_thetas()`: THETA estimates with SE and RSE.
 * `fetch_etas()`: OMEGA diagonal with SE, RSE, and ETA shrinkage.
@@ -40,7 +41,7 @@
 * `fetch_all()`: convenience wrapper returning all of the above.
 * `run_app()`: interactive Shiny application for uploading, viewing, and
   downloading parsed results.
-* Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian estimation methods.
+* Recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian method headers.
 * Handles multi-line parameter blocks (>12 THETAs spanning multiple rows).
-* Graceful NA returns for all quantities when the covariance step is absent.
-* Validated against 7,600+ real NONMEM listing files.
+* Missing optional covariance quantities are returned as NA.
+* Exercised against more than 7,600 listing files, predominantly FOCE-I.

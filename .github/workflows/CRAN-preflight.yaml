@@ -1,0 +1,83 @@
+name: CRAN-preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+  _R_CHECK_FORCE_SUGGESTS_: true
+  OMP_NUM_THREADS: 2
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: check
+      - name: Build source candidate
+        run: |
+          mkdir candidate
+          R CMD build .
+          mv lstparsR_*.tar.gz candidate/
+          cd candidate
+          sha256sum lstparsR_*.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-candidate
+          path: candidate/
+          if-no-files-found: error
+
+  check:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: devel
+          http-user-agent: release
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck, any::digest
+          needs: check
+      - uses: actions/download-artifact@v4
+        with:
+          name: source-candidate
+          path: candidate
+      - name: Verify and check the source candidate
+        shell: Rscript {0}
+        run: |
+          path <- list.files("candidate", pattern = "[.]tar[.]gz$", full.names = TRUE)
+          stopifnot(length(path) == 1L)
+          expected <- strsplit(readLines("candidate/SHA256SUMS"), " +")[[1L]][1L]
+          actual <- digest::digest(file = path, algo = "sha256")
+          stopifnot(identical(actual, expected))
+          dir.create("check", showWarnings = FALSE)
+          writeLines(c(paste("SHA256:", actual), R.version.string), "check/candidate.txt")
+          result <- rcmdcheck::rcmdcheck(path,
+            args = c("--as-cran", "--no-manual"),
+            check_dir = "check", error_on = "never")
+          saveRDS(result, "check/results.rds")
+          stopifnot(length(result$errors) == 0L, length(result$warnings) == 0L)
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: check-${{ matrix.os }}
+          path: check/
+          if-no-files-found: warn
