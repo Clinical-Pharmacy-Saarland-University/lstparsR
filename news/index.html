@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">lstparsR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,11 +39,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="lstparsr-development-version">lstparsR (development version)<a class="anchor" aria-label="anchor" href="#lstparsr-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1.2" id="lstparsr-012">lstparsR 0.1.2<a class="anchor" aria-label="anchor" href="#lstparsr-012"></a></h2>
 <ul><li>Preserve scientific exponents and missing matrix diagonals, and read printed ETA shrinkage with or without an equals sign.</li>
 <li>Select a consistent final estimation step across parameter and scalar results.</li>
 <li>Handle truncated objective output, grouped eigenvalues and singular matrices.</li>
 <li>Preserve duplicate uploads, expose incomplete results, and improve table layout and download isolation.</li>
+<li>Clarify supported output layouts and first-submission metadata.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="lstparsr-011">lstparsR 0.1.1<a class="anchor" aria-label="anchor" href="#lstparsr-011"></a></h2>
@@ -62,7 +63,7 @@
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="lstparsr-010">lstparsR 0.1.0<a class="anchor" aria-label="anchor" href="#lstparsr-010"></a></h2>
-<ul><li>Initial CRAN release.</li>
+<ul><li>Initial development release.</li>
 <li>
 <code><a href="../reference/read_lst_file.html">read_lst_file()</a></code>: reads NONMEM <code>.lst</code> files; returns S3 class <code>"lst"</code>.</li>
 <li>
@@ -79,10 +80,10 @@
 <code><a href="../reference/fetch_all.html">fetch_all()</a></code>: convenience wrapper returning all of the above.</li>
 <li>
 <code><a href="../reference/run_app.html">run_app()</a></code>: interactive Shiny application for uploading, viewing, and downloading parsed results.</li>
-<li>Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian estimation methods.</li>
+<li>Recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian method headers.</li>
 <li>Handles multi-line parameter blocks (&gt;12 THETAs spanning multiple rows).</li>
-<li>Graceful NA returns for all quantities when the covariance step is absent.</li>
-<li>Validated against 7,600+ real NONMEM listing files.</li>
+<li>Missing optional covariance quantities are returned as NA.</li>
+<li>Exercised against more than 7,600 listing files, predominantly FOCE-I.</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

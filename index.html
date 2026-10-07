@@ -34,7 +34,7 @@
 
     <a class="navbar-brand me-2" href="index.html"><img src="logo.svg" alt="" class="themakr-navbar-logo">lstparsR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,9 +81,9 @@
 <li>Parses THETA, OMEGA (diagonal), and SIGMA (diagonal) estimates</li>
 <li>Extracts standard errors, relative standard errors, and ETA shrinkage</li>
 <li>Reports objective function value (OFV) and condition number</li>
-<li>Handles multi-line parameter blocks (any number of THETAs/ETAs)</li>
+<li>Handles multi-line parameter blocks in the documented output layouts</li>
 <li>Returns <code>NA</code> for missing optional quantities; <code><a href="reference/fetch_all.html">fetch_all()</a></code> retains partial results and warns when an individual parser fails</li>
-<li>Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian methods</li>
+<li>Recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian method headers</li>
 <li>Includes an interactive Shiny app for point-and-click exploration</li>
 </ul>
 </div>
@@ -94,14 +94,12 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Clinical-Pharmacy-Saarland-University/lstparsR"</span><span class="op">)</span></span></code></pre></div>
-<p>CRAN release (planned):</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"lstparsR"</span><span class="op">)</span></span></code></pre></div>
+<p>A first CRAN submission is being prepared.</p>
 </div>
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://clinical-pharmacy-saarland-university.github.io/lstparsR/">lstparsR</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Read a listing file</span></span>
@@ -167,7 +165,7 @@
 <div class="section level2">
 <h2 id="individual-parsers">Individual Parsers<a class="anchor" aria-label="anchor" href="#individual-parsers"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lst</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="st">"run001.lst"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Fixed effects</span></span>
@@ -187,7 +185,7 @@
 <h2 id="handling-failed-runs">Handling Failed Runs<a class="anchor" aria-label="anchor" href="#handling-failed-runs"></a>
 </h2>
 <p>Missing optional quantities, such as standard errors without a covariance step, are returned as <code>NA</code>. Direct parameter parsers raise errors when their required sections are absent. For batch workflows, <code><a href="reference/fetch_all.html">fetch_all()</a></code> catches individual parser errors, warns, and returns <code>NULL</code> for the failed elements:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lst_fail</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_lst_file.html">read_lst_file</a></span><span class="op">(</span><span class="st">"failed_run.lst"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/fetch_ofv.html">fetch_ofv</a></span><span class="op">(</span><span class="va">lst_fail</span><span class="op">)</span>       <span class="co"># NA or fallback footer value</span></span>
 <span><span class="fu"><a href="reference/fetch_condn.html">fetch_condn</a></span><span class="op">(</span><span class="va">lst_fail</span><span class="op">)</span>     <span class="co"># NA</span></span>
@@ -197,14 +195,14 @@
 <h2 id="interactive-shiny-app">Interactive Shiny App<a class="anchor" aria-label="anchor" href="#interactive-shiny-app"></a>
 </h2>
 <p>Launch a browser-based interface for uploading and parsing <code>.lst</code> files:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">lstparsR</span><span class="fu">::</span><span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The app lets you upload one or more <code>.lst</code> files, view parsed results in interactive tables, and download them as CSV or RDS.</p>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"lstparsR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -212,6 +210,11 @@
 </h2>
 <p>MIT</p>
 <p>All parsers select the final problem and estimation step using NONMEM’s <code>#PROB:</code> and <code>#METH:</code> markers when present. Legacy listings with multiple result pages use the final parameter page and its objective-function header. A failed final step does not fall back to earlier results. Missing quantities remain unavailable; warnings identify incomplete or unrecognized output. Condition numbers are infinite for zero eigenvalues and unavailable, with a warning, for negative eigenvalues.</p>
+</div>
+<div class="section level2">
+<h2 id="output-layout-coverage">Output layout coverage<a class="anchor" aria-label="anchor" href="#output-layout-coverage"></a>
+</h2>
+<p>The parsers read the fixed-format final parameter, standard-error and diagnostic sections illustrated by the bundled examples. Numerical regression tests cover FOCE-I listings and controlled edge cases. FO listings have additional execution coverage. Recognition of FOCE, SAEM, IMP, IMPMAP or Bayesian method headers does not establish support for every output layout or posterior summary produced by those methods. Compare parsed values with the source listing before relying on an unfamiliar layout. These parsers do not assess the validity of a fitted model.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

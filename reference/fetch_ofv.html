@@ -9,7 +9,7 @@ produced by different NONMEM versions and estimation methods:"><meta property="o
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">lstparsR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,8 @@ produced by different NONMEM versions and estimation methods:</p>
 <li><p><code>OFV = &lt;value&gt;</code> — pyDARWIN / workflow tool footer</p></li>
 </ol><p>When multiple <code>#OBJV:</code> lines are present (multiple estimation steps), the
 <strong>last</strong> occurrence is returned (final step result).</p>
-<p>Returns <code>NA_real_</code> with a <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> if no OFV can be found — never stops.</p>
+<p>Returns <code>NA_real_</code> if no OFV is available, warning when estimation markers
+indicate that an OFV was expected. Invalid arguments raise errors.</p>
     </div>
 
     <div class="section level2">

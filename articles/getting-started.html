@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">lstparsR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -305,10 +305,10 @@ once:</p>
 <span><span class="va">all_thetas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">results</span>, <span class="st">"thetas"</span>, .id <span class="op">=</span> <span class="st">"run"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="supported-estimation-methods">Supported Estimation Methods<a class="anchor" aria-label="anchor" href="#supported-estimation-methods"></a>
+<h2 id="estimation-headers-and-output-layouts">Estimation Headers and Output Layouts<a class="anchor" aria-label="anchor" href="#estimation-headers-and-output-layouts"></a>
 </h2>
-<p>lstparsR detects and supports the following NONMEM estimation
-methods:</p>
+<p>lstparsR recognizes the following NONMEM estimation method
+headers:</p>
 <ul>
 <li>First Order (FO)</li>
 <li>First Order Conditional Estimation (FOCE)</li>
@@ -318,6 +318,13 @@ methods:</p>
 <li>Importance Sampling Assisted by Mode A Posteriori (IMPMAP)</li>
 <li>Markov Chain Monte Carlo Bayesian Analysis</li>
 </ul>
+<p>Numerical regression tests cover FOCE-I listings and controlled edge
+cases; FO listings have additional execution coverage. Recognizing a
+method header does not validate every layout or posterior summary from
+that method. The parsers expect the fixed-format result sections shown
+in the examples. Compare results with the original listing for
+unfamiliar layouts. Parsing does not validate the scientific model or
+its estimates.</p>
 </div>
 <div class="section level2">
 <h2 id="interactive-exploration">Interactive Exploration<a class="anchor" aria-label="anchor" href="#interactive-exploration"></a>

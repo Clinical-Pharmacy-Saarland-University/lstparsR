@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="../index.html"><img src="../logo.svg" alt="" class="themakr-navbar-logo">lstparsR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,8 +110,8 @@ tibbles with consistent, lowercase column names (<code>parameter</code>,
 <code>shrinkage</code>) ready for binding across runs with
 <code>dplyr</code> or <code>purrr</code>.</p></li>
 </ol>
-<p>The package supports all major NONMEM estimation methods: FOCE-I,
-FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian analysis.</p>
+<p>The package recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and
+Bayesian method headers. Output layout coverage is described below.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -404,10 +404,10 @@ stopping the pipeline.</p>
 </table>
 </div>
 <div class="section level2">
-<h2 id="supported-estimation-methods">Supported Estimation Methods<a class="anchor" aria-label="anchor" href="#supported-estimation-methods"></a>
+<h2 id="estimation-headers-and-output-layouts">Estimation Headers and Output Layouts<a class="anchor" aria-label="anchor" href="#estimation-headers-and-output-layouts"></a>
 </h2>
 <p>lstparsR automatically detects the estimation method from the
-<code>.lst</code> file header. The following methods are supported:</p>
+<code>.lst</code> file header. The following headers are recognized:</p>
 <ul>
 <li>First Order (FO)</li>
 <li>First Order Conditional Estimation (FOCE)</li>
@@ -417,6 +417,13 @@ stopping the pipeline.</p>
 <li>Importance Sampling Assisted by Mode A Posteriori (IMPMAP)</li>
 <li>Markov Chain Monte Carlo Bayesian Analysis</li>
 </ul>
+<p>Numerical regression tests cover FOCE-I listings and controlled edge
+cases; FO listings have additional execution coverage. Recognizing a
+method header does not validate every layout or posterior summary from
+that method. The parsers expect the fixed-format result sections shown
+in the examples. Compare results with the original listing for
+unfamiliar layouts. Parsing does not validate the scientific model or
+its estimates.</p>
 </div>
 <div class="section level2">
 <h2 id="interactive-shiny-application">Interactive Shiny Application<a class="anchor" aria-label="anchor" href="#interactive-shiny-application"></a>
@@ -460,7 +467,7 @@ that can be launched with:</p>
 <span><span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; other attached packages:</span></span>
-<span><span class="co">#&gt; [1] lstparsR_0.1.1</span></span>
+<span><span class="co">#&gt; [1] lstparsR_0.1.2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
 <span><span class="co">#&gt;  [1] vctrs_0.7.3       cli_3.6.6         knitr_1.52        rlang_1.3.0      </span></span>
