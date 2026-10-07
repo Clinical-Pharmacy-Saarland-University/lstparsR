@@ -12,7 +12,8 @@
 #' When multiple `#OBJV:` lines are present (multiple estimation steps), the
 #' **last** occurrence is returned (final step result).
 #'
-#' Returns `NA_real_` with a `warning()` if no OFV can be found — never stops.
+#' Returns `NA_real_` if no OFV is available, warning when estimation markers
+#' indicate that an OFV was expected. Invalid arguments raise errors.
 #'
 #' @param lst    An object of class `"lst"` from [read_lst_file()].
 #' @param digits Integer or `NA`. Rounding for the OFV. Default `NA`.

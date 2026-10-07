@@ -3,10 +3,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/R-CMD-check.yaml)
 [![pkgdown](https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR/actions/workflows/pkgdown.yaml/badge.svg)](https://clinical-pharmacy-saarland-university.github.io/lstparsR/)
-[![CRAN status](https://www.r-pkg.org/badges/version/lstparsR)](https://CRAN.R-project.org/package=lstparsR)
 [![Codecov test coverage](https://codecov.io/gh/Clinical-Pharmacy-Saarland-University/lstparsR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Clinical-Pharmacy-Saarland-University/lstparsR?branch=main)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/lstparsR)](https://cran.r-project.org/package=lstparsR)
-[![CRAN downloads total](https://cranlogs.r-pkg.org/badges/grand-total/lstparsR)](https://cran.r-project.org/package=lstparsR)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
@@ -19,10 +16,10 @@ estimates into tidy data frames for downstream population PK/PD analysis.
 - Parses THETA, OMEGA (diagonal), and SIGMA (diagonal) estimates
 - Extracts standard errors, relative standard errors, and ETA shrinkage
 - Reports objective function value (OFV) and condition number
-- Handles multi-line parameter blocks (any number of THETAs/ETAs)
+- Handles multi-line parameter blocks in the documented output layouts
 - Returns `NA` for missing optional quantities; `fetch_all()` retains partial
   results and warns when an individual parser fails
-- Supports FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian methods
+- Recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian method headers
 - Includes an interactive Shiny app for point-and-click exploration
 
 ## Installation
@@ -34,11 +31,7 @@ Install the development version from GitHub:
 remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparsR")
 ```
 
-CRAN release (planned):
-
-```r
-install.packages("lstparsR")
-```
+A first CRAN submission is being prepared.
 
 ## Quick Start
 
@@ -136,3 +129,13 @@ A failed final step does not fall back to earlier results. Missing quantities
 remain unavailable; warnings identify incomplete or unrecognized output.
 Condition numbers are infinite for zero eigenvalues and unavailable, with a
 warning, for negative eigenvalues.
+
+## Output layout coverage
+
+The parsers read the fixed-format final parameter, standard-error and diagnostic
+sections illustrated by the bundled examples. Numerical regression tests cover
+FOCE-I listings and controlled edge cases. FO listings have additional execution
+coverage. Recognition of FOCE, SAEM, IMP, IMPMAP or Bayesian method headers does
+not establish support for every output layout or posterior summary produced by
+those methods. Compare parsed values with the source listing before relying on
+an unfamiliar layout. These parsers do not assess the validity of a fitted model.

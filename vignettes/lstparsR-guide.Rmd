@@ -48,8 +48,8 @@ files and returning tidy data frames. It is designed with two goals:
    lowercase column names (`parameter`, `estimate`, `se`, `rse`,
    `shrinkage`) ready for binding across runs with `dplyr` or `purrr`.
 
-The package supports all major NONMEM estimation methods: FOCE-I, FOCE,
-FO, SAEM, IMP, IMPMAP, and Bayesian analysis.
+The package recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian
+method headers. Output layout coverage is described below.
 
 ## Installation
 
@@ -226,10 +226,10 @@ produce `NULL` elements rather than stopping the pipeline.
 | `fetch_all()` | Run all parsers; return named list |
 | `run_app()` | Launch interactive Shiny application |
 
-## Supported Estimation Methods
+## Estimation Headers and Output Layouts
 
 lstparsR automatically detects the estimation method from the `.lst`
-file header. The following methods are supported:
+file header. The following headers are recognized:
 
 - First Order (FO)
 - First Order Conditional Estimation (FOCE)
@@ -238,6 +238,13 @@ file header. The following methods are supported:
 - Importance Sampling (IMP)
 - Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
 - Markov Chain Monte Carlo Bayesian Analysis
+
+Numerical regression tests cover FOCE-I listings and controlled edge cases;
+FO listings have additional execution coverage. Recognizing a method header does
+not validate every layout or posterior summary from that method. The parsers
+expect the fixed-format result sections shown in the examples. Compare results
+with the original listing for unfamiliar layouts. Parsing does not validate the
+scientific model or its estimates.
 
 ## Interactive Shiny Application
 

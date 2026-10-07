@@ -15,8 +15,8 @@
 #'     \item{thetas}{[tibble] from [fetch_thetas()], or `NULL` on failure.}
 #'     \item{etas}{[tibble] from [fetch_etas()], or `NULL` on failure.}
 #'     \item{sigmas}{[tibble] from [fetch_sigmas()], or `NULL` on failure.}
-#'     \item{ofv}{Numeric from [fetch_ofv()].}
-#'     \item{condn}{Numeric from [fetch_condn()], or `NA` if no covariance step.}
+#'     \item{ofv}{Numeric from [fetch_ofv()], or `NULL` on failure.}
+#'     \item{condn}{Numeric from [fetch_condn()], `NA` if no covariance step, or `NULL` on failure.}
 #'   }
 #'
 #' @export

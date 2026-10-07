@@ -23,8 +23,8 @@ A named list with elements:
 \item{thetas}{\link[tibble:tibble]{tibble} from \code{\link[=fetch_thetas]{fetch_thetas()}}, or \code{NULL} on failure.}
 \item{etas}{\link[tibble:tibble]{tibble} from \code{\link[=fetch_etas]{fetch_etas()}}, or \code{NULL} on failure.}
 \item{sigmas}{\link[tibble:tibble]{tibble} from \code{\link[=fetch_sigmas]{fetch_sigmas()}}, or \code{NULL} on failure.}
-\item{ofv}{Numeric from \code{\link[=fetch_ofv]{fetch_ofv()}}.}
-\item{condn}{Numeric from \code{\link[=fetch_condn]{fetch_condn()}}, or \code{NA} if no covariance step.}
+\item{ofv}{Numeric from \code{\link[=fetch_ofv]{fetch_ofv()}}, or \code{NULL} on failure.}
+\item{condn}{Numeric from \code{\link[=fetch_condn]{fetch_condn()}}, \code{NA} if no covariance step, or \code{NULL} on failure.}
 }
 }
 \description{

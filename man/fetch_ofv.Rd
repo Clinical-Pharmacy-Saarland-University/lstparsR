@@ -30,7 +30,8 @@ produced by different NONMEM versions and estimation methods:
 When multiple \verb{#OBJV:} lines are present (multiple estimation steps), the
 \strong{last} occurrence is returned (final step result).
 
-Returns \code{NA_real_} with a \code{warning()} if no OFV can be found — never stops.
+Returns \code{NA_real_} if no OFV is available, warning when estimation markers
+indicate that an OFV was expected. Invalid arguments raise errors.
 }
 \examples{
 path <- system.file("testdata", "full_cov.lst", package = "lstparsR")

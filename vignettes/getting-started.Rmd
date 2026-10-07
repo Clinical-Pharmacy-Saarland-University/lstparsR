@@ -151,9 +151,9 @@ results <- map(lst_files, \(f) {
 all_thetas <- map_dfr(results, "thetas", .id = "run")
 ```
 
-## Supported Estimation Methods
+## Estimation Headers and Output Layouts
 
-lstparsR detects and supports the following NONMEM estimation methods:
+lstparsR recognizes the following NONMEM estimation method headers:
 
 - First Order (FO)
 - First Order Conditional Estimation (FOCE)
@@ -162,6 +162,13 @@ lstparsR detects and supports the following NONMEM estimation methods:
 - Importance Sampling (IMP)
 - Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
 - Markov Chain Monte Carlo Bayesian Analysis
+
+Numerical regression tests cover FOCE-I listings and controlled edge cases;
+FO listings have additional execution coverage. Recognizing a method header does
+not validate every layout or posterior summary from that method. The parsers
+expect the fixed-format result sections shown in the examples. Compare results
+with the original listing for unfamiliar layouts. Parsing does not validate the
+scientific model or its estimates.
 
 ## Interactive Exploration
 

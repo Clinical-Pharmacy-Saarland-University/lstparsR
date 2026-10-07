@@ -19,3 +19,5 @@
 ^_pkgdown\.yml$
 ^_coverage$
 ^audit$
+^candidate$
+^check$
