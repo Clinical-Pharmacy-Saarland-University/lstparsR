@@ -26,6 +26,16 @@ It reported 0 errors, 0 warnings, and the same new-submission NOTE.
 Additional source checks passed on Windows and macOS with R 4.6.1, and on
 Linux with R 4.6.1, R 4.5.3, and R-devel.
 
+## Win-builder
+
+R-devel on Windows Server 2022 (2026-10-05 r90641 ucrt) completed with
+0 errors, 0 warnings, and 1 NOTE, including PDF manual generation, tests,
+examples, and vignette rebuilding.
+
+The incoming feasibility NOTE reports "New submission" and flags
+"pharmacokinetic" and "pharmacodynamic" as possibly misspelled words in
+DESCRIPTION. Both are correctly spelled scientific terms.
+
 ## Scope
 
 The package reads fixed-format result sections illustrated by the bundled
