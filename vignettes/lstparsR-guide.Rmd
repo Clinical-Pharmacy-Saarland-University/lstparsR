@@ -28,7 +28,7 @@ library(lstparsR)
 
 ## Introduction
 
-Population pharmacokinetic and pharmacodynamic (PK/PD) modelling with
+Population pharmacokinetic and pharmacodynamic (PK/PD) modeling with
 NONMEM produces listing files (`.lst`) that contain parameter estimates,
 standard errors, objective function values, eigenvalues, and shrinkage
 statistics in a structured but complex text format. Extracting these

@@ -27,6 +27,7 @@ Description: Extracts parameter estimates and diagnostics from 'NONMEM'
     existing listing files does not require a 'NONMEM' installation.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: en-US
 Depends: R (>= 4.1.0)
 Roxygen: list(markdown = TRUE)
 Imports:
