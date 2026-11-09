@@ -46,9 +46,21 @@ print.lst <- function(x, ...) {
 summary.lst <- function(object, ...) {
   selected <- .final_step(object)
   method <- tryCatch(.get_estimation_method(selected), error = function(e) "unknown")
-  cat(sprintf("<lst> NONMEM listing file\n"))
-  cat(sprintf("  Lines            : %d\n", length(object)))
-  cat(sprintf("  Estimation method: %s\n", method))
-  cat(sprintf("  Covariance step  : %s\n", .has_covariance_step(selected)))
-  invisible(object)
+  structure(
+    list(
+      lines = length(object),
+      method = method,
+      covariance_step = .has_covariance_step(selected)
+    ),
+    class = "summary.lst"
+  )
+}
+
+#' @export
+print.summary.lst <- function(x, ...) {
+  cat("<lst> NONMEM listing file\n")
+  cat(sprintf("  Lines            : %d\n", x$lines))
+  cat(sprintf("  Estimation method: %s\n", x$method))
+  cat(sprintf("  Covariance step  : %s\n", x$covariance_step))
+  invisible(x)
 }

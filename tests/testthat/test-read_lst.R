@@ -18,8 +18,13 @@ test_that("print.lst produces output", {
   expect_output(print(lst_full_cov), "lst")
 })
 
-test_that("summary.lst produces output", {
-  expect_output(summary(lst_full_cov), "Estimation method")
+test_that("summary.lst returns a summary that prints", {
+  s <- summary(lst_full_cov)
+  expect_s3_class(s, "summary.lst")
+  expect_equal(s$lines, length(lst_full_cov))
+  expect_type(s$covariance_step, "logical")
+  expect_output(print(s), "Estimation method")
+  expect_invisible(print(s))
 })
 
 test_that(".lst_new rejects non-character input", {
@@ -35,8 +40,9 @@ test_that("read_lst_file wraps a readLines failure with a clear message", {
   expect_error(read_lst_file(f), "Failed to read file")
 })
 
-test_that("summary.lst falls back to 'unknown' method and returns invisibly", {
+test_that("summary.lst falls back to 'unknown' method and print returns invisibly", {
   lst <- lstparsR:::.lst_new(c("no recognisable estimation method here"))
-  expect_output(summary(lst), "unknown")
+  expect_equal(summary(lst)$method, "unknown")
+  expect_output(print(summary(lst)), "unknown")
   expect_invisible(print(lstparsR:::.lst_new("x")))
 })
