@@ -1,3 +1,16 @@
+# lstparsR 1.0.0
+
+- First CRAN submission. The version moves to 1.0.0 to mark a stable
+  interface for `read_lst_file()`, the `fetch_*()` parsers and `run_app()`.
+- `summary()` on an `"lst"` object now returns a `"summary.lst"` object
+  (number of lines, estimation method, covariance step) with its own
+  `print()` method, instead of printing with `cat()` and returning the
+  input invisibly. Printed at the console, the output is unchanged.
+- The Shiny app's ZIP download no longer prints the names of the files it
+  adds to the console.
+- DESCRIPTION declares `Language: en-US`, and an `inst/WORDLIST` records
+  the technical terms used in the documentation.
+
 # lstparsR 0.1.2
 
 - Preserve scientific exponents and missing matrix diagonals, and read printed

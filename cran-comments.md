@@ -1,40 +1,33 @@
 ## Submission
 
-This is the first CRAN submission of lstparsR (version 0.1.2).
+This is a new submission: lstparsR 1.0.0.
 
 The package extracts parameter estimates and diagnostics from existing
 'NONMEM' listing files. A 'NONMEM' installation is not required. The optional
 'shiny' application is launched only on request; examples and tests run without
-interactive input.
+interactive input and without network access.
 
 ## Test environments
 
-The same source archive was checked with R CMD check --as-cran on:
+- Local: macOS 27 on Apple silicon, R 4.6.1 (aarch64-apple-darwin),
+  `R CMD check --as-cran --no-manual` on the built tarball with `NOT_CRAN`
+  unset. LaTeX is not installed on this machine, so the PDF manual was not
+  built locally.
+- GitHub Actions (r-lib/actions v2, `--as-cran`): macOS-latest (R release),
+  windows-latest (R release), ubuntu-latest (R devel, R release,
+  R oldrel-1).
+- An earlier version (0.1.2) of the package passed win-builder (R-devel,
+  Windows) including the PDF manual, with only the new-submission NOTE.
 
-- Linux, R 4.6.1, including the PDF manual and vignette rebuilding.
-- Linux, R-devel (2026-10-05 r90641), without the PDF manual.
-- Windows, R-devel (2026-10-06 r90643 ucrt), without the PDF manual.
+## R CMD check results
 
-Each check completed with 0 errors, 0 warnings, and 1 NOTE:
+0 errors | 0 warnings | 1 note
 
-    New submission
+- New submission.
 
-The same archive also passed on Linux with R 4.1.0 and compatible dependency
-versions (without the PDF manual; the legacy network clock check disabled).
-It reported 0 errors, 0 warnings, and the same new-submission NOTE.
-
-Additional source checks passed on Windows and macOS with R 4.6.1, and on
-Linux with R 4.6.1, R 4.5.3, and R-devel.
-
-## Win-builder
-
-R-devel on Windows Server 2022 (2026-10-05 r90641 ucrt) completed with
-0 errors, 0 warnings, and 1 NOTE, including PDF manual generation, tests,
-examples, and vignette rebuilding.
-
-The incoming feasibility NOTE reports "New submission" and flags
-"pharmacokinetic" and "pharmacodynamic" as possibly misspelled words in
-DESCRIPTION. Both are correctly spelled scientific terms.
+The incoming feasibility check may flag "pharmacokinetic" and
+"pharmacodynamic" in DESCRIPTION as possibly misspelled words. Both are
+correctly spelled scientific terms.
 
 ## Scope
 

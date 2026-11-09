@@ -1,7 +1,7 @@
 Package: lstparsR
 Type: Package
 Title: Tidy Parsing of 'NONMEM' Listing Files
-Version: 0.1.2
+Version: 1.0.0
 Authors@R:
     c(
       person("Raban", "Heller",
