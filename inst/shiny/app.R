@@ -596,7 +596,7 @@ server <- function(input, output, session) {
       .write_csv(scalars_df(), p, row.names = FALSE)
       csv_files <- c(csv_files, p)
 
-      zip(file, csv_files, flags = "-j")
+      zip(file, csv_files, flags = "-jq")
     },
     contentType = "application/zip"
   )
