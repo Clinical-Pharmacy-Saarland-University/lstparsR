@@ -25,11 +25,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Raban Heller \email{raban.heller@uni-ulm.de}
+\strong{Maintainer}: R. Heller \email{raban.heller@uni-ulm.de} [copyright holder]
 
 Authors:
 \itemize{
-  \item Raban Heller \email{raban.heller@uni-ulm.de}
+  \item R. Heller \email{raban.heller@uni-ulm.de} [copyright holder]
   \item Dominik Selzer \email{dominik.selzer@uni-saarland.de}
   \item Simeon Rüdesheim \email{simeon.ruedesheim@uni-saarland.de}
   \item Christiane Dings
