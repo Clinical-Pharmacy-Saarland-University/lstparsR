@@ -4,9 +4,9 @@ Title: Tidy Parsing of 'NONMEM' Listing Files
 Version: 1.0.0
 Authors@R:
     c(
-      person("Raban", "Heller",
+      person("R.", "Heller",
              email = "raban.heller@uni-ulm.de",
-             role = c("aut", "cre")),
+             role = c("aut", "cre", "cph")),
       person("Dominik", "Selzer",
              email = "dominik.selzer@uni-saarland.de",
              role = "aut"),
