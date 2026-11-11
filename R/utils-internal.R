@@ -26,6 +26,41 @@
   if (start > end) integer(0) else seq.int(start, end)
 }
 
+# ------------------------------------------------------------------
+# Printed value tokens
+# ------------------------------------------------------------------
+#
+# Result pages print each value in a fixed-width field. Besides numbers in
+# scientific notation, a field can hold "........." (no value, e.g. the
+# standard error of a fixed parameter), "+Infinity"/"-Infinity" or "NaN".
+# Placeholders keep their position so that values stay aligned with their
+# labels.
+
+.VALUE_TOKEN <- "^(?:[+-]?[0-9]+\\.?[0-9]*E[+-][0-9]+|\\.{3,}|[+-]?Infinity|NaN)$"
+
+#' @noRd
+.is_value_token <- function(tokens) {
+  grepl(.VALUE_TOKEN, tokens, perl = TRUE, ignore.case = TRUE)
+}
+
+# TRUE for a record that consists only of value tokens.
+#' @noRd
+.is_value_line <- function(line) {
+  tokens <- strsplit(trimws(line), "\\s+")[[1]]
+  length(tokens) > 0L && all(nzchar(tokens)) && all(.is_value_token(tokens))
+}
+
+# Numbers for value tokens: placeholders and NaN become NA, infinities Inf.
+#' @noRd
+.parse_value_tokens <- function(tokens) {
+  out <- rep(NA_real_, length(tokens))
+  num <- grepl("^[+-]?[0-9]+\\.?[0-9]*E[+-][0-9]+$", tokens, ignore.case = TRUE)
+  out[num] <- as.numeric(tokens[num])
+  inf <- grepl("^[+-]?Infinity$", tokens, ignore.case = TRUE)
+  out[inf] <- ifelse(startsWith(tokens[inf], "-"), -Inf, Inf)
+  out
+}
+
 # Scope all outputs to the final problem and estimation step. Explicit
 # method markers take precedence over legacy result-page boundaries.
 #' @noRd
@@ -63,7 +98,11 @@
   "STOCHASTIC APPROXIMATION EXPECTATION-MAXIMIZATION",
   "IMPORTANCE SAMPLING ASSISTED BY MODE A POSTERIORI",
   "IMPORTANCE SAMPLING",
-  "MARKOV CHAIN MONTE CARLO BAYESIAN ANALYSIS"
+  "MARKOV CHAIN MONTE CARLO BAYESIAN ANALYSIS",
+  "MCMC BAYESIAN ANALYSIS",
+  "LAPLACIAN CONDITIONAL ESTIMATION WITH INTERACTION",
+  "LAPLACIAN CONDITIONAL ESTIMATION",
+  "ITERATIVE TWO STAGE"
 )
 
 #' @noRd
@@ -75,7 +114,7 @@
   }
   stop(
     "Could not detect a known estimation method in this lst file.\n",
-    "Supported: FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, Bayesian.",
+    "Supported: FOCE-I, FOCE, FO, LAPLACE, ITS, SAEM, IMP, IMPMAP, Bayesian.",
     call. = FALSE
   )
 }
@@ -222,8 +261,8 @@
   for (j in .scan_range(id_start, min(id_start + 10, n))) {
     trimmed <- stringr::str_trim(lst[j])
     if (nchar(trimmed) == 0) break
-    # If a line has scientific notation, it's a value line, not an ID line
-    if (stringr::str_detect(trimmed, "[0-9]E[+-]")) break
+    # A line of values (numbers or placeholders) ends the ID lines
+    if (stringr::str_detect(trimmed, "[0-9]E[+-]") || .is_value_line(trimmed)) break
     # Check for duplicate: does this line start with the same token as the first?
     line_clean <- gsub("(?<=[A-Za-z0-9]) (?=[A-Za-z0-9])", "_", trimmed, perl = TRUE)
     line_tokens <- unlist(stringr::str_split(line_clean, "\\s+"))
@@ -246,39 +285,36 @@
   ids <- unlist(stringr::str_split(clean_ids, "\\s+"))
   ids <- ids[nchar(ids) > 0]
 
-  # Scan forward to find the first line containing scientific-notation values
+  # Scan forward to find the first line of values
   val_start <- NA_integer_
   for (j in .scan_range(id_start, min(id_start + 20, n))) {
     trimmed <- stringr::str_trim(lst[j])
     if (nchar(trimmed) > 0 &&
-        stringr::str_detect(trimmed, "[0-9]E[+-]")) {
+        (stringr::str_detect(trimmed, "[0-9]E[+-]") || .is_value_line(trimmed))) {
       val_start <- j
       break
     }
   }
   if (is.na(val_start)) return(NULL)
 
-  # Collect value lines: all contiguous lines with scientific notation numbers
+  # Collect value lines: all contiguous lines of values
   val_lines <- character(0)
   for (j in .scan_range(val_start, min(val_start + 20, n))) {
     line <- lst[j]
     trimmed <- stringr::str_trim(line)
     if (trimmed == "" || trimmed == "1") break
-    # Only include lines that contain scientific notation
-    if (stringr::str_detect(trimmed, "[0-9]E[+-]")) {
+    if (stringr::str_detect(trimmed, "[0-9]E[+-]") || .is_value_line(trimmed)) {
       val_lines <- c(val_lines, line)
     } else {
       break
     }
   }
 
-  # Extract all numbers (scientific notation)
-  nums_str <- unlist(stringr::str_extract_all(
-    paste(val_lines, collapse = " "),
-    "-?[0-9]+\\.?[0-9]*E[+-][0-9]+"
-  ))
-  values <- suppressWarnings(as.numeric(nums_str))
-  values <- values[!is.na(values)]
+  # One value per field. Placeholders ("........." for fixed parameters,
+  # "NaN") become NA and "+Infinity" becomes Inf, so that every value stays
+  # in the column of its label.
+  tokens <- unlist(strsplit(trimws(val_lines), "\\s+"))
+  values <- .parse_value_tokens(tokens[.is_value_token(tokens)])
 
   if (length(ids) == 0 || length(values) == 0) return(NULL)
 
@@ -339,13 +375,18 @@
     line <- lst[j]
     trimmed <- stringr::str_trim(line)
 
-    # A parameter name line: starts with optional space, then an ID like ETA1 or EPS1
-    if (stringr::str_detect(trimmed, "^(ETA|EPS)[0-9]+$")) {
+    # A parameter name line: ETA1-ETA9 and EPS1-EPS9; from the tenth
+    # parameter on NONMEM prints four-character labels (ET10, EP10, ...).
+    if (stringr::str_detect(trimmed, "^(ETA|EPS|ET|EP)[0-9]+$")) {
       param_name <- trimmed
-      # Collect all immediately following "+" lines
+      # Collect the "+" line(s) of the row. Rows longer than 12 values
+      # continue on records without the "+" carriage-control character.
       plus_lines <- character(0)
       k <- j + 1
-      while (k <= end_search && stringr::str_detect(lst[k], "^\\+")) {
+      while (k <= end_search &&
+             (stringr::str_detect(lst[k], "^\\+") ||
+              (length(plus_lines) > 0 && grepl("^\\s+\\S", lst[k]) &&
+               .is_value_line(lst[k])))) {
         plus_lines <- c(plus_lines, lst[k])
         k <- k + 1
       }
@@ -354,9 +395,11 @@
         # Strip carriage control only; exponent signs belong to the number.
         combined <- paste(sub("^\\s*\\+", "", plus_lines), collapse = " ")
         tokens <- strsplit(trimws(combined), "\\s+")[[1]]
-        diagonal <- as.integer(sub("^(ETA|EPS)", "", param_name))
+        diagonal <- as.integer(sub("^(ETA|EPS|ET|EP)", "", param_name))
         last_val <- if (diagonal > 0L && length(tokens) >= diagonal) {
-          suppressWarnings(as.numeric(tokens[diagonal]))
+          token <- tokens[diagonal]
+          if (.is_value_token(token)) .parse_value_tokens(token)
+          else suppressWarnings(as.numeric(token))
         } else NA_real_
 
         ids    <- c(ids, param_name)
@@ -396,11 +439,17 @@
 #' @noRd
 .parse_shrinkage <- function(lst, type = "ETASHRINKSD") {
   pattern <- paste0("^\\s*", type, "(?:\\(%\\))?\\s*(?:=)?")
-  lines   <- lst[stringr::str_detect(lst, pattern)]
-  if (length(lines) == 0) return(NULL)
+  idx     <- which(stringr::str_detect(lst, pattern))
+  if (length(idx) == 0) return(NULL)
 
-  # Take the last occurrence (final estimation step)
-  line <- lines[length(lines)]
+  # Take the last occurrence (final estimation step). NONMEM wraps the
+  # record after 10 values onto indented continuation records.
+  i <- idx[length(idx)]
+  k <- i + 1L
+  while (k <= length(lst) && grepl("^\\s+\\S", lst[k]) && .is_value_line(lst[k])) {
+    k <- k + 1L
+  }
+  line <- paste(lst[seq.int(i, k - 1L)], collapse = " ")
 
   # Extract all numbers in scientific notation
   nums <- suppressWarnings(as.numeric(unlist(stringr::str_extract_all(

@@ -8,7 +8,8 @@
 #'
 #' @return A [`tibble`][tibble::tibble] with columns:
 #'   \describe{
-#'     \item{parameter}{Character. Parameter label (e.g. `"EPS1"`).}
+#'     \item{parameter}{Character. Parameter label as printed (e.g. `"EPS1"`;
+#'       `"EP10"` from the tenth EPS on).}
 #'     \item{estimate}{Numeric. Diagonal variance estimate.}
 #'     \item{se}{Numeric. Standard error. `NA` if no covariance step.}
 #'     \item{rse}{Numeric. Relative standard error (%). `NA` if no covariance step.}

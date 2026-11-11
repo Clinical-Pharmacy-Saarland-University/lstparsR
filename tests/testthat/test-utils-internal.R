@@ -96,7 +96,40 @@ test_that(".parse_vector_block warns and pads on an ID/value count mismatch", {
   expect_true(is.na(res$value[3]))
 })
 
+test_that(".parse_vector_block keeps the positions of placeholders", {
+  body <- c(paste(" ", SUB_T), "  TH 1      TH 2      TH 3", "",
+            "  1.0E+00 .........  +Infinity")
+  res <- lstparsR:::.parse_vector_block(.page(body), 1, SUB_T)
+  expect_equal(res$value, c(1, NA, Inf))
+  # A continuation record holding placeholders only still belongs to the row.
+  body <- c(paste(" ", SUB_T), "  TH 1      TH 2", "", "  1.0E+00", "   .........")
+  expect_equal(lstparsR:::.parse_vector_block(.page(body), 1, SUB_T)$value, c(1, NA))
+})
+
+# ---- value tokens ---------------------------------------------------
+
+test_that("value tokens cover numbers, placeholders and non-finite values", {
+  tok <- c("1.23E+00", "-4.50E-02", ".........", "+Infinity", "-Infinity", "NaN",
+           "TH", "1E+")
+  expect_identical(lstparsR:::.is_value_token(tok), c(rep(TRUE, 6), FALSE, FALSE))
+  expect_equal(lstparsR:::.parse_value_tokens(tok[1:6]),
+               c(1.23, -0.045, NA, Inf, -Inf, NA))
+  expect_true(lstparsR:::.is_value_line("   1.00E+00 .........  +Infinity"))
+  expect_false(lstparsR:::.is_value_line(" ETA1"))
+  expect_false(lstparsR:::.is_value_line("   "))
+})
+
 # ---- .parse_matrix_block -------------------------------------------
+
+test_that(".parse_matrix_block reads ET10+ labels and continued rows", {
+  zeros <- paste(rep(" 0.00E+00", 12), collapse = " ")
+  body <- c(paste(" ", SUB_O), "", " ETA1", "+        1.00E-01", " ",
+            " ET13", paste0("+      ", zeros), "          4.11E-01", " ")
+  res <- lstparsR:::.parse_matrix_block(.page(body), 1, SUB_O)
+  expect_identical(res$id, c("ETA1", "ET13"))
+  expect_equal(res$value, c(0.1, 0.411))
+})
+
 
 test_that(".parse_matrix_block returns NULL when the subheader is absent", {
   expect_null(lstparsR:::.parse_matrix_block(.page("nothing"), 1, SUB_O))
@@ -127,6 +160,15 @@ test_that(".parse_shrinkage extracts the last matching line's values", {
     " ETASHRINKSD(%) =  5.0E+00  1.6E+00"
   ))
   expect_equal(lstparsR:::.parse_shrinkage(lst, "ETASHRINKSD"), c(5.0, 1.6))
+})
+
+test_that(".parse_shrinkage joins records wrapped after ten values", {
+  lst <- lstparsR:::.lst_new(c(
+    " ETASHRINKSD(%)  1.0000E+00  2.0000E+00",
+    "                 3.0000E+00",
+    " ETASHRINKVR(%)  9.0000E+00"
+  ))
+  expect_equal(lstparsR:::.parse_shrinkage(lst, "ETASHRINKSD"), c(1, 2, 3))
 })
 
 test_that(".parse_shrinkage returns NULL when no line matches", {

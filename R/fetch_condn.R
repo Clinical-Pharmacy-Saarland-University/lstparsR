@@ -22,16 +22,13 @@
 #' fetch_condn(lst)
 fetch_condn <- function(lst, digits = NA) {
   .assert_lst(lst)
+  # "EIGENVLS. PRINTED: NO" is echoed with the $COV options in the problem
+  # header, which precedes the final estimation step.
+  suppressed <- .eigenvalues_suppressed(lst)
   lst <- .final_step(lst)
   checkmate::assert_number(digits, lower = 0, na.ok = TRUE)
 
   if (!.has_covariance_step(lst)) {
-    return(NA_real_)
-  }
-
-  # User opted out of printing eigenvalues (EIGENVLS. PRINTED: NO).
-  # Covariance step ran, but eigenvalues are legitimately absent.
-  if (.eigenvalues_suppressed(lst)) {
     return(NA_real_)
   }
 
@@ -55,6 +52,9 @@ fetch_condn <- function(lst, digits = NA) {
   ))
 
   if (length(eigen_header) == 0) {
+    # User opted out of printing eigenvalues (EIGENVLS. PRINTED: NO).
+    # Covariance step ran, but eigenvalues are legitimately absent.
+    if (suppressed) return(NA_real_)
     warning("Eigenvalue section not found. Returning NA.", call. = FALSE)
     return(NA_real_)
   }

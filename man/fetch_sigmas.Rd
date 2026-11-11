@@ -14,7 +14,8 @@ fetch_sigmas(lst, digits = NA)
 \value{
 A \code{\link[tibble:tibble]{tibble}} with columns:
 \describe{
-\item{parameter}{Character. Parameter label (e.g. \code{"EPS1"}).}
+\item{parameter}{Character. Parameter label as printed (e.g. \code{"EPS1"};
+\code{"EP10"} from the tenth EPS on).}
 \item{estimate}{Numeric. Diagonal variance estimate.}
 \item{se}{Numeric. Standard error. \code{NA} if no covariance step.}
 \item{rse}{Numeric. Relative standard error (\%). \code{NA} if no covariance step.}

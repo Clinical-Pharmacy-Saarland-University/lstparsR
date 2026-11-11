@@ -10,6 +10,24 @@
   adds to the console.
 - DESCRIPTION declares `Language: en-US`, and an `inst/WORDLIST` records
   the technical terms used in the documentation.
+- `fetch_thetas()` keeps standard errors aligned with their parameters when a
+  field prints `.........` (a fixed THETA) or `+Infinity`. Previously the
+  following values moved one column to the left and a padding warning was
+  issued. `.........` and `NaN` now give `NA`, `+Infinity` gives `Inf`, in
+  every parameter table.
+- `fetch_etas()` and `fetch_sigmas()` return all random effects when there
+  are ten or more. From the tenth on, NONMEM labels them `ET10`, `EP10` and
+  so on, and these rows were dropped. Matrix rows longer than 12 values,
+  which continue on a record without `+`, are read in full.
+- `fetch_etas()` reads ETA shrinkage records that NONMEM wraps after ten
+  values, instead of returning `NA` shrinkage with a warning.
+- `fetch_condn()` again returns `NA` without a warning when the covariance
+  step ran with `EIGENVLS. PRINTED: NO`. Since 0.1.2 this flag was looked
+  for only in the final estimation step, but NONMEM prints it in the problem
+  header.
+- Method headers for LAPLACE (`LAPLACIAN CONDITIONAL ESTIMATION`, with or
+  without interaction), ITS (`ITERATIVE TWO STAGE`) and BAYES as NONMEM prints
+  it (`MCMC BAYESIAN ANALYSIS`) are recognized.
 
 # lstparsR 0.1.2
 

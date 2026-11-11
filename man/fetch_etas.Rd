@@ -16,7 +16,8 @@ fetch_etas(lst, digits = NA, shk_digits = NA)
 \value{
 A \code{\link[tibble:tibble]{tibble}} with columns:
 \describe{
-\item{parameter}{Character. Parameter label (e.g. \code{"ETA1"}).}
+\item{parameter}{Character. Parameter label as printed (e.g. \code{"ETA1"};
+\code{"ET10"} from the tenth ETA on).}
 \item{estimate}{Numeric. Diagonal variance estimate.}
 \item{se}{Numeric. Standard error. \code{NA} if no covariance step.}
 \item{rse}{Numeric. Relative standard error (\%). \code{NA} if no covariance step.}
