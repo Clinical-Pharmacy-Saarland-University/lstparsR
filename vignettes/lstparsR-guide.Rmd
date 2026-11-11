@@ -48,8 +48,8 @@ files and returning tidy data frames. It is designed with two goals:
    lowercase column names (`parameter`, `estimate`, `se`, `rse`,
    `shrinkage`) ready for binding across runs with `dplyr` or `purrr`.
 
-The package recognizes FOCE-I, FOCE, FO, SAEM, IMP, IMPMAP, and Bayesian
-method headers. Output layout coverage is described below.
+The package recognizes FO, FOCE, FOCE-I, LAPLACE, ITS, SAEM, IMP, IMPMAP
+and BAYES method headers. Output layout coverage is described below.
 
 ## Installation
 
@@ -234,14 +234,19 @@ file header. The following headers are recognized:
 - First Order (FO)
 - First Order Conditional Estimation (FOCE)
 - First Order Conditional Estimation with Interaction (FOCE-I)
+- Laplacian Conditional Estimation, with or without interaction (LAPLACE)
+- Iterative Two Stage (ITS)
 - Stochastic Approximation Expectation-Maximization (SAEM)
-- Importance Sampling (IMP)
+- Importance Sampling (IMP), including evaluation-only steps
 - Importance Sampling Assisted by Mode A Posteriori (IMPMAP)
-- Markov Chain Monte Carlo Bayesian Analysis
+- MCMC Bayesian Analysis (BAYES)
 
-Numerical regression tests cover FOCE-I listings and controlled edge cases;
-FO listings have additional execution coverage. Recognizing a method header does
-not validate every layout or posterior summary from that method. The parsers
+Numerical regression tests cover FOCE-I listings, controlled edge cases and
+a synthetic corpus of invented listings for every method above (see
+`extdata/lst/manifest.csv`); FO listings have additional execution coverage.
+The synthetic layouts of the EM and Bayesian methods follow the NONMEM 7
+documentation. Recognizing a method header does not validate every layout or
+posterior summary from that method. The parsers
 expect the fixed-format result sections shown in the examples. Compare results
 with the original listing for unfamiliar layouts. Parsing does not validate the
 scientific model or its estimates.

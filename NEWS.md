@@ -10,6 +10,19 @@
   adds to the console.
 - DESCRIPTION declares `Language: en-US`, and an `inst/WORDLIST` records
   the technical terms used in the documentation.
+- A synthetic test corpus replaces the external corpus of study listings,
+  which is no longer part of the repository. `inst/extdata/lst/` holds 36
+  small, invented listings written by `data-raw/make_synthetic_lst.R`, with a
+  manifest and the expected values of every case. The cases cover FO, FOCE,
+  FOCE-I, LAPLACE (with the M3 likelihood), ITS, SAEM, IMP (including
+  evaluation-only steps), IMPMAP and BAYES; chained estimation steps and
+  multiple problems; successful, terminated and evaluation-only runs;
+  completed, aborted and singular covariance steps; eigenvalues that are
+  not printed, negative or zero; fixed, block and SAME parameters;
+  non-finite standard errors; extreme magnitudes; wrapped records; Windows
+  line endings; and truncated or failed runs. The tests compare every
+  parser with these known values, and the "Getting Started" vignette
+  parses some of the cases.
 - `fetch_thetas()` keeps standard errors aligned with their parameters when a
   field prints `.........` (a fixed THETA) or `+Infinity`. Previously the
   following values moved one column to the left and a padding warning was

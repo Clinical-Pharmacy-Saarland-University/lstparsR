@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Synthetic listing that deliberately uses Windows (CRLF) line endings
+inst/extdata/lst/s34_crlf_line_endings.lst -text

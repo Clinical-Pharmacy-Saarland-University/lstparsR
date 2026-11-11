@@ -1,0 +1,473 @@
+$PROBLEM    SYNTHETIC lstparsR test case s09: ITS followed by BAYES
+$INPUT      ID TIME AMT DV MDV
+$DATA      synthetic_s09.csv IGNORE=@
+$SUBROUTINE ADVAN1 TRANS2
+$PK
+  CL = THETA(1) * EXP(ETA(1))
+  V  = THETA(2) * EXP(ETA(2))
+  S1 = V
+$ERROR
+  IPRED = F
+  Y     = IPRED * (1 + EPS(1))
+$THETA  (0, 3) (0, 25)
+$OMEGA  0.1 0.1
+$SIGMA  0.04
+$ESTIMATION METHOD=ITS INTERACTION NITER=50
+$ESTIMATION METHOD=BAYES INTERACTION NBURN=1000 NITER=2000
+$COVARIANCE PRINT=E
+$TABLE      ID TIME IPRED NOPRINT ONEHEADER FILE=synthetic_s09.tab
+  
+NM-TRAN MESSAGES 
+  
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+             
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+  
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.4
+
+ PROBLEM NO.:         1
+ SYNTHETIC lstparsR test case s09: ITS followed by BAYES
+0DATA CHECKOUT RUN:              NO
+ DATA SET LOCATED ON UNIT NO.:    2
+ THIS UNIT TO BE REWOUND:        NO
+ NO. OF DATA RECS IN DATA SET:      330
+ NO. OF DATA ITEMS IN DATA SET:   5
+ ID DATA ITEM IS DATA ITEM NO.:   1
+ DEP VARIABLE IS DATA ITEM NO.:   4
+ MDV DATA ITEM IS DATA ITEM NO.:  5
+0LABELS FOR DATA ITEMS:
+ ID TIME AMT DV MDV
+0FORMAT FOR DATA:
+ (5E9.0)
+
+ TOT. NO. OF OBS RECS:      300
+ TOT. NO. OF INDIVIDUALS:      30
+0LENGTH OF THETA:   2
+0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   2
+0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
+0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
+0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
+0INITIAL ESTIMATE OF THETA:
+ LOWER BOUND    INITIAL EST    UPPER BOUND
+  0.0000E+00     0.3000E+01     0.1000E+07
+  0.0000E+00     0.2500E+02     0.1000E+07
+0INITIAL ESTIMATE OF OMEGA:
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
+0INITIAL ESTIMATE OF SIGMA:
+ 0.4000E-01
+0COVARIANCE STEP OMITTED:        NO
+ EIGENVLS. PRINTED:             YES
+ SPECIAL COMPUTATION:            NO
+ COMPRESSED FORMAT:              NO
+0TABLES STEP OMITTED:    NO
+ NO. OF TABLES:           1
+1DOUBLE PRECISION PREDPP VERSION 7.4.4
+
+ ONE COMPARTMENT MODEL (ADVAN1)
+0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+1
+
+
+ #TBLN:      1
+ #METH: Iterative Two Stage
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ EM OR BAYESIAN METHOD USED:                ITERATIVE TWO STAGE (ITS)
+ MU MODELING PATTERN (MUM):
+ GRADIENT/GIBBS PATTERN (GRD):
+ CONVERGENCE TYPE (CTYPE):                  0
+
+ EM/BAYES SETUP:
+ THETAS THAT ARE MU MODELED:
+
+ iteration            0 OBJ=    1230.16817391
+ iteration           10 OBJ=    1226.91817391
+ iteration           30 OBJ=    1223.66817391
+ iteration           50 OBJ=    1220.41817391
+
+ #TERM:
+ OPTIMIZATION WAS COMPLETED
+
+ ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
+ AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
+
+ ETABAR:         3.2340E-03 -2.7511E-03
+ SE:             3.8389E-02  2.3276E-02
+ N:                      30          30
+
+ P VAL.:         1.7701E-01  9.4993E-01
+
+ ETASHRINKSD(%)  1.2900E+01  2.9100E+01
+ ETASHRINKVR(%)  2.4136E+01  4.9732E+01
+ EBVSHRINKSD(%)  1.3803E+01  3.1137E+01
+ EBVSHRINKVR(%)  2.5343E+01  5.2218E+01
+ EPSSHRINKSD(%)  9.9200E+00
+ EPSSHRINKVR(%)  1.8856E+01
+
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          300
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    551.3631199228035     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    1220.4181739139999     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       1771.7812938368033     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                            60
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     4.18
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                               ITERATIVE TWO STAGE                              ********************
+ #OBJT:**************                       FINAL VALUE OF LIKELIHOOD FUNCTION                       ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     1220.418       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                               ITERATIVE TWO STAGE                              ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      
+ 
+         3.05E+00  2.29E+01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        1.15E-01
+ 
+ ETA2
++        0.00E+00  7.62E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        3.94E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.39E-01
+ 
+ ETA2
++        0.00E+00  2.76E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.98E-01
+ 
+1
+
+
+ #TBLN:      2
+ #METH: MCMC Bayesian Analysis
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ EM OR BAYESIAN METHOD USED:                MCMC BAYESIAN (BAYES)
+ MU MODELING PATTERN (MUM):
+ GRADIENT/GIBBS PATTERN (GRD):
+ BURN-IN NUMBER (NBURN):                    1000
+ ITERATIONS (NITER):                        2000
+
+ EM/BAYES SETUP:
+ THETAS THAT ARE MU MODELED:
+
+ iteration        -1000 MCMCOBJ=   -2177.89482609
+ iteration            0 MCMCOBJ=   -2181.14482609
+ iteration         1000 MCMCOBJ=   -2184.39482609
+ iteration         2000 MCMCOBJ=   -2187.64482609
+
+ #TERM:
+ BURN-IN WAS NOT TESTED FOR CONVERGENCE
+ STATISTICAL PORTION WAS COMPLETED
+
+ ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
+ AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
+
+ ETABAR:         3.2340E-03 -2.7511E-03
+ SE:             3.8389E-02  2.3276E-02
+ N:                      30          30
+
+ P VAL.:         1.7701E-01  9.4993E-01
+
+ ETASHRINKSD(%)  1.3100E+01  3.0200E+01
+ ETASHRINKVR(%)  2.4484E+01  5.1280E+01
+ EBVSHRINKSD(%)  1.4017E+01  3.2314E+01
+ EBVSHRINKVR(%)  2.5708E+01  5.3844E+01
+ EPSSHRINKSD(%)  9.8700E+00
+ EPSSHRINKVR(%)  1.8766E+01
+
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          300
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    551.3631199228035     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    -2187.6448260860002     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       -1636.2817061631968     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                            60
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     4.18
+ Elapsed covariance  time in seconds:     1.37
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                             MCMC BAYESIAN ANALYSIS                             ********************
+ #OBJT:**************                      AVERAGE VALUE OF LIKELIHOOD FUNCTION                      ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************    -2187.645       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                             MCMC BAYESIAN ANALYSIS                             ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      
+ 
+         3.09E+00  2.26E+01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        1.24E-01
+ 
+ ETA2
++        0.00E+00  7.68E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        3.95E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.52E-01
+ 
+ ETA2
++        0.00E+00  2.77E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.99E-01
+ 
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                             MCMC BAYESIAN ANALYSIS                             ********************
+ ********************                STANDARD ERROR OF ESTIMATE (From Sample Variance)               ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      
+ 
+         2.38E-01  2.04E+00
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.77E-02
+ 
+ ETA2
++       .........  2.81E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        6.04E-03
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        5.35E-02
+ 
+ ETA2
++       .........  5.07E-02
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.52E-02
+ 
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                             MCMC BAYESIAN ANALYSIS                             ********************
+ ********************          EIGENVALUES OF COR MATRIX OF ESTIMATE (From Sample Variance)          ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+             1         2         3         4         5
+ 
+         2.76E-01  6.33E-01  9.05E-01  1.31E+00  1.88E+00
+ 
+ Elapsed finaloutput time in seconds:     0.11
+ #CPUT: Total CPU Time in Seconds,        7.125
+Stop Time:

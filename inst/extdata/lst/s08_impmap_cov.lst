@@ -1,0 +1,321 @@
+$PROBLEM    SYNTHETIC lstparsR test case s08: IMPMAP, covariance step successful
+$INPUT      ID TIME AMT DV MDV
+$DATA      synthetic_s08.csv IGNORE=@
+$SUBROUTINE ADVAN1 TRANS2
+$PK
+  CL = THETA(1) * EXP(ETA(1))
+  V  = THETA(2) * EXP(ETA(2))
+  S1 = V
+$ERROR
+  IPRED = F
+  Y     = IPRED * (1 + EPS(1))
+$THETA  (0, 3) (0, 25)
+$OMEGA  0.1 0.1
+$SIGMA  0.04
+$ESTIMATION METHOD=IMPMAP INTERACTION ISAMPLE=300 NITER=50
+$COVARIANCE PRINT=E
+$TABLE      ID TIME IPRED NOPRINT ONEHEADER FILE=synthetic_s08.tab
+  
+NM-TRAN MESSAGES 
+  
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+             
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+  
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.5.0
+
+ PROBLEM NO.:         1
+ SYNTHETIC lstparsR test case s08: IMPMAP, covariance step successful
+0DATA CHECKOUT RUN:              NO
+ DATA SET LOCATED ON UNIT NO.:    2
+ THIS UNIT TO BE REWOUND:        NO
+ NO. OF DATA RECS IN DATA SET:      330
+ NO. OF DATA ITEMS IN DATA SET:   5
+ ID DATA ITEM IS DATA ITEM NO.:   1
+ DEP VARIABLE IS DATA ITEM NO.:   4
+ MDV DATA ITEM IS DATA ITEM NO.:  5
+0LABELS FOR DATA ITEMS:
+ ID TIME AMT DV MDV
+0FORMAT FOR DATA:
+ (5E9.0)
+
+ TOT. NO. OF OBS RECS:      300
+ TOT. NO. OF INDIVIDUALS:      30
+0LENGTH OF THETA:   2
+0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   2
+0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
+0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
+0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
+0INITIAL ESTIMATE OF THETA:
+ LOWER BOUND    INITIAL EST    UPPER BOUND
+  0.0000E+00     0.3000E+01     0.1000E+07
+  0.0000E+00     0.2500E+02     0.1000E+07
+0INITIAL ESTIMATE OF OMEGA:
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
+0INITIAL ESTIMATE OF SIGMA:
+ 0.4000E-01
+0COVARIANCE STEP OMITTED:        NO
+ EIGENVLS. PRINTED:             YES
+ SPECIAL COMPUTATION:            NO
+ COMPRESSED FORMAT:              NO
+0TABLES STEP OMITTED:    NO
+ NO. OF TABLES:           1
+1DOUBLE PRECISION PREDPP VERSION 7.5.0
+
+ ONE COMPARTMENT MODEL (ADVAN1)
+0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+1
+
+
+ #TBLN:      1
+ #METH: Importance Sampling assisted by Mode a Posteriori
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ EM OR BAYESIAN METHOD USED:                IMPORTANCE SAMPLING ASSISTED BY MAP (IMPMAP)
+ MU MODELING PATTERN (MUM):
+ GRADIENT/GIBBS PATTERN (GRD):
+ EM/BAYES SAMPLES (ISAMPLE):                300
+ ITERATIONS (NITER):                        50
+
+ EM/BAYES SETUP:
+ THETAS THAT ARE MU MODELED:
+
+ iteration            0 OBJ=    1226.65217391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+ iteration           10 OBJ=    1223.40217391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+ iteration           30 OBJ=    1220.15217391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+ iteration           50 OBJ=    1216.90217391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+
+ #TERM:
+ OPTIMIZATION WAS NOT TESTED FOR CONVERGENCE
+
+ ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
+ AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
+
+ ETABAR:         3.2340E-03 -2.7511E-03
+ SE:             3.8389E-02  2.3276E-02
+ N:                      30          30
+
+ P VAL.:         1.7701E-01  9.4993E-01
+
+ ETASHRINKSD(%)  1.2200E+01  3.0400E+01
+ ETASHRINKVR(%)  2.2912E+01  5.1558E+01
+ EBVSHRINKSD(%)  1.3054E+01  3.2528E+01
+ EBVSHRINKVR(%)  2.4057E+01  5.4136E+01
+ EPSSHRINKSD(%)  9.5100E+00
+ EPSSHRINKVR(%)  1.8116E+01
+
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          300
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    551.3631199228035     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    1216.9021739140001     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       1768.2652938368037     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                            60
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     4.18
+ Elapsed covariance  time in seconds:     1.37
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                IMPORTANCE SAMPLING ASSISTED BY MODE A POSTERIORI               ********************
+ #OBJT:**************                       FINAL VALUE OF LIKELIHOOD FUNCTION                       ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     1216.902       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                IMPORTANCE SAMPLING ASSISTED BY MODE A POSTERIORI               ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      
+ 
+         3.11E+00  2.24E+01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        1.21E-01
+ 
+ ETA2
++        0.00E+00  7.31E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        3.87E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.48E-01
+ 
+ ETA2
++        0.00E+00  2.70E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.97E-01
+ 
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                IMPORTANCE SAMPLING ASSISTED BY MODE A POSTERIORI               ********************
+ ********************                           STANDARD ERROR OF ESTIMATE                           ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      
+ 
+         2.31E-01  1.98E+00
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.42E-02
+ 
+ ETA2
++       .........  2.59E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        5.71E-03
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        4.92E-02
+ 
+ ETA2
++       .........  4.79E-02
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.45E-02
+ 
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                IMPORTANCE SAMPLING ASSISTED BY MODE A POSTERIORI               ********************
+ ********************                      EIGENVALUES OF COR MATRIX OF ESTIMATE                     ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+             1         2         3         4         5
+ 
+         3.01E-01  5.97E-01  9.12E-01  1.33E+00  1.86E+00
+ 
+ Elapsed finaloutput time in seconds:     0.11
+ #CPUT: Total CPU Time in Seconds,        7.125
+Stop Time:

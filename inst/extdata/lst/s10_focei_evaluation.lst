@@ -1,0 +1,197 @@
+$PROBLEM    SYNTHETIC lstparsR test case s10: FOCE-I evaluation at the initial estimates
+$INPUT      ID TIME AMT DV MDV EVID WT
+$DATA      synthetic_s10.csv IGNORE=@
+$SUBROUTINE ADVAN2 TRANS2
+$PK
+  TVCL = THETA(1) * (WT / 70)**THETA(4)
+  CL   = TVCL * EXP(ETA(1))
+  V    = THETA(2) * EXP(ETA(2))
+  KA   = THETA(3) * EXP(ETA(3))
+  S2   = V
+$ERROR
+  IPRED = F
+  Y     = IPRED * (1 + EPS(1))
+$THETA  (0, 4) (0, 30) (0, 1) 0.75
+$OMEGA  0.1 0.1 0.3
+$SIGMA  0.03
+$ESTIMATION METHOD=1 INTERACTION MAXEVAL=0
+$TABLE      ID TIME IPRED CWRES NOPRINT ONEHEADER FILE=synthetic_s10.tab
+  
+NM-TRAN MESSAGES 
+  
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+             
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+  
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
+
+ PROBLEM NO.:         1
+ SYNTHETIC lstparsR test case s10: FOCE-I evaluation at the initial estimates
+0DATA CHECKOUT RUN:              NO
+ DATA SET LOCATED ON UNIT NO.:    2
+ THIS UNIT TO BE REWOUND:        NO
+ NO. OF DATA RECS IN DATA SET:      520
+ NO. OF DATA ITEMS IN DATA SET:   7
+ ID DATA ITEM IS DATA ITEM NO.:   1
+ DEP VARIABLE IS DATA ITEM NO.:   4
+ MDV DATA ITEM IS DATA ITEM NO.:  5
+0LABELS FOR DATA ITEMS:
+ ID TIME AMT DV MDV EVID WT
+0FORMAT FOR DATA:
+ (7E9.0)
+
+ TOT. NO. OF OBS RECS:      480
+ TOT. NO. OF INDIVIDUALS:      40
+0LENGTH OF THETA:   4
+0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   3
+0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
+0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
+0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
+0INITIAL ESTIMATE OF THETA:
+ LOWER BOUND    INITIAL EST    UPPER BOUND
+  0.0000E+00     0.4000E+01     0.1000E+07
+  0.0000E+00     0.3000E+02     0.1000E+07
+  0.0000E+00     0.1000E+01     0.1000E+07
+ -0.1000E+07     0.7500E+00     0.1000E+07
+0INITIAL ESTIMATE OF OMEGA:
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
+ 0.0000E+00   0.0000E+00   0.3000E+00
+0INITIAL ESTIMATE OF SIGMA:
+ 0.3000E-01
+0COVARIANCE STEP OMITTED:        YES
+0TABLES STEP OMITTED:    NO
+ NO. OF TABLES:           1
+1DOUBLE PRECISION PREDPP VERSION 7.4.3
+
+ ONE COMPARTMENT MODEL WITH FIRST-ORDER ABSORPTION (ADVAN2)
+0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+1
+
+
+ #TBLN:      1
+ #METH: First Order Conditional Estimation with Interaction (Evaluation)
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ GRADIENT METHOD USED:               NOSLOW
+ CONDITIONAL ESTIMATES USED:              YES
+ CENTERED ETA:                            NO
+ EPS-ETA INTERACTION:                     YES
+ LAPLACIAN OBJ. FUNC.:                    NO
+ NO. OF FUNCT. EVALS. ALLOWED:            9999
+ NO. OF SIG. FIGURES REQUIRED:            3
+ INTERMEDIATE PRINTOUT:                   YES
+ EM OR BAYESIAN METHOD USED:                 NONE
+
+ Elapsed evaluation time in seconds:      0.71
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************        FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION (EVALUATION)        ********************
+ #OBJT:**************                       MINIMUM VALUE OF OBJECTIVE FUNCTION                      ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     2011.583       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************        FIRST ORDER CONDITIONAL ESTIMATION WITH INTERACTION (EVALUATION)        ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      
+ 
+         4.00E+00  3.00E+01  1.00E+00  7.50E-01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        1.00E-01
+ 
+ ETA2
++        0.00E+00  1.00E-01
+ 
+ ETA3
++        0.00E+00  0.00E+00  3.00E-01
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        3.00E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        3.16E-01
+ 
+ ETA2
++        0.00E+00  3.16E-01
+ 
+ ETA3
++        0.00E+00  0.00E+00  5.48E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.73E-01
+ 
+ Elapsed finaloutput time in seconds:     0.11
+ #CPUT: Total CPU Time in Seconds,        7.125
+Stop Time:

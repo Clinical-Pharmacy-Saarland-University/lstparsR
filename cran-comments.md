@@ -10,9 +10,9 @@ interactive input and without network access.
 ## Test environments
 
 - Local: macOS 27 on Apple silicon, R 4.6.1 (aarch64-apple-darwin),
-  `R CMD check --as-cran --no-manual` on the built tarball with `NOT_CRAN`
-  unset. The PDF manual was built locally with TinyTeX (TeX Live 2026) via
-  `R CMD Rd2pdf` without errors; the check run itself used `--no-manual`.
+  `R CMD check --as-cran` on the built tarball with `NOT_CRAN` unset,
+  including the PDF manual (TinyTeX, TeX Live 2026) and the HTML manual
+  validation with HTML Tidy.
 - GitHub Actions (r-lib/actions v2, `--as-cran`): macOS-latest (R release),
   windows-latest (R release), ubuntu-latest (R devel, R release,
   R oldrel-1).
@@ -32,7 +32,9 @@ correctly spelled scientific terms.
 ## Scope
 
 The package reads fixed-format result sections illustrated by the bundled
-examples. Method-header recognition is documented separately from numerical
+examples. The tests and one vignette section use 36 small synthetic listings
+in inst/extdata/lst (about 350 kB uncompressed); they contain only invented
+models and values. Method-header recognition is documented separately from numerical
 output-layout validation. Missing optional quantities return NA; unavailable
 required sections produce errors that fetch_all() contains with warnings and
 NULL elements.

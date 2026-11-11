@@ -1,0 +1,497 @@
+$PROBLEM    SYNTHETIC lstparsR test case s07: SAEM followed by IMP, covariance step after IMP
+$INPUT      ID TIME AMT DV MDV EVID WT
+$DATA      synthetic_s07.csv IGNORE=@
+$SUBROUTINE ADVAN2 TRANS2
+$PK
+  TVCL = THETA(1) * (WT / 70)**THETA(4)
+  CL   = TVCL * EXP(ETA(1))
+  V    = THETA(2) * EXP(ETA(2))
+  KA   = THETA(3) * EXP(ETA(3))
+  S2   = V
+$ERROR
+  IPRED = F
+  Y     = IPRED * (1 + EPS(1))
+$THETA  (0, 4) (0, 30) (0, 1) 0.75
+$OMEGA  0.1 0.1 0.3
+$SIGMA  0.03
+$ESTIMATION METHOD=SAEM INTERACTION NBURN=2000 NITER=500
+$ESTIMATION METHOD=IMP INTERACTION ISAMPLE=300 NITER=50
+$COVARIANCE PRINT=E
+$TABLE      ID TIME IPRED CWRES NOPRINT ONEHEADER FILE=synthetic_s07.tab
+  
+NM-TRAN MESSAGES 
+  
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+             
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+  
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.4.3
+
+ PROBLEM NO.:         1
+ SYNTHETIC lstparsR test case s07: SAEM followed by IMP, covariance step after IMP
+0DATA CHECKOUT RUN:              NO
+ DATA SET LOCATED ON UNIT NO.:    2
+ THIS UNIT TO BE REWOUND:        NO
+ NO. OF DATA RECS IN DATA SET:      520
+ NO. OF DATA ITEMS IN DATA SET:   7
+ ID DATA ITEM IS DATA ITEM NO.:   1
+ DEP VARIABLE IS DATA ITEM NO.:   4
+ MDV DATA ITEM IS DATA ITEM NO.:  5
+0LABELS FOR DATA ITEMS:
+ ID TIME AMT DV MDV EVID WT
+0FORMAT FOR DATA:
+ (7E9.0)
+
+ TOT. NO. OF OBS RECS:      480
+ TOT. NO. OF INDIVIDUALS:      40
+0LENGTH OF THETA:   4
+0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   3
+0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
+0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   1
+0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
+0INITIAL ESTIMATE OF THETA:
+ LOWER BOUND    INITIAL EST    UPPER BOUND
+  0.0000E+00     0.4000E+01     0.1000E+07
+  0.0000E+00     0.3000E+02     0.1000E+07
+  0.0000E+00     0.1000E+01     0.1000E+07
+ -0.1000E+07     0.7500E+00     0.1000E+07
+0INITIAL ESTIMATE OF OMEGA:
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
+ 0.0000E+00   0.0000E+00   0.3000E+00
+0INITIAL ESTIMATE OF SIGMA:
+ 0.3000E-01
+0COVARIANCE STEP OMITTED:        NO
+ EIGENVLS. PRINTED:             YES
+ SPECIAL COMPUTATION:            NO
+ COMPRESSED FORMAT:              NO
+0TABLES STEP OMITTED:    NO
+ NO. OF TABLES:           1
+1DOUBLE PRECISION PREDPP VERSION 7.4.3
+
+ ONE COMPARTMENT MODEL WITH FIRST-ORDER ABSORPTION (ADVAN2)
+0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+1
+
+
+ #TBLN:      1
+ #METH: Stochastic Approximation Expectation-Maximization
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ EM OR BAYESIAN METHOD USED:                STOCHASTIC APPROXIMATION EXPECTATION MAXIMIZATION (SAEM)
+ MU MODELING PATTERN (MUM):
+ GRADIENT/GIBBS PATTERN (GRD):
+ BURN-IN NUMBER (NBURN):                    2000
+ ITERATIONS (NITER):                        500
+
+ EM/BAYES SETUP:
+ THETAS THAT ARE MU MODELED:
+
+ iteration        -2000 SAEMOBJ=    1879.77617391
+ iteration        -1000 SAEMOBJ=    1876.52617391
+ iteration            0 SAEMOBJ=    1873.27617391
+ iteration          500 SAEMOBJ=    1870.02617391
+
+ #TERM:
+ STOCHASTIC PORTION WAS NOT TESTED FOR CONVERGENCE
+ REDUCED STOCHASTIC PORTION WAS COMPLETED
+
+ ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
+ AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
+
+ ETABAR:         3.2340E-03 -2.7511E-03 -2.5251E-03
+ SE:             3.8389E-02  2.3276E-02  3.4968E-02
+ N:                      40          40          40
+
+ P VAL.:         1.7701E-01  9.4993E-01  1.5489E-01
+
+ ETASHRINKSD(%)  8.6100E+00  2.1900E+01  3.8400E+01
+ ETASHRINKVR(%)  1.6479E+01  3.9004E+01  6.2054E+01
+ EBVSHRINKSD(%)  9.2127E+00  2.3433E+01  4.1088E+01
+ EBVSHRINKVR(%)  1.7303E+01  4.0954E+01  6.5157E+01
+ EPSSHRINKSD(%)  6.3100E+00
+ EPSSHRINKVR(%)  1.2222E+01
+
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          480
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    882.1809918764858     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    1870.0261739140001     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       2752.2071657904858     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                           120
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     4.18
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                STOCHASTIC APPROXIMATION EXPECTATION-MAXIMIZATION               ********************
+ #OBJT:**************                       FINAL VALUE OF LIKELIHOOD FUNCTION                       ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     1870.026       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                STOCHASTIC APPROXIMATION EXPECTATION-MAXIMIZATION               ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      
+ 
+         4.33E+00  3.16E+01  1.12E+00  6.71E-01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        8.57E-02
+ 
+ ETA2
++        0.00E+00  5.38E-02
+ 
+ ETA3
++        0.00E+00  0.00E+00  3.05E-01
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        2.74E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        2.93E-01
+ 
+ ETA2
++        0.00E+00  2.32E-01
+ 
+ ETA3
++        0.00E+00  0.00E+00  5.52E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.66E-01
+ 
+1
+
+
+ #TBLN:      2
+ #METH: Importance Sampling
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ EM OR BAYESIAN METHOD USED:                IMPORTANCE SAMPLING (IMP)
+ MU MODELING PATTERN (MUM):
+ GRADIENT/GIBBS PATTERN (GRD):
+ EM/BAYES SAMPLES (ISAMPLE):                300
+ ITERATIONS (NITER):                        50
+
+ EM/BAYES SETUP:
+ THETAS THAT ARE MU MODELED:
+
+ iteration            0 OBJ=    1885.64317391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+ iteration           10 OBJ=    1882.39317391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+ iteration           30 OBJ=    1879.14317391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+ iteration           50 OBJ=    1875.89317391 eff.=     300. Smpl.=     300. Fit.= 0.78125
+
+ #TERM:
+ OPTIMIZATION WAS NOT TESTED FOR CONVERGENCE
+
+ ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
+ AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
+
+ ETABAR:         3.2340E-03 -2.7511E-03 -2.5251E-03
+ SE:             3.8389E-02  2.3276E-02  3.4968E-02
+ N:                      40          40          40
+
+ P VAL.:         1.7701E-01  9.4993E-01  1.5489E-01
+
+ ETASHRINKSD(%)  8.4700E+00  2.1500E+01  3.8100E+01
+ ETASHRINKVR(%)  1.6223E+01  3.8377E+01  6.1684E+01
+ EBVSHRINKSD(%)  9.0629E+00  2.3005E+01  4.0767E+01
+ EBVSHRINKVR(%)  1.7034E+01  4.0296E+01  6.4768E+01
+ EPSSHRINKSD(%)  6.2200E+00
+ EPSSHRINKVR(%)  1.2053E+01
+
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          480
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    882.1809918764858     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    1875.8931739140000     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       2758.0741657904859     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                           120
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     4.18
+ Elapsed covariance  time in seconds:     1.37
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                               IMPORTANCE SAMPLING                              ********************
+ #OBJT:**************                       FINAL VALUE OF LIKELIHOOD FUNCTION                       ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     1875.893       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                               IMPORTANCE SAMPLING                              ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      
+ 
+         4.36E+00  3.13E+01  1.14E+00  6.79E-01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        8.46E-02
+ 
+ ETA2
++        0.00E+00  5.33E-02
+ 
+ ETA3
++        0.00E+00  0.00E+00  3.09E-01
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        2.76E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        2.91E-01
+ 
+ ETA2
++        0.00E+00  2.31E-01
+ 
+ ETA3
++        0.00E+00  0.00E+00  5.56E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.66E-01
+ 
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                               IMPORTANCE SAMPLING                              ********************
+ ********************                           STANDARD ERROR OF ESTIMATE                           ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      
+ 
+         3.18E-01  2.11E+00  1.49E-01  1.26E-01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        2.19E-02
+ 
+ ETA2
++       .........  1.91E-02
+ 
+ ETA3
++       ......... .........  9.78E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      
+ 
+ EPS1
++        3.52E-03
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      ETA3      
+ 
+ ETA1
++        3.76E-02
+ 
+ ETA2
++       .........  4.14E-02
+ 
+ ETA3
++       ......... .........  8.80E-02
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      
+ 
+ EPS1
++        1.06E-02
+ 
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                               IMPORTANCE SAMPLING                              ********************
+ ********************                      EIGENVALUES OF COR MATRIX OF ESTIMATE                     ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+             1         2         3         4         5         6         7         8
+ 
+         4.38E-02  1.92E-01  4.01E-01  6.27E-01  9.12E-01  1.23E+00  1.72E+00  2.87E+00
+ 
+ Elapsed finaloutput time in seconds:     0.11
+ #CPUT: Total CPU Time in Seconds,        7.125
+Stop Time:

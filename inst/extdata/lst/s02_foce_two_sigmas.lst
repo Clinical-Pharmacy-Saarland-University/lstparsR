@@ -1,0 +1,351 @@
+$PROBLEM    SYNTHETIC lstparsR test case s02: FOCE without interaction, two SIGMAs
+$INPUT      ID TIME AMT RATE DV MDV
+$DATA      synthetic_s02.csv IGNORE=@
+$SUBROUTINE ADVAN3 TRANS4
+$PK
+  CL = THETA(1) * EXP(ETA(1))
+  V1 = THETA(2) * EXP(ETA(2))
+  Q  = THETA(3)
+  V2 = THETA(4)
+  S1 = V1
+$ERROR
+  IPRED = F
+  Y     = IPRED + IPRED * EPS(1) + EPS(2)
+$THETA  (0, 8) (0, 20) (0, 3) (0, 40)
+$OMEGA  0.1 0.1
+$SIGMA  0.02 0.05
+$ESTIMATION METHOD=1 MAXEVAL=9999 PRINT=5
+$COVARIANCE PRINT=E
+$TABLE      ID TIME IPRED CWRES NOPRINT ONEHEADER FILE=synthetic_s02.tab
+  
+NM-TRAN MESSAGES 
+  
+ WARNINGS AND ERRORS (IF ANY) FOR PROBLEM    1
+             
+ (WARNING  2) NM-TRAN INFERS THAT THE DATA ARE POPULATION.
+  
+1NONLINEAR MIXED EFFECTS MODEL PROGRAM (NONMEM) VERSION 7.3.0
+
+ PROBLEM NO.:         1
+ SYNTHETIC lstparsR test case s02: FOCE without interaction, two SIGMAs
+0DATA CHECKOUT RUN:              NO
+ DATA SET LOCATED ON UNIT NO.:    2
+ THIS UNIT TO BE REWOUND:        NO
+ NO. OF DATA RECS IN DATA SET:      595
+ NO. OF DATA ITEMS IN DATA SET:   6
+ ID DATA ITEM IS DATA ITEM NO.:   1
+ DEP VARIABLE IS DATA ITEM NO.:   5
+ MDV DATA ITEM IS DATA ITEM NO.:  6
+0LABELS FOR DATA ITEMS:
+ ID TIME AMT RATE DV MDV
+0FORMAT FOR DATA:
+ (6E9.0)
+
+ TOT. NO. OF OBS RECS:      560
+ TOT. NO. OF INDIVIDUALS:      35
+0LENGTH OF THETA:   4
+0DEFAULT THETA BOUNDARY TEST OMITTED:    NO
+0OMEGA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   2
+0DEFAULT OMEGA BOUNDARY TEST OMITTED:    NO
+0SIGMA HAS SIMPLE DIAGONAL FORM WITH DIMENSION:   2
+0DEFAULT SIGMA BOUNDARY TEST OMITTED:    NO
+0INITIAL ESTIMATE OF THETA:
+ LOWER BOUND    INITIAL EST    UPPER BOUND
+  0.0000E+00     0.8000E+01     0.1000E+07
+  0.0000E+00     0.2000E+02     0.1000E+07
+  0.0000E+00     0.3000E+01     0.1000E+07
+  0.0000E+00     0.4000E+02     0.1000E+07
+0INITIAL ESTIMATE OF OMEGA:
+ 0.1000E+00
+ 0.0000E+00   0.1000E+00
+0INITIAL ESTIMATE OF SIGMA:
+ 0.2000E-01
+ 0.0000E+00   0.5000E-01
+0COVARIANCE STEP OMITTED:        NO
+ EIGENVLS. PRINTED:             YES
+ SPECIAL COMPUTATION:            NO
+ COMPRESSED FORMAT:              NO
+0TABLES STEP OMITTED:    NO
+ NO. OF TABLES:           1
+1DOUBLE PRECISION PREDPP VERSION 7.3.0
+
+ TWO COMPARTMENT MODEL (ADVAN3)
+0PK SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+0ERROR SUBROUTINE CALLED WITH EVERY EVENT RECORD.
+1
+
+
+ #TBLN:      1
+ #METH: First Order Conditional Estimation
+
+ ESTIMATION STEP OMITTED:                 NO
+ ANALYSIS TYPE:                           POPULATION
+ GRADIENT METHOD USED:               NOSLOW
+ CONDITIONAL ESTIMATES USED:              YES
+ CENTERED ETA:                            NO
+ EPS-ETA INTERACTION:                     NO
+ LAPLACIAN OBJ. FUNC.:                    NO
+ NO. OF FUNCT. EVALS. ALLOWED:            9999
+ NO. OF SIG. FIGURES REQUIRED:            3
+ INTERMEDIATE PRINTOUT:                   YES
+ EM OR BAYESIAN METHOD USED:                 NONE
+
+ MONITORING OF SEARCH:
+
+
+0ITERATION NO.:    0    OBJECTIVE VALUE:    3563.36510000000        NO. OF FUNC. EVALS.:   7
+ CUMULATIVE NO. OF FUNC. EVALS.:        7
+ NPARAMETR:  1.6465E+00  2.8485E+00  9.3825E-01  3.0645E+00  1.7433E-01  3.0837E+00  7.9453E-01  2.9047E+00
+ PARAMETER:  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01  1.0000E-01
+ GRADIENT:   7.7290E+02 -4.5036E+02 -6.5685E+02  6.1962E+02  4.9718E+02 -7.4774E+02 -3.0449E+02  8.2621E+02
+
+0ITERATION NO.:   23    OBJECTIVE VALUE:    3150.79217391400        NO. OF FUNC. EVALS.:  11
+ CUMULATIVE NO. OF FUNC. EVALS.:      251
+ NPARAMETR:  2.2474E-01  3.0885E+00  7.4536E-01  2.9222E+00  1.4726E+00  2.5685E+00  2.1087E+00  2.0509E+00
+ PARAMETER: -4.1266E-01 -3.7876E-01  5.1026E-01  2.4727E-01 -5.7398E-01 -9.9363E-02  5.9959E-01 -5.5144E-02
+ GRADIENT:   1.3400E-02 -3.9101E-02 -3.3236E-03  3.9958E-02 -6.9731E-03 -3.8161E-02  1.6807E-02  3.3830E-02
+
+ #TERM:
+0MINIMIZATION SUCCESSFUL
+ NO. OF FUNCTION EVALUATIONS USED:      251
+ NO. OF SIG. DIGITS IN FINAL EST.:  3.4
+
+ ETABAR IS THE ARITHMETIC MEAN OF THE ETA-ESTIMATES,
+ AND THE P-VALUE IS GIVEN FOR THE NULL HYPOTHESIS THAT THE TRUE MEAN IS 0.
+
+ ETABAR:         3.2340E-03 -2.7511E-03
+ SE:             3.8389E-02  2.3276E-02
+ N:                      35          35
+
+ P VAL.:         1.7701E-01  9.4993E-01
+
+ ETASHRINKSD(%)  4.7100E+00  1.8600E+01
+ ETASHRINKVR(%)  9.1982E+00  3.3740E+01
+ EBVSHRINKSD(%)  5.0397E+00  1.9902E+01
+ EBVSHRINKVR(%)  9.6581E+00  3.5427E+01
+ EPSSHRINKSD(%)  7.0200E+00  7.0200E+00
+ EPSSHRINKVR(%)  1.3547E+01  1.3547E+01
+
+  
+ TOTAL DATA POINTS NORMALLY DISTRIBUTED (N):          560
+ N*LOG(2PI) CONSTANT TO OBJECTIVE FUNCTION:    1029.2111571892333     
+ OBJECTIVE FUNCTION VALUE WITHOUT CONSTANT:    3150.7921739139997     
+ OBJECTIVE FUNCTION VALUE WITH CONSTANT:       4180.0033311032330     
+ REPORTED OBJECTIVE FUNCTION DOES NOT CONTAIN CONSTANT
+  
+ TOTAL EFFECTIVE ETAS (NIND*NETA):                            70
+  
+ #TERE:
+ Elapsed estimation  time in seconds:     4.18
+ Elapsed covariance  time in seconds:     1.37
+ Elapsed postprocess time in seconds:     0.02
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                       FIRST ORDER CONDITIONAL ESTIMATION                       ********************
+ #OBJT:**************                       MINIMUM VALUE OF OBJECTIVE FUNCTION                      ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+
+
+
+ #OBJV:********************************************     3150.792       **************************************************
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                       FIRST ORDER CONDITIONAL ESTIMATION                       ********************
+ ********************                            FINAL PARAMETER ESTIMATE                            ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      
+ 
+         7.82E+00  1.86E+01  2.94E+00  4.41E+01
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        9.61E-02
+ 
+ ETA2
++        0.00E+00  1.42E-01
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      EPS2      
+ 
+ EPS1
++        2.19E-02
+ 
+ EPS2
++        0.00E+00  4.84E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.10E-01
+ 
+ ETA2
++        0.00E+00  3.77E-01
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      EPS2      
+ 
+ EPS1
++        1.48E-01
+ 
+ EPS2
++        0.00E+00  2.20E-01
+ 
+1
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                       FIRST ORDER CONDITIONAL ESTIMATION                       ********************
+ ********************                           STANDARD ERROR OF ESTIMATE                           ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+
+ THETA - VECTOR OF FIXED EFFECTS PARAMETERS   *********
+
+
+         TH 1      TH 2      TH 3      TH 4      
+ 
+         5.14E-01  1.73E+00  4.02E-01  5.27E+00
+ 
+
+
+ OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        2.42E-02
+ 
+ ETA2
++       .........  4.51E-02
+ 
+
+
+ SIGMA - COV MATRIX FOR RANDOM EFFECTS - EPSILONS  ****
+
+
+         EPS1      EPS2      
+ 
+ EPS1
++        2.87E-03
+ 
+ EPS2
++       .........  1.23E-02
+ 
+1
+
+
+ OMEGA - CORR MATRIX FOR RANDOM EFFECTS - ETAS  *******
+
+
+         ETA1      ETA2      
+ 
+ ETA1
++        3.90E-02
+ 
+ ETA2
++       .........  5.98E-02
+ 
+
+
+ SIGMA - CORR MATRIX FOR RANDOM EFFECTS - EPSILONS  ***
+
+
+         EPS1      EPS2      
+ 
+ EPS1
++        9.70E-03
+ 
+ EPS2
++       .........  2.80E-02
+ 
+1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ************************************************************************************************************************
+ ********************                                                                                ********************
+ ********************                       FIRST ORDER CONDITIONAL ESTIMATION                       ********************
+ ********************                      EIGENVALUES OF COR MATRIX OF ESTIMATE                     ********************
+ ********************                                                                                ********************
+ ************************************************************************************************************************
+ 
+
+             1         2         3         4         5         6         7         8
+ 
+         9.73E-02  2.64E-01  5.81E-01  8.77E-01  1.12E+00  1.46E+00  1.71E+00  1.89E+00
+ 
+ Elapsed finaloutput time in seconds:     0.11
+ #CPUT: Total CPU Time in Seconds,        7.125
+Stop Time:
