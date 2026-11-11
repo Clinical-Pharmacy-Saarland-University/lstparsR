@@ -19,3 +19,6 @@ _coverage/
 
 /candidate/
 /check/
+
+# External test corpus from study runs: kept locally, never in the repository
+/.exttest/
