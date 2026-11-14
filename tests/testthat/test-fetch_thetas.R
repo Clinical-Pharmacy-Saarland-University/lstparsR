@@ -15,7 +15,7 @@ test_that("fetch_thetas SE and RSE are non-NA for full_cov", {
   expect_true(any(!is.na(result$se)))
 })
 
-test_that("fetch_thetas works for theta_no_cov fixture", {
+test_that("fetch_thetas works when only the THETA block is intact", {
   result <- fetch_thetas(lst_theta_no_cov)
   expect_s3_class(result, "data.frame")
   expect_gt(nrow(result), 0)
@@ -55,7 +55,7 @@ test_that("fetch_thetas errors when the THETA block cannot be parsed", {
 test_that("fetch_thetas warns and sets SE to NA on a row-count mismatch", {
   est <- make_section_page(
     FOCEI, "FINAL PARAMETER ESTIMATE",
-    theta_vector_body(c("TH 1", "TH 2"), c("3.41E+01", "3.87E+05"))
+    theta_vector_body(c("TH 1", "TH 2"), c("4.37E+00", "3.12E+01"))
   )
   se <- make_section_page(
     FOCEI, "STANDARD ERROR OF ESTIMATE",

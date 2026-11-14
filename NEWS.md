@@ -11,7 +11,7 @@
 - DESCRIPTION declares `Language: en-US`, and an `inst/WORDLIST` records
   the technical terms used in the documentation.
 - A synthetic test corpus replaces the external corpus of study listings,
-  which is no longer part of the repository. `inst/extdata/lst/` holds 36
+  which is no longer part of the repository. `inst/extdata/lst/` holds 39
   small, invented listings written by `data-raw/make_synthetic_lst.R`, with a
   manifest and the expected values of every case. The cases cover FO, FOCE,
   FOCE-I, LAPLACE (with the M3 likelihood), ITS, SAEM, IMP (including
@@ -20,9 +20,13 @@
   completed, aborted and singular covariance steps; eigenvalues that are
   not printed, negative or zero; fixed, block and SAME parameters;
   non-finite standard errors; extreme magnitudes; wrapped records; Windows
-  line endings; and truncated or failed runs. The tests compare every
-  parser with these known values, and the "Getting Started" vignette
+  line endings; and truncated, damaged or failed runs. The tests compare
+  every parser with these known values, and the "Getting Started" vignette
   parses some of the cases.
+- Examples, vignettes, README, snapshot tests and the Shiny app test use
+  the synthetic listings. The listings from study runs that were bundled in
+  `inst/testdata/` and `tests/` have been removed, and the snapshots are
+  recorded as readable deparsed values.
 - `fetch_thetas()` keeps standard errors aligned with their parameters when a
   field prints `.........` (a fixed THETA) or `+Infinity`. Previously the
   following values moved one column to the left and a padding warning was

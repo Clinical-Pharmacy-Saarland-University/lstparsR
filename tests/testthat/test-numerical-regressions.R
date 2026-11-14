@@ -13,9 +13,9 @@ test_that("matrix exponents and missing diagonal positions are preserved", {
     " ETA3", "+ 0.00E+00 0.00E+00", "+ 2.50E+00"))
   expect_equal(fetch_etas(x)$estimate, c(25, NA, 2.5))
   expect_equal(fetch_etas(lst_full_cov)$se,
-               c(0.0389, 0.0463, 2e73, 1.99e73, 6.85e68, NA, NA))
+               c(0.0352, 0.0431, 1.84e71, 2.33e72, 8.41e67, NA, NA))
   expect_equal(fetch_etas(lst_full_cov)$shrinkage,
-               c(5.0757, 1.6156, 100, 100, 97.599, 98.964, 97.007))
+               c(6.12, 2.48, 100, 100, 98.3, 97.6, 98.8))
 })
 
 test_that("all outputs belong to the final marked step", {
@@ -78,8 +78,8 @@ test_that("truncated and alternate objective headers are safe", {
 })
 
 test_that("the no-covariance vignette fixture retains estimates only", {
-  x <- read_lst_file(system.file("testdata", "theta_without_cov.lst", package = "lstparsR"))
-  expect_equal(nrow(fetch_thetas(x)), 12L)
+  x <- read_lst_file(synthetic_path("s39_focei_no_cov.lst"))
+  expect_equal(nrow(fetch_thetas(x)), 4L)
   expect_true(all(is.na(fetch_thetas(x)$se)))
   expect_true(is.na(fetch_condn(x)))
 })
@@ -88,7 +88,7 @@ test_that("missing parameter blocks cannot borrow standard error values", {
   x <- lstparsR:::.lst_new(c(.result_page(),
     make_section_page(FOCEI, "STANDARD ERROR OF ESTIMATE", omega_body("1.00E-01"))))
   expect_error(fetch_etas(x), "Could not parse OMEGA estimates")
-  x <- read_lst_file(system.file("testdata", "theta_no_cov.lst", package = "lstparsR"))
+  x <- read_lst_file(synthetic_path("s38_final_page_missing_random_effects.lst"))
   expect_error(fetch_etas(x), "Could not parse OMEGA estimates")
   expect_error(fetch_sigmas(x), "Could not parse SIGMA estimates")
 })

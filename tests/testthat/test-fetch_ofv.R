@@ -36,10 +36,10 @@ test_that("fetch_ofv returns NA silently for $SIMULATION-only runs", {
 # --- #OBJV: banner line format (number flanked by asterisks) ---
 test_that("fetch_ofv extracts value from #OBJV: line (positive)", {
   lst <- lstparsR:::.lst_new(c(
-    " #OBJV:********************************************     8986.318       **************************************************"
+    " #OBJV:********************************************     6342.518       **************************************************"
   ))
   result <- suppressWarnings(fetch_ofv(lst))
-  expect_equal(result, 8986.318)
+  expect_equal(result, 6342.518)
 })
 
 test_that("fetch_ofv extracts value from #OBJV: line (negative)", {

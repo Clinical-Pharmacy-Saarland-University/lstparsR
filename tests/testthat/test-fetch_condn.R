@@ -105,8 +105,8 @@ test_that("fetch_condn warns when no eigenvalue section found", {
 
 # --- EIGENVLS. PRINTED: NO  (legitimate-NA, no warning) ---
 test_that("fetch_condn returns NA silently when EIGENVLS. PRINTED: NO", {
-  path <- system.file("testdata", "eigen_printed_no.lst", package = "lstparsR")
-  lst  <- read_lst_file(path)
+  # The flag is printed in the problem header, before the estimation step.
+  lst <- read_lst_file(synthetic_path("s18_eigenvalues_not_printed.lst"))
   expect_no_warning(result <- fetch_condn(lst))
   expect_true(is.na(result))
 })

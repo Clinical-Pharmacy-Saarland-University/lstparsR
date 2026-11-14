@@ -32,8 +32,8 @@ correctly spelled scientific terms.
 ## Scope
 
 The package reads fixed-format result sections illustrated by the bundled
-examples. The tests and one vignette section use 36 small synthetic listings
-in inst/extdata/lst (about 350 kB uncompressed); they contain only invented
+examples. Examples, tests and vignettes use 39 small synthetic listings in
+inst/extdata/lst (about 400 kB uncompressed); they contain only invented
 models and values. Method-header recognition is documented separately from numerical
 output-layout validation. Missing optional quantities return NA; unavailable
 required sections produce errors that fetch_all() contains with warnings and

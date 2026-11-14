@@ -26,7 +26,8 @@ Returns \code{NA} gracefully when no covariance step was run or when eigenvalues
 were not printed (\verb{EIGENVLS. PRINTED: NO}).
 }
 \examples{
-path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
+path <- system.file("extdata", "lst", "s01_focei_cov_success.lst",
+                    package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_condn(lst)
 }

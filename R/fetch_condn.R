@@ -17,7 +17,8 @@
 #' @export
 #'
 #' @examples
-#' path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
+#' path <- system.file("extdata", "lst", "s01_focei_cov_success.lst",
+#'                     package = "lstparsR")
 #' lst  <- read_lst_file(path)
 #' fetch_condn(lst)
 fetch_condn <- function(lst, digits = NA) {

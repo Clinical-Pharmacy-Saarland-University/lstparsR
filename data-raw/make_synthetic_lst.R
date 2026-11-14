@@ -662,24 +662,30 @@ result_pages <- function(p, s) {
   out
 }
 
-# Covariance, correlation and inverse covariance pages for simple diagonal
-# models; the correlation matrix is an AR(1) pattern, and the printed
-# eigenvalues of the case are taken from it.
+# Covariance, correlation and inverse covariance pages of the estimated
+# parameters; the correlation matrix is an AR(1) pattern with correlation
+# `rho`, and the printed eigenvalues of these cases are taken from it.
 ar1 <- function(n, rho = -0.3) rho^abs(outer(seq_len(n), seq_len(n), "-"))
 
 covariance_pages <- function(p, s, m, se_theta) {
-  se <- c(se_theta[!p$theta$fixed], diag(assemble(p$omega, s$omega_se, NA, TRUE)),
+  ne <- block_size_total(p$omega)
+  ns <- block_size_total(p$sigma)
+  se <- c(se_theta, diag(assemble(p$omega, s$omega_se, NA, TRUE)),
           diag(assemble(p$sigma, s$sigma_se, NA, TRUE)))
-  labels <- c(th_lab(which(!p$theta$fixed)),
-              sprintf("OM%d%d", seq_len(block_size_total(p$omega)), seq_len(block_size_total(p$omega))),
-              sprintf("SG%d%d", seq_len(block_size_total(p$sigma)), seq_len(block_size_total(p$sigma))))
-  r <- ar1(length(se))
+  labels <- c(th_lab(seq_along(se_theta)),
+              sprintf("OM%d%d", seq_len(ne), seq_len(ne)),
+              sprintf("SG%d%d", seq_len(ns), seq_len(ns)))
+  keep <- !is.na(se)
+  se <- se[keep]
+  labels <- labels[keep]
+  r <- ar1(length(se), s$rho)
   covm <- r * outer(se, se)
   corm <- r
   diag(corm) <- se
-  inverse <- solve(covm)
-  inverse[abs(inverse) < 1e-10 * max(abs(inverse))] <- 0   # drop rounding noise
-  inverse <- signif(inverse, 3)
+  # inverse(D R D) = D^-1 inverse(R) D^-1 stays exact for huge standard errors
+  rinv <- solve(r)
+  rinv[abs(rinv) < 1e-10 * max(abs(rinv))] <- 0   # drop rounding noise
+  inverse <- signif(rinv / outer(se, se), 3)
   c(full_matrix_page(m, "COVARIANCE MATRIX OF ESTIMATE", labels, covm),
     full_matrix_page(m, "CORRELATION MATRIX OF ESTIMATE", labels, corm),
     full_matrix_page(m, "INVERSE COVARIANCE MATRIX OF ESTIMATE", labels, inverse))
@@ -767,7 +773,8 @@ step <- function(method, theta, omega, sigma, ofv, ofv_tail = 0.000173914, shrin
                  eps_shrink = NULL, theta_se = NULL, omega_se = NULL,
                  sigma_se = NULL, eigen = NULL, term = "successful",
                  cov = NULL, cov_pages = FALSE, tbln = 1L, zero_gradient = NULL,
-                 iterations = 23L, evals = 251L, sigdig = 3.4, maxeval = NULL) {
+                 iterations = 23L, evals = 251L, sigdig = 3.4, maxeval = NULL,
+                 rho = -0.3) {
   list(method = method, theta = theta, omega = as.list(omega),
        sigma = as.list(sigma), ofv = ofv, ofv_tail = ofv_tail,
        shrink = shrink, eps_shrink = eps_shrink %||% rep(5.25, 1),
@@ -775,7 +782,8 @@ step <- function(method, theta, omega, sigma, ofv, ofv_tail = 0.000173914, shrin
        sigma_se = as.list(sigma_se), eigen = eigen, term = term, cov = cov,
        cov_pages = cov_pages, tbln = as.integer(tbln),
        zero_gradient = zero_gradient, iterations = as.integer(iterations),
-       evals = as.integer(evals), sigdig = sigdig, maxeval = maxeval)
+       evals = as.integer(evals), sigdig = sigdig, maxeval = maxeval,
+       rho = rho)
 }
 
 title_of <- function(id, what) sprintf("SYNTHETIC lstparsR test case %s: %s", id, what)
@@ -1544,6 +1552,97 @@ add(case(
     cov_requested = TRUE,
     control = model_b("s36", est = c("$ESTIMATION METHOD=1 INTERACTION MAXEVAL=9999 PRINT=5",
                                      "$ESTIMATION METHOD=IMP INTERACTION EONLY=1 ISAMPLE=300 NITER=5"))))))
+
+# s37: long reference listing: 12 THETAs, seven ETAs (three of them with a
+# variance near zero, huge standard errors and full shrinkage, a fixed
+# BLOCK(1) and its SAME copy), two EPSILONs, all covariance pages and a
+# strongly correlated, ill-conditioned estimate.
+theta_s37 <- theta_spec(c(6, 3e4, 10, 40, 0.75, 0.2, -0.1, 0.01, 1.5, 0.5, -0.2, 0.05),
+                        lower = c(0, 0, 0, 0, rep(-1e6, 8)))
+omega_s37 <- c(diag_blocks(c(0.1, 0.1, 0.01, 0.01, 0.01)),
+               list(blk(0.04, fixed = TRUE), blk(0.04, same = TRUE)))
+ev_s37 <- signif(sort(eigen(ar1(19, 0.95))$values), 3)
+add(case(
+  "s37", "focei_reference_long", "7.4.3",
+  "Long FOCE-I reference listing: 12 THETAs, seven ETAs with near-zero variances (SE up to 2E+72, 100% shrinkage), a fixed BLOCK(1) and its SAME copy, all covariance pages, ill-conditioned estimate",
+  termination = "successful", covariance = "completed",
+  problems = list(problem(
+    title = title_of("s37", "long reference listing, 12 THETAs and 7 ETAs"),
+    control = c("$INPUT      ID TIME AMT RATE DV MDV EVID WT AGE SEX CRCL OCC",
+                "$DATA      synthetic_s37.csv IGNORE=@",
+                "$SUBROUTINE ADVAN3 TRANS4",
+                "$PK",
+                "  ; invented two-compartment model with covariate effects",
+                "  IOV  = ETA(6)",
+                "  IF (OCC.EQ.2) IOV = ETA(7)",
+                "  TVCL = THETA(1) * (WT / 70)**THETA(5) * (CRCL / 100)**THETA(6)",
+                "  TVCL = TVCL * (1 + THETA(7) * SEX) * (1 + THETA(8) * (AGE - 50))",
+                "  CL   = TVCL * EXP(ETA(1) + IOV)",
+                "  V1   = THETA(2) / 1000 * (WT / 70)**THETA(9) * EXP(ETA(2))",
+                "  Q    = THETA(3) * EXP(ETA(3))",
+                "  V2   = THETA(4) * (1 + THETA(11) * SEX) * EXP(ETA(4))",
+                "  F1   = 1 + THETA(10) * EXP(ETA(5)) * 0",
+                "  S1   = V1",
+                "$ERROR",
+                "  IPRED = F",
+                "  W     = SQRT((THETA(12) * IPRED)**2 + 1)",
+                "  Y     = IPRED + IPRED * EPS(1) + EPS(2)",
+                "$THETA  (0, 6) (0, 30000) (0, 10) (0, 40) 0.75 0.2 -0.1 0.01",
+                "        1.5 0.5 -0.2 0.05",
+                "$OMEGA  0.1 0.1 0.01 0.01 0.01",
+                "$OMEGA  BLOCK(1) 0.04 FIX",
+                "$OMEGA  BLOCK(1) SAME",
+                "$SIGMA  0.03 0.01",
+                "$ESTIMATION METHOD=1 INTERACTION MAXEVAL=9999 PRINT=5 NOABORT",
+                "$COVARIANCE UNCONDITIONAL",
+                "$TABLE      ID TIME IPRED CWRES NOPRINT ONEHEADER FILE=synthetic_s37.tab"),
+    items = c("ID", "TIME", "AMT", "RATE", "DV", "MDV", "EVID", "WT", "AGE", "SEX",
+              "CRCL", "OCC"),
+    advan = advan_b, theta = theta_s37, omega = omega_s37, sigma = diag_blocks(c(0.03, 0.01)),
+    nobs = 1840L, nind = 92L, cov_requested = TRUE,
+    steps = list(step(
+      "focei",
+      c(5.84, 2.71e+04, 9.62, 41.7, 0.736, 0.183, -0.0942, 0.0127, 1.38, 0.552, -0.218, 0.0461),
+      c(0.0784, 0.112, 3.27e-09, 5.62e-08, 1.09e-06, 0.04), c(0.0331, 0.0127), 6342.518,
+      shrink = c(6.12, 2.48, 100, 100, 98.3, 97.6, 98.8), eps_shrink = c(4.85, 4.85),
+      theta_se = c(0.426, 3.95e+06, 1.07, 6.33, 0.0911, 0.0402, 0.0213, 0.00294,
+                   0.271, 0.0876, 0.0738, 0.0129),
+      omega_se = c(0.0352, 0.0431, 1.84e+71, 2.33e+72, 8.41e+67, NA),
+      sigma_se = c(0.00415, 0.00388),
+      eigen = ev_s37, cov = "ok", cov_pages = TRUE, rho = 0.95,
+      iterations = 61L, evals = 1342L, sigdig = 3.1))))))
+
+# s38: damaged listing whose final-estimate page lost its OMEGA and SIGMA
+# blocks while the standard-error page is complete.
+add(case(
+  "s38", "final_page_missing_random_effects", "7.4.3",
+  "Damaged listing: OMEGA and SIGMA blocks missing from the final-estimate page although the standard-error page has them; their standard errors must not be used",
+  termination = "successful", covariance = "completed",
+  expect = list(etas_error = "Could not parse OMEGA estimates",
+                sigmas_error = "Could not parse SIGMA estimates"),
+  truncate = function(lines) {
+    final <- grep("FINAL PARAMETER ESTIMATE", lines)[1]
+    first <- final + grep("OMEGA - COV MATRIX FOR RANDOM EFFECTS", lines[-seq_len(final)])[1]
+    se_title <- grep("STANDARD ERROR OF ESTIMATE", lines)[1]
+    se_page <- max(which(lines[seq_len(se_title)] == "1"))
+    lines[-seq.int(first, se_page - 1L)]
+  },
+  problems = list(prob_b("s38", "OMEGA and SIGMA missing from the final-estimate page", list(
+    step("foce", c(7.69, 18.3, 3.06, 46.4), c(0.0927, 0.158), c(0.0233, 0.0479), 3147.552,
+         shrink = c(4.58, 18.4), eps_shrink = c(7.05, 7.05),
+         theta_se = c(0.522, 1.75, 0.433, 6.02), omega_se = c(0.0239, 0.0495),
+         sigma_se = c(0.00297, 0.0129),
+         eigen = c(0.0948, 0.262, 0.569, 0.873, 1.14, 1.46, 1.71, 1.89), cov = "ok")),
+    cov_requested = TRUE))))
+
+add(case(
+  "s39", "focei_no_cov", "7.5.1",
+  "Successful FOCE-I run without a $COVARIANCE step: estimates and OFV only; standard errors and condition number NA",
+  termination = "successful", covariance = "not requested",
+  problems = list(prob_a("s39", "FOCE-I without a covariance step", list(
+    step("focei", c(4.46, 30.7, 1.18, 0.701), c(0.0852, 0.0561, 0.322), 0.0269, 1872.664,
+         shrink = c(8.21, 20.9, 38.8), eps_shrink = 6.05)),
+    control = model_a("s39", "", cov = NULL)))))
 
 # -----------------------------------------------------------------------------
 # Expectations (from the values above, never from the parser)

@@ -22,7 +22,8 @@
 #' @export
 #'
 #' @examples
-#' path   <- system.file("testdata", "full_cov.lst", package = "lstparsR")
+#' path   <- system.file("extdata", "lst", "s01_focei_cov_success.lst",
+#'                       package = "lstparsR")
 #' lst    <- read_lst_file(path)
 #' result <- fetch_all(lst)
 #' result$thetas

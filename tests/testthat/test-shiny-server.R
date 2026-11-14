@@ -5,7 +5,7 @@ test_that("uploads preserve identities, diagnostics and download contents", {
   bad <- tempfile(fileext = ".lst")
   on.exit(unlink(bad))
   writeLines("not a listing", bad)
-  good <- system.file("testdata", "full_cov.lst", package = "lstparsR")
+  good <- synthetic_path("s37_focei_reference_long.lst")
   shiny::testServer(app$server, {
     session$setInputs(lst_files = data.frame(
       name = c("same.lst", "same.lst", "=unsafe.lst"),

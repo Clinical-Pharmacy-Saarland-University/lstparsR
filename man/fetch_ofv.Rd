@@ -34,7 +34,8 @@ Returns \code{NA_real_} if no OFV is available, warning when estimation markers
 indicate that an OFV was expected. Invalid arguments raise errors.
 }
 \examples{
-path <- system.file("testdata", "full_cov.lst", package = "lstparsR")
+path <- system.file("extdata", "lst", "s01_focei_cov_success.lst",
+                    package = "lstparsR")
 lst  <- read_lst_file(path)
 fetch_ofv(lst)
 }

@@ -1,13 +1,15 @@
-# Shared fixtures for all tests
-lst_full_cov <- read_lst_file(
-  system.file("testdata", "full_cov.lst", package = "lstparsR")
-)
-lst_no_cov <- read_lst_file(
-  system.file("testdata", "no_cov.lst", package = "lstparsR")
-)
-lst_theta_no_cov <- read_lst_file(
-  system.file("testdata", "theta_no_cov.lst", package = "lstparsR")
-)
+# Shared fixtures for all tests: synthetic listings from inst/extdata/lst/
+# (written by data-raw/make_synthetic_lst.R; see manifest.csv there).
+synthetic_path <- function(file) {
+  system.file("extdata", "lst", file, package = "lstparsR")
+}
+
+# Long FOCE-I reference run with a complete covariance step (s37).
+lst_full_cov <- read_lst_file(synthetic_path("s37_focei_reference_long.lst"))
+# Run interrupted after the estimation step: no result pages (s32).
+lst_no_cov <- read_lst_file(synthetic_path("s32_truncated_after_estimation.lst"))
+# Damaged listing: THETAs only on the final-estimate page (s38).
+lst_theta_no_cov <- read_lst_file(synthetic_path("s38_final_page_missing_random_effects.lst"))
 
 # ------------------------------------------------------------------
 # Synthetic-page builders
@@ -42,7 +44,7 @@ make_section_page <- function(method, section, body = character(0)) {
 }
 
 # THETA vector block. `ids` and `values` are character vectors of
-# equal length (values in scientific notation, e.g. "3.41E+01").
+# equal length (values in scientific notation, e.g. "4.37E+00").
 theta_vector_body <- function(ids, values) {
   pad      <- function(x) paste(sprintf("%-10s", x), collapse = "")
   c(
