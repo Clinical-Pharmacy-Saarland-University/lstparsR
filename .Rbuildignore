@@ -24,3 +24,4 @@
 ^tools$
 ^\.git$
 ^data-raw$
+^CITATION\.cff$
