@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+type: software
+title: 'lstparsR: Tidy Parsing of ''NONMEM'' Listing Files'
+authors:
+- family-names: 'Heller'
+  given-names: 'Raban'
+  orcid: https://orcid.org/0000-0001-8006-9742
+  affiliation: Ulm University
+- family-names: 'Selzer'
+  given-names: 'Dominik'
+- family-names: 'Rüdesheim'
+  given-names: 'Simeon'
+- family-names: 'Dings'
+  given-names: 'Christiane'
+- family-names: 'Lehr'
+  given-names: 'Thorsten'
+version: 1.0.0
+doi: 10.5281/zenodo.24426411
+repository-code: https://github.com/Clinical-Pharmacy-Saarland-University/lstparsR
+url: https://clinical-pharmacy-saarland-university.github.io/lstparsR/
+license: MIT
+identifiers:
+- type: doi
+  value: 10.5281/zenodo.24426411
+  description: Zenodo DOI (reserved; resolves once the record is published)
