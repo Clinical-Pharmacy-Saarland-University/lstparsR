@@ -7,6 +7,8 @@ test_that("uploads preserve identities, diagnostics and download contents", {
   writeLines("not a listing", bad)
   good <- synthetic_path("s37_focei_reference_long.lst")
   shiny::testServer(app$server, {
+    # Before an upload the overview explains what to do instead of staying blank
+    expect_match(output$overview_stats$html, "No files uploaded yet")
     session$setInputs(lst_files = data.frame(
       name = c("same.lst", "same.lst", "=unsafe.lst"),
       datapath = c(good, good, bad)))
@@ -15,6 +17,8 @@ test_that("uploads preserve identities, diagnostics and download contents", {
     expect_match(scalars_df()$error[3], "No usable results")
     expect_equal(vapply(parsed(), function(x) x$covariance, logical(1)), c(TRUE, TRUE, FALSE))
     expect_match(output$file_summary_table, "Needs review")
+    expect_match(output$overview_stats$html, "stat-grid")
+    expect_match(output$overview_stats$html, "Files Uploaded")
     csv <- read.csv(output$dl_scalars_csv)
     expect_equal(csv$file[3], "'=unsafe.lst")
     rds <- readRDS(output$dl_all_rds)

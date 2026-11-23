@@ -133,8 +133,20 @@ ui <- fluidPage(
       .shiny-html-output, .shiny-table-output { max-width: 100%; overflow-x: auto; }
       .table { font-size: 13px; }
       .table th, .table td { white-space: nowrap; }
+      /* File names and diagnostics wrap so that the summary fits its card */
+      #file_summary_table th, #file_summary_table td {
+        padding-left: 6px; padding-right: 6px;
+      }
+      #file_summary_table td:first-child {
+        min-width: 160px; white-space: normal; overflow-wrap: anywhere;
+      }
       #file_summary_table td:last-child {
-        min-width: 240px; max-width: 360px; white-space: normal;
+        min-width: 200px; max-width: 360px; white-space: normal;
+      }
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
       }
       @media (max-width: 600px) { .card { padding: 12px; } }
 
@@ -439,6 +451,11 @@ server <- function(input, output, session) {
   # -- Overview stats ---------------------------------------------------------
 
   output$overview_stats <- renderUI({
+    if (is.null(input$lst_files)) {
+      return(p(class = "info-text",
+               "No files uploaded yet. Choose one or more .lst files to see",
+               "the parsed results here."))
+    }
     res <- parsed()
     n_files    <- length(res)
     n_ok       <- sum(vapply(res, function(r) is.null(r$error), logical(1)))
@@ -447,23 +464,25 @@ server <- function(input, output, session) {
       isTRUE(r$covariance)
     }, logical(1)))
 
-    fluidRow(
-      column(3, div(class = "stat-box",
+    # A grid instead of four fixed columns: the boxes wrap on narrow screens
+    # instead of clipping their labels.
+    div(class = "stat-grid",
+      div(class = "stat-box",
         div(class = "value", n_files),
         div(class = "label", "Files Uploaded")
-      )),
-      column(3, div(class = "stat-box",
+      ),
+      div(class = "stat-box",
         div(class = "value", n_ok),
         div(class = "label", "Parsed OK")
-      )),
-      column(3, div(class = "stat-box",
+      ),
+      div(class = "stat-box",
         div(class = "value", n_fail),
         div(class = "label", "Needs Review")
-      )),
-      column(3, div(class = "stat-box",
+      ),
+      div(class = "stat-box",
         div(class = "value", n_with_cov),
         div(class = "label", "With Cov Step")
-      ))
+      )
     )
   })
 
