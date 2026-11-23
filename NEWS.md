@@ -45,6 +45,29 @@
 - Method headers for LAPLACE (`LAPLACIAN CONDITIONAL ESTIMATION`, with or
   without interaction), ITS (`ITERATIVE TWO STAGE`) and BAYES as NONMEM prints
   it (`MCMC BAYESIAN ANALYSIS`) are recognized.
+- `read_lst_file()` converts lines that are not valid UTF-8 from Latin-1.
+  Listings written on Windows with accented characters in a problem title,
+  path or data set name were parsed correctly but raised an encoding warning
+  for every pattern search, and the Shiny app therefore flagged them as
+  "Needs review".
+- `fetch_etas()` and `fetch_sigmas()` read OMEGA and SIGMA blocks to the end
+  of the result page. Previously a block was scanned for at most 300 lines, so
+  that models with about 60 or more ETAs lost their last rows without a
+  warning, and a SIGMA block starting more than 200 lines after the page
+  header gave "Could not parse SIGMA estimates."
+- `fetch_etas()` keeps ETA shrinkage values with their ETAs when one value
+  prints as `NaN`. That value is `NA`; previously the count no longer matched
+  and the shrinkage of every ETA was set to `NA` with a warning.
+- Parser warnings no longer show the internal call or function name, and the
+  padding warning of the THETA parser now reads "Found ... IDs but ...
+  values".
+- The documentation of `fetch_all()` states that an invalid rounding argument
+  is reported like a parser failure: a warning, and `NULL` for that element.
+- Shiny app: the overview boxes wrap on narrow screens instead of clipping
+  their labels, the file summary fits its card (file names and diagnostics
+  wrap), and the overview shows a hint before the first upload.
+- The README has its own "Result selection" section; the paragraph was placed
+  under "License". The maintainer's ORCID is recorded in DESCRIPTION.
 
 # lstparsR 0.1.2
 
