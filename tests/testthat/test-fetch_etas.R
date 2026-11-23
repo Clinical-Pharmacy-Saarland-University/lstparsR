@@ -63,3 +63,40 @@ test_that("fetch_etas attaches shrinkage when the count matches", {
   res <- fetch_etas(lst)
   expect_equal(res$shrinkage, c(5.0, 1.6))
 })
+
+# OMEGA block as NONMEM prints it for many ETAs: ET10 labels from the tenth
+# on, rows wrapped after 12 values onto records without "+".
+wrapped_omega_body <- function(diag) {
+  n   <- length(diag)
+  lab <- ifelse(seq_len(n) < 10, paste0("ETA", seq_len(n)), paste0("ET", seq_len(n)))
+  out <- c(" OMEGA - COV MATRIX FOR RANDOM EFFECTS - ETAS  ********", "", "",
+           paste0("        ", paste(sprintf("%-10s", lab[seq_len(min(n, 12))]), collapse = "")),
+           " ")
+  for (i in seq_len(n)) {
+    row    <- c(rep("0.00E+00", i - 1), diag[i])
+    chunks <- split(row, ceiling(seq_along(row) / 12))
+    recs   <- vapply(chunks, function(x) paste(sprintf("%10s", x), collapse = ""), "")
+    recs   <- paste0(c("+       ", rep("         ", length(recs) - 1)), recs)
+    out    <- c(out, paste0(" ", lab[i]), recs, " ")
+  }
+  out
+}
+
+test_that("large OMEGA blocks are read in full and SIGMA is found after them", {
+  n    <- 70L
+  diag <- sprintf("%.2E", seq_len(n) / 100)
+  body <- c(theta_vector_body(c("TH 1", "TH 2"), c("1.00E+00", "2.00E+00")), "",
+            wrapped_omega_body(diag), "", sigma_body(c("4.00E-02", "9.00E-02")))
+  expect_gt(length(wrapped_omega_body(diag)), 300L)
+  lst <- lstparsR:::.lst_new(make_section_page(FOCEI, "FINAL PARAMETER ESTIMATE", body))
+
+  # Previously the scan stopped 300 lines after the subheader and returned
+  # fewer ETAs without a warning; SIGMA more than 200 lines after the page
+  # header gave "Could not parse SIGMA estimates."
+  etas <- fetch_etas(lst)
+  expect_equal(nrow(etas), n)
+  expect_equal(etas$parameter[c(1, 9, 10, n)], c("ETA1", "ETA9", "ET10", "ET70"))
+  expect_equal(etas$estimate, seq_len(n) / 100)
+  expect_equal(fetch_sigmas(lst)$estimate, c(0.04, 0.09))
+  expect_equal(fetch_thetas(lst)$estimate, c(1, 2))
+})

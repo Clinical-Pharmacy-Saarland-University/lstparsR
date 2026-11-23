@@ -227,7 +227,7 @@
 
   # Find subheader line after the page start
   subheader_line <- NA_integer_
-  for (j in .scan_range(page_start + 5, min(page_start + 200, n))) {
+  for (j in .scan_range(page_start + 5, n)) {
     if (stringr::str_detect(lst[j], stringr::fixed(subheader_str))) {
       subheader_line <- j
       break
@@ -353,9 +353,10 @@
 .parse_matrix_block <- function(lst, page_start, subheader_str) {
   n <- .page_end(lst, page_start)
 
-  # Find subheader
+  # Find subheader. The search runs to the end of the page: with many random
+  # effects the SIGMA block starts hundreds of lines after the page header.
   subheader_line <- NA_integer_
-  for (j in .scan_range(page_start + 5, min(page_start + 200, n))) {
+  for (j in .scan_range(page_start + 5, n)) {
     if (stringr::str_detect(lst[j], stringr::fixed(subheader_str))) {
       subheader_line <- j
       break
@@ -367,8 +368,9 @@
   ids    <- character(0)
   values <- numeric(0)
 
-  # Determine the end of this block: next page separator or new section
-  end_search <- min(subheader_line + 300, n)
+  # The block ends at the next section subheader or at the end of the page.
+  # A fixed line window would silently drop rows of large matrices.
+  end_search <- n
 
   j <- subheader_line + 1
   while (j <= end_search) {
