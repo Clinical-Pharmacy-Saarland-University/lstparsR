@@ -37,15 +37,18 @@ read_lst_file <- function(path) {
 }
 
 # Lines that are not valid UTF-8 are taken as Latin-1 (every byte maps to a
-# character, so the conversion cannot fail). Valid UTF-8 and ASCII lines are
-# left untouched. Without this, the parsers raise an encoding warning for every
-# pattern search on such a listing.
+# character, so the conversion cannot fail). Without this, the parsers raise
+# an encoding warning for every pattern search on such a listing. The bytes of
+# valid UTF-8 and ASCII lines are left untouched; all non-ASCII lines are
+# marked as UTF-8, so that the result does not depend on the native encoding
+# of the session.
 #' @noRd
 .as_utf8 <- function(lines) {
   bad <- !validUTF8(lines)
   if (any(bad)) {
     lines[bad] <- iconv(lines[bad], from = "latin1", to = "UTF-8")
   }
+  Encoding(lines) <- "UTF-8"
   lines
 }
 

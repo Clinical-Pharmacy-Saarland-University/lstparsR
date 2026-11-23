@@ -60,7 +60,7 @@ test_that("read_lst_file converts Latin-1 lines so that parsing stays silent", {
 
   lst <- read_lst_file(f)
   expect_true(all(validUTF8(lst)))
-  expect_match(lst[i], "Müller$")
+  expect_match(lst[i], "M\u00fcller$")
   expect_no_warning(res <- fetch_all(lst))
   expect_equal(res, fetch_all(read_lst_file(src)))
   expect_no_warning(s <- summary(lst))
@@ -69,7 +69,10 @@ test_that("read_lst_file converts Latin-1 lines so that parsing stays silent", {
 
 test_that("read_lst_file leaves UTF-8 and ASCII lines unchanged", {
   f <- withr::local_tempfile(fileext = ".lst")
-  writeLines(enc2utf8(c("plain", "Müller µg/L")), f, useBytes = TRUE)
-  expect_equal(unclass(read_lst_file(f)), c("plain", "Müller µg/L"))
+  writeLines(enc2utf8(c("plain", "M\u00fcller \u00b5g/L")), f, useBytes = TRUE)
+  lst <- read_lst_file(f)
+  expect_equal(unclass(lst), c("plain", "M\u00fcller \u00b5g/L"))
+  # Non-ASCII lines are marked, so the native encoding of the session is irrelevant
+  expect_equal(Encoding(lst), c("unknown", "UTF-8"))
   expect_equal(lstparsR:::.as_utf8(character(0)), character(0))
 })
