@@ -3,10 +3,16 @@
 #' Reads a NONMEM `.lst` output file into memory as a character vector
 #' with class `"lst"` for use by the `fetch_*` family of functions.
 #'
+#' Listings are plain text. Lines that are not valid UTF-8, as written by
+#' NONMEM on Windows when a problem title, path or data set name holds
+#' accented characters, are read as Latin-1 and converted to UTF-8.
+#'
 #' @param path Character string. Path to the `.lst` file.
 #'
 #' @return A character vector of class `"lst"`, where each element is one
-#'   line of the file.
+#'   line of the file. `print()` shows the number of lines; `summary()`
+#'   reports the estimation method of the final step and whether a
+#'   covariance step is present.
 #'
 #' @export
 #'
@@ -27,7 +33,20 @@ read_lst_file <- function(path) {
     }
   )
 
-  .lst_new(lines)
+  .lst_new(.as_utf8(lines))
+}
+
+# Lines that are not valid UTF-8 are taken as Latin-1 (every byte maps to a
+# character, so the conversion cannot fail). Valid UTF-8 and ASCII lines are
+# left untouched. Without this, the parsers raise an encoding warning for every
+# pattern search on such a listing.
+#' @noRd
+.as_utf8 <- function(lines) {
+  bad <- !validUTF8(lines)
+  if (any(bad)) {
+    lines[bad] <- iconv(lines[bad], from = "latin1", to = "UTF-8")
+  }
+  lines
 }
 
 # Constructor -- also used in tests to build lst objects from character vectors

@@ -46,3 +46,30 @@ test_that("summary.lst falls back to 'unknown' method and print returns invisibl
   expect_output(print(summary(lst)), "unknown")
   expect_invisible(print(lstparsR:::.lst_new("x")))
 })
+
+test_that("read_lst_file converts Latin-1 lines so that parsing stays silent", {
+  src   <- synthetic_path("s01_focei_cov_success.lst")
+  lines <- readLines(src)
+  i <- grep("$PROBLEM", lines, fixed = TRUE)[1]
+  # "M<fc>ller" as a Windows-1252 byte: not valid UTF-8
+  lines[i] <- paste0(lines[i], " M\xfcller")
+  f   <- withr::local_tempfile(fileext = ".lst")
+  con <- file(f, "wb")
+  writeLines(lines, con, useBytes = TRUE)
+  close(con)
+
+  lst <- read_lst_file(f)
+  expect_true(all(validUTF8(lst)))
+  expect_match(lst[i], "Müller$")
+  expect_no_warning(res <- fetch_all(lst))
+  expect_equal(res, fetch_all(read_lst_file(src)))
+  expect_no_warning(s <- summary(lst))
+  expect_equal(s$method, FOCEI)
+})
+
+test_that("read_lst_file leaves UTF-8 and ASCII lines unchanged", {
+  f <- withr::local_tempfile(fileext = ".lst")
+  writeLines(enc2utf8(c("plain", "Müller µg/L")), f, useBytes = TRUE)
+  expect_equal(unclass(read_lst_file(f)), c("plain", "Müller µg/L"))
+  expect_equal(lstparsR:::.as_utf8(character(0)), character(0))
+})
