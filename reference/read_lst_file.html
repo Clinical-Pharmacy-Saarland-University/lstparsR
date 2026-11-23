@@ -63,7 +63,15 @@ with class <code>"lst"</code> for use by the <code>fetch_*</code> family of func
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A character vector of class <code>"lst"</code>, where each element is one
-line of the file.</p>
+line of the file. <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> shows the number of lines; <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>
+reports the estimation method of the final step and whether a
+covariance step is present.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Listings are plain text. Lines that are not valid UTF-8, as written by
+NONMEM on Windows when a problem title, path or data set name holds
+accented characters, are read as Latin-1 and converted to UTF-8.</p>
     </div>
 
     <div class="section level2">
