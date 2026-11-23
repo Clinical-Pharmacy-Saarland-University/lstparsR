@@ -67,7 +67,7 @@
   their labels, the file summary fits its card (file names and diagnostics
   wrap), and the overview shows a hint before the first upload.
 - The README has its own "Result selection" section; the paragraph was placed
-  under "License". The maintainer's ORCID is recorded in DESCRIPTION.
+  under "License". DESCRIPTION records the ORCID of the maintainer.
 
 # lstparsR 0.1.2
 
