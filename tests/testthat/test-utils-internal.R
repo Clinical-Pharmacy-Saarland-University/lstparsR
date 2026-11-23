@@ -196,3 +196,13 @@ test_that(".eigenvalues_suppressed detects the EIGENVLS. PRINTED: NO flag", {
     lstparsR:::.lst_new(" EIGENVLS. PRINTED:  NO")))
   expect_false(lstparsR:::.eigenvalues_suppressed(lstparsR:::.lst_new("none")))
 })
+
+test_that(".parse_shrinkage keeps the position of NaN values", {
+  lst <- lstparsR:::.lst_new(" ETASHRINKSD(%)  NaN  2.1300E+01  3.7900E+01")
+  expect_equal(lstparsR:::.parse_shrinkage(lst, "ETASHRINKSD"), c(NA, 21.3, 37.9))
+  wrapped <- lstparsR:::.lst_new(c(
+    " ETASHRINKSD(%)  1.0000E+00  NaN",
+    "                 3.0000E+00"
+  ))
+  expect_equal(lstparsR:::.parse_shrinkage(wrapped, "ETASHRINKSD"), c(1, NA, 3))
+})

@@ -64,6 +64,17 @@ test_that("fetch_etas attaches shrinkage when the count matches", {
   expect_equal(res$shrinkage, c(5.0, 1.6))
 })
 
+test_that("fetch_etas keeps shrinkage aligned when one value prints as NaN", {
+  lines <- unclass(read_lst_file(synthetic_path("s01_focei_cov_success.lst")))
+  i <- grep("^\\s*ETASHRINKSD", lines)
+  expect_length(i, 1L)
+  ref <- fetch_etas(lstparsR:::.lst_new(lines))$shrinkage
+  lines[i] <- sub("[0-9.]+E[+-][0-9]+", "NaN", lines[i])
+  # Previously: "ETASHRINKSD has 2 values but 3 ETAs" and NA for every ETA
+  expect_no_warning(res <- fetch_etas(lstparsR:::.lst_new(lines)))
+  expect_equal(res$shrinkage, c(NA, ref[-1]))
+})
+
 # OMEGA block as NONMEM prints it for many ETAs: ET10 labels from the tenth
 # on, rows wrapped after 12 values onto records without "+".
 wrapped_omega_body <- function(diag) {

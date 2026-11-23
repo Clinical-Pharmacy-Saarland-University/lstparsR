@@ -436,7 +436,8 @@
 #
 # Internal: parse shrinkage lines from lst
 # type: "ETASHRINKSD" or "EPSSHRINKSD"
-# Returns numeric vector or NULL
+# Returns a numeric vector with one element per printed value (NA for "NaN"
+# and placeholders), or NULL when the record is absent or holds no values
 #
 #' @noRd
 .parse_shrinkage <- function(lst, type = "ETASHRINKSD") {
@@ -453,11 +454,16 @@
   }
   line <- paste(lst[seq.int(i, k - 1L)], collapse = " ")
 
-  # Extract all numbers in scientific notation
-  nums <- suppressWarnings(as.numeric(unlist(stringr::str_extract_all(
-    line, "-?[0-9]+\\.?[0-9]*E[+-][0-9]+"
-  ))))
-  nums <- nums[!is.na(nums)]
-  if (length(nums) == 0) return(NULL)
-  nums
+  # One value per printed field, in order. "NaN" and placeholders become NA
+  # instead of being skipped, so that the remaining values stay with their
+  # ETA or EPS.
+  tokens <- unlist(stringr::str_extract_all(
+    sub(pattern, "", line, perl = TRUE),
+    stringr::regex(
+      "[+-]?[0-9]+\\.?[0-9]*E[+-][0-9]+|[+-]?Infinity|NaN|\\.{3,}",
+      ignore_case = TRUE
+    )
+  ))
+  if (length(tokens) == 0) return(NULL)
+  .parse_value_tokens(tokens)
 }
