@@ -2,7 +2,10 @@
 #'
 #' Convenience wrapper that runs all `fetch_*` functions in a single call and
 #' returns a named list. Failed individual parsers produce a warning and return
-#' `NULL` for that element rather than stopping the entire call.
+#' `NULL` for that element rather than stopping the entire call. This includes
+#' an invalid rounding argument: `ofv_digits = -1`, for example, gives a
+#' warning and `ofv = NULL` while the other elements are returned. Only an
+#' `lst` argument of the wrong class is an error.
 #'
 #' @param lst        An object of class `"lst"` from [read_lst_file()].
 #' @param digits     Integer or `NA`. Rounding for RSE values. Default `NA`.

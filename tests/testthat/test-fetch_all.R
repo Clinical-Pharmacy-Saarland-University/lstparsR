@@ -21,3 +21,13 @@ test_that("fetch_all condn is NA for no_cov", {
 test_that("fetch_all errors on non-lst input", {
   expect_error(fetch_all("not a lst"))
 })
+
+test_that("fetch_all reports an invalid rounding argument per element", {
+  # Documented contract: a warning and NULL for the affected element only
+  # (the message names the parser's own argument, `digits`)
+  expect_warning(res <- fetch_all(lst_full_cov, cn_digits = "a"),
+                 "fetch_all: Assertion on 'digits' failed")
+  expect_null(res$condn)
+  expect_s3_class(res$etas, "tbl_df")
+  expect_equal(res$ofv, fetch_ofv(lst_full_cov))
+})
