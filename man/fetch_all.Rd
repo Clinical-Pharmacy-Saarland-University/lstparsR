@@ -30,7 +30,10 @@ A named list with elements:
 \description{
 Convenience wrapper that runs all \verb{fetch_*} functions in a single call and
 returns a named list. Failed individual parsers produce a warning and return
-\code{NULL} for that element rather than stopping the entire call.
+\code{NULL} for that element rather than stopping the entire call. This includes
+an invalid rounding argument: \code{ofv_digits = -1}, for example, gives a
+warning and \code{ofv = NULL} while the other elements are returned. Only an
+\code{lst} argument of the wrong class is an error.
 }
 \examples{
 path   <- system.file("extdata", "lst", "s01_focei_cov_success.lst",

@@ -11,11 +11,18 @@ read_lst_file(path)
 }
 \value{
 A character vector of class \code{"lst"}, where each element is one
-line of the file.
+line of the file. \code{print()} shows the number of lines; \code{summary()}
+reports the estimation method of the final step and whether a
+covariance step is present.
 }
 \description{
 Reads a NONMEM \code{.lst} output file into memory as a character vector
 with class \code{"lst"} for use by the \verb{fetch_*} family of functions.
+}
+\details{
+Listings are plain text. Lines that are not valid UTF-8, as written by
+NONMEM on Windows when a problem title, path or data set name holds
+accented characters, are read as Latin-1 and converted to UTF-8.
 }
 \examples{
 path <- system.file("extdata", "lst", "s01_focei_cov_success.lst",
