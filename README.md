@@ -34,7 +34,7 @@ remotes::install_github("Clinical-Pharmacy-Saarland-University/lstparsR")
 
 A first CRAN submission is being prepared.
 
-## Quick Start
+## Quick start
 
 ```r
 library(lstparsR)
@@ -120,15 +120,7 @@ lstparsR::run_app()
 The app lets you upload one or more `.lst` files, view parsed results in
 interactive tables, and download them as CSV or RDS.
 
-## Citation
-
-```r
-citation("lstparsR")
-```
-
-## License
-
-MIT
+## Result selection
 
 All parsers select the final problem and estimation step using NONMEM's
 `#PROB:` and `#METH:` markers when present. Legacy listings with multiple
@@ -149,5 +141,16 @@ problems, covariance-step failures, fixed and block parameters, wrapped
 records, Windows line endings and truncated files. FO listings have additional
 execution coverage. The synthetic layouts of the EM and Bayesian methods follow
 the NONMEM 7 documentation, so recognition of their headers does not establish
-support for every output layout or posterior summary produced by those methods. Compare parsed values with the source listing before relying on
-an unfamiliar layout. These parsers do not assess the validity of a fitted model.
+support for every output layout or posterior summary produced by those methods.
+Compare parsed values with the source listing before relying on an unfamiliar
+layout. These parsers do not assess the validity of a fitted model.
+
+## Citation
+
+```r
+citation("lstparsR")
+```
+
+## License
+
+MIT
