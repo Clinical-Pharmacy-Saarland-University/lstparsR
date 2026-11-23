@@ -52,7 +52,8 @@ test_that("fetch_etas warns and NA-fills when shrinkage count mismatches ETAs", 
   lst <- lstparsR:::.lst_new(c(
     est, " ETASHRINKSD(%) =  1.0E+00  2.0E+00  3.0E+00"
   ))
-  expect_warning(res <- fetch_etas(lst), "ETASHRINKSD")
+  w <- expect_warning(res <- fetch_etas(lst), "^ETASHRINKSD has")
+  expect_null(conditionCall(w))
   expect_true(all(is.na(res$shrinkage)))
 })
 

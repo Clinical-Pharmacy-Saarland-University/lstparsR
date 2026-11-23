@@ -88,10 +88,12 @@ test_that(".parse_vector_block stops at trailing non-value text", {
 
 test_that(".parse_vector_block warns and pads on an ID/value count mismatch", {
   body <- c(paste(" ", SUB_T), "  A   B   C", "", "  1.0E+00  2.0E+00")
-  expect_warning(
+  w <- expect_warning(
     res <- lstparsR:::.parse_vector_block(.page(body), 1, SUB_T),
-    "IDs but"
+    "^Found 3 IDs but 2 values"
   )
+  # The message names no internal function and the warning carries no call
+  expect_null(conditionCall(w))
   expect_equal(nrow(res), 3L)
   expect_true(is.na(res$value[3]))
 })
