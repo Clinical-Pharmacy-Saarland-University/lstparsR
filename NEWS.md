@@ -68,6 +68,7 @@
   wrap), and the overview shows a hint before the first upload.
 - The README has its own "Result selection" section; the paragraph was placed
   under "License". DESCRIPTION records the ORCID of the maintainer.
+- `CITATION.cff` names the maintainer as "R. Heller", as in DESCRIPTION.
 
 # lstparsR 0.1.2
 
