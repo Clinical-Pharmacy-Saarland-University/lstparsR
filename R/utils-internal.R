@@ -107,8 +107,9 @@
 
 #' @noRd
 .get_estimation_method <- function(lst) {
+  upper <- toupper(lst)
   for (method in .ESTIMATION_METHODS) {
-    if (any(stringr::str_detect(toupper(lst), stringr::fixed(method)))) {
+    if (any(stringr::str_detect(upper, stringr::fixed(method)))) {
       return(method)
     }
   }
@@ -326,9 +327,9 @@
   if (length(ids) != length(values)) {
     # Length mismatch: pad with NA
     warning(sprintf(
-      ".parse_vector_block: %d IDs but %d values for '%s'. Padding with NA.",
+      "Found %d IDs but %d values for '%s'. Padding with NA.",
       length(ids), length(values), subheader_str
-    ))
+    ), call. = FALSE)
     len <- max(length(ids), length(values))
     length(ids)    <- len
     length(values) <- len

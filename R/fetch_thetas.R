@@ -51,7 +51,8 @@ fetch_thetas <- function(lst, digits = NA) {
       if (!is.null(df_se) && nrow(df_se) == nrow(df_est)) {
         se_vec <- df_se$value[match(df_est$id, df_se$id)]
       } else {
-        warning("THETA SE row count does not match estimates. Setting SE to NA.")
+        warning("THETA SE row count does not match estimates. Setting SE to NA.",
+                call. = FALSE)
       }
     }
   }

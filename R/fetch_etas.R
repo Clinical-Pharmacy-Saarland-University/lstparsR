@@ -53,7 +53,8 @@ fetch_etas <- function(lst, digits = NA, shk_digits = NA) {
       if (!is.null(df_se) && nrow(df_se) == nrow(df_est)) {
         se_vec <- df_se$value[match(df_est$id, df_se$id)]
       } else {
-        warning("OMEGA SE row count does not match estimates. Setting SE to NA.")
+        warning("OMEGA SE row count does not match estimates. Setting SE to NA.",
+                call. = FALSE)
       }
     }
   }
@@ -69,7 +70,7 @@ fetch_etas <- function(lst, digits = NA, shk_digits = NA) {
       warning(sprintf(
         "ETASHRINKSD has %d values but %d ETAs were parsed. Setting shrinkage to NA.",
         length(shk_vec), nrow(df_est)
-      ))
+      ), call. = FALSE)
       shk_vec <- rep(NA_real_, nrow(df_est))
     }
   } else {

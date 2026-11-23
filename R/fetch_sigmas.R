@@ -49,7 +49,8 @@ fetch_sigmas <- function(lst, digits = NA) {
       if (!is.null(df_se) && nrow(df_se) == nrow(df_est)) {
         se_vec <- df_se$value[match(df_est$id, df_se$id)]
       } else {
-        warning("SIGMA SE row count does not match estimates. Setting SE to NA.")
+        warning("SIGMA SE row count does not match estimates. Setting SE to NA.",
+                call. = FALSE)
       }
     }
   }
